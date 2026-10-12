@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
+import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -99,10 +100,24 @@ class _SplashScreenState extends State<SplashScreen>
       parent: _introController,
       curve: const Interval(0.45, 0.85, curve: Curves.easeIn),
     );
-
+  
     // Start animations
-    _introController.forward();
-    _pulseController.repeat(reverse: true);
+   // Start animations
+_introController.forward();
+_pulseController.repeat(reverse: true);
+
+// Navigate to OnBoarding after 3 seconds
+Future.delayed(const Duration(seconds: 3), () {
+  if (!mounted) return;
+
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const OnBoardingScreen(),
+    ),
+  );
+});
+
   }
 
   @override
