@@ -7,7 +7,8 @@ class AppColors {
 
   // Brand
   static const Color kPrimaryColor = Color(0xFF16856F);
-  static const Color primaryDark = Color.fromARGB(255, 2, 48, 42);
+  // static const Color primaryDark = Color.fromARGB(255, 2, 48, 42);
+  static const Color primaryDark = Color(0xFF02302A);
   static const Color primaryLight = Color(0xFF45B89A);
   static const Color primarySoft = Color(0xFFDDF4E9);
   static const Color accent = Color(0xFFFFC247);
