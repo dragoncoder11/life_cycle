@@ -9,17 +9,32 @@ class CustomButton extends StatelessWidget {
  final GestureTapCallback? onTap;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.kPrimaryColor,
-          borderRadius: BorderRadius.circular(12),
+    return ElevatedButton(
+      onPressed: onTap,
+      style:ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(AppColors.kPrimaryColor),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
-        height: 50.h,
-        width: double.infinity,
-        child: Center(child: Text(title,style: AppTextStyles.interWhite(24, FontWeight.w600),),),
+        minimumSize: MaterialStateProperty.all(Size(double.infinity, 50.h)),
+      ),
+      child: Text(
+        title,
+        style: AppTextStyles.interWhite(24, FontWeight.w600),
       ),
     );
   }
 }
+// GestureDetector(
+//       onTap: onTap,
+//       child: Container(
+//         decoration: BoxDecoration(
+//           color: AppColors.kPrimaryColor,
+//           borderRadius: BorderRadius.circular(12),
+//         ),
+//         height: 50.h,
+//         width: double.infinity,
+//         child: Center(child: Text(title,style: AppTextStyles.interWhite(24, FontWeight.w600),),),
+//       ),

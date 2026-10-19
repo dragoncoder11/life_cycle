@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
+import 'package:life_cycle/features/button_nav_bar/view/screens/button_nav_bar_screen.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -110,11 +112,9 @@ _pulseController.repeat(reverse: true);
 Future.delayed(const Duration(seconds: 3), () {
   if (!mounted) return;
 
-  Navigator.pushReplacement(
+  Navigator.pushReplacementNamed(
     context,
-    MaterialPageRoute(
-      builder: (context) => const OnBoardingScreen(),
-    ),
+    Routes.buttonNavBarScreen, 
   );
 });
 

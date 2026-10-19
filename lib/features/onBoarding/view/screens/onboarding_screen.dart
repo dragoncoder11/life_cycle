@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
+import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
@@ -45,7 +46,10 @@ class OnBoardingScreen extends StatelessWidget {
                   top: 8.h,
                   bottom: 8.h,
                 ),
-                child: CustomButton(title: 'Get Started'),
+                child: CustomButton(title: 'Get Started', onTap: () {
+                  Navigator.pushReplacementNamed(
+                      context, Routes.buttonNavBarScreen);
+                }),
               ),
             ),
             Positioned(
