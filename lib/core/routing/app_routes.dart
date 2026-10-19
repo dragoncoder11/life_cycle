@@ -6,6 +6,7 @@ import 'package:life_cycle/features/button_nav_bar/view/screens/button_nav_bar_s
 import 'package:life_cycle/features/finance/view/screens/finance_screen.dart';
 import 'package:life_cycle/features/home/view/screens/home_screen.dart';
 import 'package:life_cycle/features/notes/view/screens/note_screen.dart';
+import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
 import 'package:life_cycle/features/tasks/view/screens/task_screen.dart';
 import 'package:life_cycle/splash_screen.dart';
@@ -35,8 +36,13 @@ class AppRoutes {
         return CustomPageRoute(builder: (_) => const NoteScreen());
       case Routes.taskScreen:
         return CustomPageRoute(builder: (_) => const TaskScreen());
-        case Routes.onboardingScreen:
-        return CustomPageRoute(builder: (_) => const OnBoardingScreen());
+      case Routes.onboardingScreen:
+        return CustomPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => OnBoardingCubit(),
+            child: const OnBoardingScreen(),
+          ),
+        );
       case Routes.splashScreen:
         return CustomPageRoute(builder: (_) => const SplashScreen());
       default:

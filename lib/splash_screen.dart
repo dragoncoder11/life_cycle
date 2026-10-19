@@ -114,7 +114,7 @@ Future.delayed(const Duration(seconds: 3), () {
 
   Navigator.pushReplacementNamed(
     context,
-    Routes.buttonNavBarScreen, 
+    Routes.onboardingScreen, // Use the constant from Routes class
   );
 });
 
