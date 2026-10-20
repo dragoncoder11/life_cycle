@@ -68,11 +68,11 @@ class TaskScreen extends StatelessWidget {
             width: double.infinity,
             child: Row(
               children: [
-                Expanded(child: TaskCategory()),
+                Expanded(child: TaskCategory(title: 'Today',)),
                 horizontalSpace(8.w),
-                Expanded(child: TaskCategory()),
+                Expanded(child: TaskCategory(title: 'UpComing',)),
                 horizontalSpace(8.w),
-                Expanded(child: TaskCategory()),
+                Expanded(child: TaskCategory(title: 'Completed',)),
               ],
             ),
           ),

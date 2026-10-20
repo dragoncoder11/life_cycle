@@ -4,7 +4,6 @@ import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
-import 'package:life_cycle/core/widgets/custom_circle_avatar.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 
 class EditNoteScreen extends StatelessWidget {
@@ -19,23 +18,12 @@ class EditNoteScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                 IconButton(
+             IconButton(
                     icon: Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
                     onPressed: () {
                       Navigator.pop(context);
                     },
                   ),
-                  CustomCircleAvatar(
-                    icon: Icons.check,
-                    onPressed: () {
-                     
-                    },
-                  ),
-                ],
-              ),
               verticalSpace(10.h),
                Text(
                     'Edit Note',

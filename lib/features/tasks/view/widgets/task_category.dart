@@ -6,9 +6,9 @@ import 'package:life_cycle/core/theme/app_text_styles.dart';
 
 class TaskCategory extends StatelessWidget {
   const TaskCategory({
-    super.key,
+    super.key, required this.title,
   });
-
+final String title;
   @override
   Widget build(BuildContext context) {
     return Container(

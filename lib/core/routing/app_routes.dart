@@ -9,6 +9,7 @@ import 'package:life_cycle/features/notes/view/screens/edit_note_screen.dart';
 import 'package:life_cycle/features/notes/view/screens/note_screen.dart';
 import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
+import 'package:life_cycle/features/tasks/view/screens/edit_task_screen.dart';
 import 'package:life_cycle/features/tasks/view/screens/task_screen.dart';
 import 'package:life_cycle/splash_screen.dart';
 
@@ -48,6 +49,8 @@ class AppRoutes {
         return CustomPageRoute(builder: (_) => const SplashScreen());
       case Routes.editNoteScreen:
         return CustomPageRoute(builder: (_) => const EditNoteScreen());
+        case Routes.editTaskScreen:
+        return CustomPageRoute(builder: (_) => const EditTaskScreen());
       default:
         return null;
     }
