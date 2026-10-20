@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/features/button_nav_bar/view/screens/button_nav_bar_screen.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -114,7 +113,7 @@ Future.delayed(const Duration(seconds: 3), () {
 
   Navigator.pushReplacementNamed(
     context,
-    Routes.onboardingScreen, // Use the constant from Routes class
+    Routes.buttonNavBarScreen, // Use the constant from Routes class
   );
 });
 

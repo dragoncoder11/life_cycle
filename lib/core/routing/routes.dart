@@ -6,4 +6,5 @@ class Routes {
   static const String taskScreen = 'task_screen';
   static const String onboardingScreen = 'onboarding_screen';
   static const String splashScreen = 'splash_screen';
+  static const String editNoteScreen = 'edit_note_screen';
 }

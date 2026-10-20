@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
       children: [
         verticalSpace(30.h),
         Image.asset(
-          'assets/images/onBoarding_1.png',
+          'assets/images/home.png',
           height: 180.h,
           width: double.infinity,
         ),

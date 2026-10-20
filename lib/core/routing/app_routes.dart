@@ -5,6 +5,7 @@ import 'package:life_cycle/features/button_nav_bar/logic/cubit/button_nav_bar_cu
 import 'package:life_cycle/features/button_nav_bar/view/screens/button_nav_bar_screen.dart';
 import 'package:life_cycle/features/finance/view/screens/finance_screen.dart';
 import 'package:life_cycle/features/home/view/screens/home_screen.dart';
+import 'package:life_cycle/features/notes/view/screens/edit_note_screen.dart';
 import 'package:life_cycle/features/notes/view/screens/note_screen.dart';
 import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
@@ -45,6 +46,8 @@ class AppRoutes {
         );
       case Routes.splashScreen:
         return CustomPageRoute(builder: (_) => const SplashScreen());
+      case Routes.editNoteScreen:
+        return CustomPageRoute(builder: (_) => const EditNoteScreen());
       default:
         return null;
     }
