@@ -4,17 +4,21 @@ import 'package:life_cycle/core/theme/app_colors.dart';
 
 class CustomCircleAvatar extends StatelessWidget {
   const CustomCircleAvatar({
-    super.key, this.icon, this.onPressed,
+    super.key, this.icon, this.onPressed, this.iconSize, this.color, this.radius, this.iconColor,
   });
 final IconData ? icon;
 final VoidCallback ? onPressed;
+final double? iconSize;
+final Color? color;
+final Color? iconColor;
+final double?radius;
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: 20.r,
-      backgroundColor: AppColors.kPrimaryColor,
+      radius: radius?? 20.r,
+      backgroundColor:color?? AppColors.kPrimaryColor,
       child: Center(
-        child: IconButton(onPressed: onPressed, icon: Icon(icon,color: AppColors.background), iconSize: 24)
+        child: IconButton(onPressed: onPressed, icon: Icon(icon,color:iconColor?? AppColors.background), iconSize: iconSize?? 24,padding: EdgeInsets.zero,)
       ),
     );
   }

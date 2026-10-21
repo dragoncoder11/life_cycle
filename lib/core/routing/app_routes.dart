@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/features/button_nav_bar/logic/cubit/button_nav_bar_cubit.dart';
 import 'package:life_cycle/features/button_nav_bar/view/screens/button_nav_bar_screen.dart';
+import 'package:life_cycle/features/finance/view/screens/add_balance_screen.dart';
 import 'package:life_cycle/features/finance/view/screens/finance_screen.dart';
 import 'package:life_cycle/features/home/view/screens/home_screen.dart';
 import 'package:life_cycle/features/notes/view/screens/edit_note_screen.dart';
@@ -45,11 +46,13 @@ class AppRoutes {
             child: const OnBoardingScreen(),
           ),
         );
+      case Routes.addBalanceScreen:
+        return CustomPageRoute(builder: (_) => const AddBalanceScreen());
       case Routes.splashScreen:
         return CustomPageRoute(builder: (_) => const SplashScreen());
       case Routes.editNoteScreen:
         return CustomPageRoute(builder: (_) => const EditNoteScreen());
-        case Routes.editTaskScreen:
+      case Routes.editTaskScreen:
         return CustomPageRoute(builder: (_) => const EditTaskScreen());
       default:
         return null;
