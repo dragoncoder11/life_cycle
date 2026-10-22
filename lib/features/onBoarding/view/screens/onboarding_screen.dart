@@ -40,30 +40,64 @@ class OnBoardingScreen extends StatelessWidget {
           body: SafeArea(
             child: Stack(
               children: [
+                PageView.builder(
+                  controller: cubit.pageController,
+                  itemCount: onboardingData.length,
+                  onPageChanged: (index) {
+                    cubit.changeIndex(index);
+                  },
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Column(
+                        children: [
+                          verticalSpace(112),
+                          Image.asset(
+                            onboardingData[index]['image'],
+                            fit: BoxFit.contain,
+                            height: 200.h,
+                            width: double.infinity,
+                          ),
+                          verticalSpace(10),
+                          Text(
+                            onboardingData[index]['title'],
+                            style: AppTextStyles.interBlack(
+                              24,
+                              FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          verticalSpace(10),
+                          Text(
+                            onboardingData[index]['description'],
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.interGrey(14, FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+
+                // 2. Skip فوق الـ PageView
                 Positioned(
-                  bottom: 24.h,
-                  left: 0,
-                  right: 0,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: 16.w,
-                      right: 16.w,
-                      top: 8.h,
-                      bottom: 8.h,
-                    ),
-                    child: CustomButton(
-                      title: cubit.startIndex < 2 ? 'Next' : 'Get Started',
-                      onTap: () {
-                        cubit.startIndex < 2
-                            ? cubit.nextPage()
-                            : Navigator.pushReplacementNamed(
-                                context,
-                                Routes.buttonNavBarScreen,
-                              );
-                      },
+                  top: 24.h,
+                  right: 24.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        Routes.buttonNavBarScreen,
+                      );
+                    },
+                    child: Text(
+                      'Skip',
+                      style: AppTextStyles.interGrey(16, FontWeight.w600),
                     ),
                   ),
                 ),
+
+                // 3. Page indicator
                 Positioned(
                   bottom: 100.h,
                   left: 0,
@@ -71,7 +105,7 @@ class OnBoardingScreen extends StatelessWidget {
                   child: Center(
                     child: SmoothPageIndicator(
                       controller: cubit.pageController,
-                      count: 3,
+                      count: onboardingData.length,
                       effect: JumpingDotEffect(
                         dotHeight: 16,
                         dotWidth: 16,
@@ -81,67 +115,27 @@ class OnBoardingScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
+                // 4. Button فوق الـ PageView
                 Positioned(
-                  top: 24.h,
-                  right: 24,
-                  child: Text(
-                    'Skip',
-                    style: AppTextStyles.interGrey(16, FontWeight.w600),
+                  bottom: 24.h,
+                  left: 16.w,
+                  right: 16.w,
+                  child: CustomButton(
+                    title: cubit.startIndex < onboardingData.length - 1
+                        ? 'Next'
+                        : 'Get Started',
+                    onTap: () {
+                      if (cubit.startIndex < onboardingData.length - 1) {
+                        cubit.nextPage();
+                      } else {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          Routes.buttonNavBarScreen,
+                        );
+                      }
+                    },
                   ),
-                ),
-                PageView.builder(
-                  controller: cubit.pageController,
-                  itemCount: 3,
-                  onPageChanged: (index) {
-                    cubit.changeIndex(index);
-                  },
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        left: 16.w,
-                        right: 16.w,
-                        top: 8.h,
-                        bottom: 8.h,
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: 120.h,
-                            left: 0,
-                            right: 0,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  onboardingData[index]['image'],
-                                  fit: BoxFit.fill,
-                                  height: 200.h,
-                                  width: double.infinity,
-                                ),
-                                verticalSpace(10),
-                                Text(
-                                  onboardingData[index]['title'],
-                                  style: AppTextStyles.interBlack(
-                                    24,
-                                    FontWeight.bold,
-                                  ),
-                                ),
-                                verticalSpace(10),
-                                Text(
-                                  textAlign: TextAlign.center,
-                                  onboardingData[index]['description'],
-                                  style: AppTextStyles.interGrey(
-                                    14,
-                                    FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
                 ),
               ],
             ),

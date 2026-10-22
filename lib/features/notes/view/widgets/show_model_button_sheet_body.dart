@@ -7,8 +7,8 @@ import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 
-class ShowModelButtonSheetBody extends StatelessWidget {
-  const ShowModelButtonSheetBody({
+class ShowNoteModelButtonSheetBody extends StatelessWidget {
+  const ShowNoteModelButtonSheetBody({
     super.key,
   });
 

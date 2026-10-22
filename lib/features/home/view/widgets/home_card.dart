@@ -7,24 +7,28 @@ import 'package:life_cycle/features/button_nav_bar/data/models/home_card_model.d
 
 class HomeCard extends StatelessWidget {
   const HomeCard({
-    super.key, required this.homeCardModel,
+    super.key, required this.homeCardModel, required this.onTap,
   });
 final HomeCardModel homeCardModel;
+final Function() onTap;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(color: homeCardModel.color.withOpacity(.1),borderRadius: BorderRadius.circular(16)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-        Icon(homeCardModel.icon,color: homeCardModel.color,size: 32.r,),
-        verticalSpace(20),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
-                      Text(homeCardModel.title,style: AppTextStyles.interBlack(14, FontWeight.bold),),
-                      Icon(Icons.arrow_forward,color:homeCardModel.color ,)
-            
-        ],)
-      ],),
-      
+    return GestureDetector(
+      onTap: onTap ,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(color: homeCardModel.color.withOpacity(.1),borderRadius: BorderRadius.circular(16)),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+          Icon(homeCardModel.icon,color: homeCardModel.color,size: 32.r,),
+          verticalSpace(20),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
+                        Text(homeCardModel.title,style: AppTextStyles.interBlack(14, FontWeight.bold),),
+                        Icon(Icons.arrow_forward,color:homeCardModel.color ,)
+              
+          ],)
+        ],),
+        
+      ),
     );
   }
 }

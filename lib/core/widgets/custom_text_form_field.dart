@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
@@ -9,42 +8,42 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines,
     this.hintText,
     this.prefixIcon,
+    this.textInputType,
+    this.filled,
+    this.filledColor, this.borderColor,
   });
 
   final int? maxLines;
   final String? hintText;
   final Widget? prefixIcon;
+  final TextInputType? textInputType;
+  final bool? filled;
+  final Color? filledColor;
+  final Color?borderColor;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: textInputType ?? TextInputType.text,
       maxLines: maxLines ?? 1,
       cursorColor: AppColors.kPrimaryColor,
       decoration: InputDecoration(
         hintText: hintText ?? 'Enter text...',
-        hintStyle: AppTextStyles.interGrey(
-          14,
-          FontWeight.w400,
-        ),
+        hintStyle: AppTextStyles.interGrey(14, FontWeight.w400),
         prefixIcon: prefixIcon,
+        filled: filled ?? false,
+        fillColor: (filled ?? false) ? (filledColor ?? Colors.white) : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: AppColors.textSecondary,
-          ),
+          borderSide: BorderSide(color: AppColors.textSecondary),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: AppColors.kPrimaryColor,
-            width: 1.5,
-          ),
+          borderSide: BorderSide(color: AppColors.kPrimaryColor, width: 1.5),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: AppColors.textSecondary,
-          ),
+          borderSide: BorderSide(color:borderColor?? AppColors.textSecondary),
         ),
       ),
     );

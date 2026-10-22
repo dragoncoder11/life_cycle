@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:life_cycle/features/button_nav_bar/logic/cubit/button_nav_bar_cubit.dart';
 import 'package:life_cycle/features/home/view/widgets/home_card.dart';
 import 'package:life_cycle/features/home/view/widgets/home_card_list.dart';
 
@@ -22,7 +24,9 @@ class HomeCardGridView extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           return HomeCard(
-            homeCardModel: homeCards[index],
+            homeCardModel: homeCards[index], onTap: () { 
+              context.read<ButtonNavBarCubit>().changeIndex(index + 1);
+             },
           );
         },
       ),

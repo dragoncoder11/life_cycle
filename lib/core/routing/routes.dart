@@ -9,4 +9,5 @@ class Routes {
   static const String editNoteScreen = 'edit_note_screen';
   static const String editTaskScreen = 'edit_Task_screen';
   static const String addBalanceScreen = 'add_Balance_screen';
+  static const String addTransactionScreen = 'add_Transaction_screen';
 }

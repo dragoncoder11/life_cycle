@@ -37,7 +37,7 @@ class NoteScreen extends StatelessWidget {
                     ),
                     context: context,
                     builder: (context) {
-                      return ShowModelButtonSheetBody();
+                      return ShowNoteModelButtonSheetBody();
                     },
                   );
                 },

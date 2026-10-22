@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
@@ -7,9 +6,7 @@ import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/features/home/view/widgets/home_card_grid_view.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({
-    super.key,
-  });
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +16,9 @@ class HomeScreen extends StatelessWidget {
         verticalSpace(30.h),
         Image.asset(
           'assets/images/home.png',
-          height: 180.h,
+          height: 160.h,
           width: double.infinity,
+          fit: BoxFit.cover,
         ),
         verticalSpace(12.h),
         Row(
@@ -39,7 +37,7 @@ class HomeScreen extends StatelessWidget {
           style: AppTextStyles.interGrey(12, FontWeight.w600),
         ),
         verticalSpace(8),
-    
+
         HomeCardGridView(),
       ],
     );

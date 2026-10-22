@@ -14,7 +14,7 @@ class AppColors {
   static const Color accent = Color(0xFFFFC247);
 
   // Backgrounds and surfaces
-  static const Color background = Color(0xFFF7FAF8);
+  static const Color background = Colors.white;
   static const Color surface = Color(0xFFFFFFFF);
   static const Color surfaceSoft = Color(0xFFF0F7F3);
   static const Color mintBackground = Color(0xFFE6F6EC);

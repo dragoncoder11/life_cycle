@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
+import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_circle_avatar.dart';
 import 'package:life_cycle/features/finance/view/widgets/balance_card.dart';
 import 'package:life_cycle/features/finance/view/widgets/income_extend_card.dart';
+import 'package:life_cycle/features/finance/view/widgets/transaction_card.dart';
+import 'package:life_cycle/features/finance/view/widgets/transaction_list.dart';
 
 class FinanceScreen extends StatelessWidget {
   const FinanceScreen({super.key});
@@ -24,7 +27,12 @@ class FinanceScreen extends StatelessWidget {
                 'Finance',
                 style: AppTextStyles.interBlack(24, FontWeight.bold),
               ),
-              CustomCircleAvatar(icon: Icons.add, onPressed: () {}),
+              CustomCircleAvatar(
+                icon: Icons.add,
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.addTransactionScreen);
+                },
+              ),
             ],
           ),
           verticalSpace(12.h),
@@ -41,7 +49,7 @@ class FinanceScreen extends StatelessWidget {
                 title: 'Income',
                 price: 2500,
                 titleStyle: AppTextStyles.interDarkGreen(11, FontWeight.w500),
-                priceStyle: AppTextStyles.interDarkGreen(12, FontWeight.bold),
+                priceStyle: AppTextStyles.interLightGreen(12, FontWeight.bold),
               ),
               Icon(
                 Icons.currency_exchange,
@@ -60,6 +68,11 @@ class FinanceScreen extends StatelessWidget {
               ),
             ],
           ),
+          verticalSpace(10.h),
+
+          Expanded(child: ListView.builder(itemCount: transactions.length,physics: BouncingScrollPhysics(),itemBuilder: (context,index){
+            return TransactionCard(transactionModel: transactions[index]);
+          }))
         ],
       ),
     );
