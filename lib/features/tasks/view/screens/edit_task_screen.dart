@@ -51,6 +51,7 @@ class EditTaskScreen extends StatelessWidget {
                       CustomTextFormField(
                         hintText: 'Edit Task Title',
                         maxLines: 1,
+                        filled: true,
                       ),
                       verticalSpace(12.h),
                       Text(
@@ -62,6 +63,7 @@ class EditTaskScreen extends StatelessWidget {
                         prefixIcon: Icon(Icons.date_range),
                         hintText: 'Start Date',
                         textInputType: TextInputType.datetime,
+                        filled: true,
                       ),
                       verticalSpace(12.h),
                       Text(
@@ -73,6 +75,7 @@ class EditTaskScreen extends StatelessWidget {
                         prefixIcon: Icon(Icons.lock_clock),
                         hintText: 'End Date',
                         textInputType: TextInputType.datetime,
+                        filled: true,
                       ),
                     ],
                   ),

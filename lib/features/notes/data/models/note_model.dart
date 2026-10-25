@@ -32,7 +32,7 @@ List<NoteModel> notes = [
   NoteModel(
     image: 'assets/images/onBoarding_3.png',
     title: 'Workout Plan',
-    content: 'Monday: Chest & Triceps\nTuesday: Back & Biceps\nWednesday: Legs & Shoulders',
+    content: 'Monday MondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMonday',
     createdAt: DateTime.now().subtract(Duration(days: 3)),
   ),
   NoteModel(

@@ -10,6 +10,7 @@ import 'package:life_cycle/features/finance/view/screens/finance_screen.dart';
 import 'package:life_cycle/features/home/view/screens/home_screen.dart';
 import 'package:life_cycle/features/notes/view/screens/edit_note_screen.dart';
 import 'package:life_cycle/features/notes/view/screens/note_screen.dart';
+import 'package:life_cycle/features/notifications/view/screens/notifications_screen.dart';
 import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
 import 'package:life_cycle/features/tasks/logic/cubit/tasks_cubit.dart';
@@ -67,6 +68,8 @@ class AppRoutes {
         return CustomPageRoute(builder: (_) => const EditNoteScreen());
       case Routes.editTaskScreen:
         return CustomPageRoute(builder: (_) => const EditTaskScreen());
+      case Routes.notificationsScreen:
+        return CustomPageRoute(builder: (_) => const NotificationsScreen());
       case Routes.addTransactionScreen:
         return CustomPageRoute(
           builder: (_) => BlocProvider(

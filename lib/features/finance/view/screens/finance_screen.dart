@@ -7,7 +7,7 @@ import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_circle_avatar.dart';
 import 'package:life_cycle/features/finance/view/widgets/balance_card.dart';
 import 'package:life_cycle/features/finance/view/widgets/income_extend_card.dart';
-import 'package:life_cycle/features/finance/view/widgets/transaction_card.dart';
+import 'package:life_cycle/features/finance/view/widgets/transaction_item.dart';
 import 'package:life_cycle/features/finance/view/widgets/transaction_list.dart';
 
 class FinanceScreen extends StatelessWidget {
@@ -71,7 +71,7 @@ class FinanceScreen extends StatelessWidget {
           verticalSpace(10.h),
 
           Expanded(child: ListView.builder(itemCount: transactions.length,physics: BouncingScrollPhysics(),itemBuilder: (context,index){
-            return TransactionCard(transactionModel: transactions[index]);
+            return TransactionItem(transactionModel: transactions[index]);
           }))
         ],
       ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
@@ -6,9 +5,7 @@ import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 
 class ListOfTransactionFields extends StatelessWidget {
-  const ListOfTransactionFields({
-    super.key,
-  });
+  const ListOfTransactionFields({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,31 +14,28 @@ class ListOfTransactionFields extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           verticalSpace(6),
-          Text(
-            'Amount',
-            style: AppTextStyles.interBlack(16, FontWeight.w500),
-          ),
+          Text('Amount', style: AppTextStyles.interBlack(16, FontWeight.w500)),
           verticalSpace(6),
           CustomTextFormField(
+            filled: true,
             hintText: '0.00',
             maxLines: 1,
             prefixIcon: Icon(Icons.attach_money),
             textInputType: TextInputType.number,
           ),
           verticalSpace(6),
-          Text(
-            'Date',
-            style: AppTextStyles.interBlack(16, FontWeight.w500),
-          ),
+          Text('Date', style: AppTextStyles.interBlack(16, FontWeight.w500)),
           verticalSpace(6),
           CustomTextFormField(
+            filled: true,
+
             hintText: 'Select Date',
             maxLines: 1,
             prefixIcon: Icon(Icons.date_range),
             textInputType: TextInputType.datetime,
           ),
           verticalSpace(6),
-    
+
           Row(
             children: [
               Text(
@@ -56,6 +50,7 @@ class ListOfTransactionFields extends StatelessWidget {
           ),
           verticalSpace(6),
           CustomTextFormField(
+            filled: true,
             hintText: 'e.g taxi, restaurant...',
             maxLines: 3,
           ),

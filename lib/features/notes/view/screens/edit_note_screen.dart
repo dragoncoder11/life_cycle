@@ -14,46 +14,56 @@ class EditNoteScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w,bottom: 16.0.h,top: 16.0.h),
+          padding: EdgeInsets.only(
+            left: 16.0.w,
+            right: 16.0.w,
+            bottom: 16.0.h,
+            top: 16.0.h,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             IconButton(
-                    icon: Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-              verticalSpace(10.h),
-               Text(
-                    'Edit Note',
-                    style: AppTextStyles.interBlack(24, FontWeight.bold),
-                  ),
-                            verticalSpace(10.h),
-                
-               Text(
-                    'Edit Note',
-                    style: AppTextStyles.interBlack(
-                      16,
-                      FontWeight.w500,
-                    ),
-                  ),
-                  verticalSpace(4.h),
-              CustomTextFormField(hintText: 'Edit Note', maxLines: 1),
-                        verticalSpace(8.h),
-                         Text(
-                    'Edit Description',
-                    style: AppTextStyles.interBlack(
-                      16,
-                      FontWeight.w500,
-                    ),
-                  ),
-                  verticalSpace(4.h),
-              CustomTextFormField(hintText: 'Edit Description',maxLines: 5,),
-                Spacer(),
-              CustomButton(onTap: () {
+              IconButton(
+                icon: Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
+                onPressed: () {
                   Navigator.pop(context);
-                }, title: 'Edit Note'),
+                },
+              ),
+              verticalSpace(10.h),
+              Text(
+                'Edit Note',
+                style: AppTextStyles.interBlack(24, FontWeight.bold),
+              ),
+              verticalSpace(10.h),
+
+              Text(
+                'Edit Note',
+                style: AppTextStyles.interBlack(16, FontWeight.w500),
+              ),
+              verticalSpace(4.h),
+              CustomTextFormField(
+                hintText: 'Edit Note',
+                maxLines: 1,
+                filled: true,
+              ),
+              verticalSpace(8.h),
+              Text(
+                'Edit Description',
+                style: AppTextStyles.interBlack(16, FontWeight.w500),
+              ),
+              verticalSpace(4.h),
+              CustomTextFormField(
+                filled: true,
+                hintText: 'Edit Description',
+                maxLines: 5,
+              ),
+              Spacer(),
+              CustomButton(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                title: 'Edit Note',
+              ),
             ],
           ),
         ),

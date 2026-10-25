@@ -23,27 +23,40 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: textInputType ?? TextInputType.text,
-      maxLines: maxLines ?? 1,
-      cursorColor: AppColors.kPrimaryColor,
-      decoration: InputDecoration(
-        hintText: hintText ?? 'Enter text...',
-        hintStyle: AppTextStyles.interGrey(14, FontWeight.w400),
-        prefixIcon: prefixIcon,
-        filled: filled ?? false,
-        fillColor: (filled ?? false) ? (filledColor ?? Colors.white) : null,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.textSecondary),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.kPrimaryColor, width: 1.5),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color:borderColor?? AppColors.textSecondary),
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.05),
+        blurRadius: 8,
+        offset: const Offset(0, 3),
+      ),
+    ],
+    borderRadius: BorderRadius.circular(12),
+  ),
+      child: TextFormField(
+        keyboardType: textInputType ?? TextInputType.text,
+        maxLines: maxLines ?? 1,
+        cursorColor: AppColors.kPrimaryColor,
+        decoration: InputDecoration(
+          hintText: hintText ?? 'Enter text...',
+          hintStyle: AppTextStyles.interGrey(14, FontWeight.w400),
+          prefixIcon: prefixIcon,
+          iconColor: AppColors.textSecondary,
+          filled: filled ?? false,
+          fillColor: (filled ?? false) ? (filledColor ?? Colors.white) : null,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: AppColors.textSecondary),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: AppColors.kPrimaryColor, width: 1.5),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color:borderColor?? AppColors.textSecondary),
+          ),
         ),
       ),
     );

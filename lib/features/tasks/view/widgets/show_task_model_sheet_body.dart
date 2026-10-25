@@ -40,8 +40,8 @@ class ShowTaskModelSheetBody extends StatelessWidget {
               verticalSpace(6.h),
              
               Text(
-                'Date',
-                style: AppTextStyles.interBlack(16, FontWeight.w500),
+                'From',
+                style: AppTextStyles.interWhite(16, FontWeight.w500),
               ),
               verticalSpace(4),
               CustomTextFormField(
@@ -54,7 +54,7 @@ class ShowTaskModelSheetBody extends StatelessWidget {
              
               Text(
                 'Time',
-                style: AppTextStyles.interBlack(16, FontWeight.w500),
+                style: AppTextStyles.interWhite(16, FontWeight.w500),
               ),
               verticalSpace(4),
               CustomTextFormField(

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
+import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_circle_avatar.dart';
-import 'package:life_cycle/core/widgets/search_text_field.dart';
+import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 import 'package:life_cycle/features/notes/data/models/note_model.dart';
 import 'package:life_cycle/features/notes/view/widgets/note_item.dart';
 import 'package:life_cycle/features/notes/view/widgets/show_model_button_sheet_body.dart';
@@ -29,15 +30,23 @@ class NoteScreen extends StatelessWidget {
                 icon: Icons.add,
                 onPressed: () {
                   showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16),
+                    context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(16),
                       ),
                     ),
-                    context: context,
                     builder: (context) {
-                      return ShowNoteModelButtonSheetBody();
+                      return AnimatedPadding(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeOut,
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.viewInsetsOf(context).bottom,
+                        ),
+                        child: ShowNoteModelButtonSheetBody(),
+                      );
                     },
                   );
                 },
@@ -45,9 +54,15 @@ class NoteScreen extends StatelessWidget {
             ],
           ),
           verticalSpace(10.h),
-          SearchTextField(),
+          CustomTextFormField(
+            filled: true,
+            borderColor: AppColors.background,
+            prefixIcon: Icon(Icons.search, color: AppColors.textHint),
+            hintText: 'Search notes...',
+          ),
           Expanded(
             child: ListView.builder(
+              physics: BouncingScrollPhysics(),
               itemCount: notes.length,
               itemBuilder: (context, index) {
                 return NoteItem(noteModel: notes[index]);
