@@ -10,7 +10,7 @@ class CustomTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.textInputType,
     this.filled,
-    this.filledColor, this.borderColor,
+    this.filledColor, this.borderColor, this.controller, this.onSaved, this.validate,
   });
 
   final int? maxLines;
@@ -20,6 +20,9 @@ class CustomTextFormField extends StatelessWidget {
   final bool? filled;
   final Color? filledColor;
   final Color?borderColor;
+  final TextEditingController?controller;
+  final void Function(String?)?onSaved;
+  final String? Function(String?)? validate;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +38,9 @@ class CustomTextFormField extends StatelessWidget {
     borderRadius: BorderRadius.circular(12),
   ),
       child: TextFormField(
+        controller: controller,
+        onSaved:onSaved ,
+        validator:validate ,
         keyboardType: textInputType ?? TextInputType.text,
         maxLines: maxLines ?? 1,
         cursorColor: AppColors.kPrimaryColor,

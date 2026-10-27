@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:life_cycle/features/finance/logic/cubit/transaction_categories_cubit.dart';
 import 'package:life_cycle/features/finance/view/screens/finance_screen.dart';
 import 'package:life_cycle/features/home/view/screens/home_screen.dart';
+import 'package:life_cycle/features/notes/logic/add_note_cubit/add_note_cubit.dart';
 import 'package:life_cycle/features/notes/view/screens/note_screen.dart';
 import 'package:life_cycle/features/tasks/logic/cubit/tasks_cubit.dart';
 import 'package:life_cycle/features/tasks/view/screens/task_screen.dart';
@@ -25,7 +26,10 @@ class ButtonNavBarCubit extends Cubit<ButtonNavBarState> {
   List<Widget> getScreens() {
     return [
       const HomeScreen(),
-      const NoteScreen(),
+      BlocProvider(
+        create: (context) => AddNoteCubit(),
+        child: const NoteScreen(),
+      ),
       BlocProvider(create: (_) => TasksCubit(), child: const TaskScreen()),
       BlocProvider(
         create: (context) => TransactionCategoriesCubit(),

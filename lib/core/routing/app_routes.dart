@@ -8,6 +8,7 @@ import 'package:life_cycle/features/finance/view/screens/add_balance_screen.dart
 import 'package:life_cycle/features/finance/view/screens/add_transaction_screen.dart';
 import 'package:life_cycle/features/finance/view/screens/finance_screen.dart';
 import 'package:life_cycle/features/home/view/screens/home_screen.dart';
+import 'package:life_cycle/features/notes/logic/add_note_cubit/add_note_cubit.dart';
 import 'package:life_cycle/features/notes/view/screens/edit_note_screen.dart';
 import 'package:life_cycle/features/notes/view/screens/note_screen.dart';
 import 'package:life_cycle/features/notifications/view/screens/notifications_screen.dart';
@@ -45,7 +46,12 @@ class AppRoutes {
           ),
         );
       case Routes.noteScreen:
-        return CustomPageRoute(builder: (_) => const NoteScreen());
+        return CustomPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => AddNoteCubit(),
+            child: const NoteScreen(),
+          ),
+        );
       case Routes.taskScreen:
         return CustomPageRoute(
           builder: (_) => BlocProvider(

@@ -1,5 +1,35 @@
+// import 'package:hive/hive.dart';
+// part 'note_model.g.dart';
 
-class NoteModel {
+// @HiveType(typeId: 0)
+// class NoteModel extends HiveObject {
+//   @HiveField(0)
+//   final String? image;
+
+//   @HiveField(1)
+//   final String title;
+
+//   @HiveField(2)
+//   final String content;
+
+//   @HiveField(3)
+//   final DateTime createdAt;
+
+//   @HiveField(4)
+//   final DateTime? updatedAt;
+
+//   NoteModel({
+//     this.image,
+//     required this.title,
+//     required this.content,
+//     required this.createdAt,
+//     this.updatedAt,
+//   });
+// }
+
+import 'package:hive/hive.dart';
+
+class NoteModel extends HiveObject {
   final String? image;
   final String title;
   final String content;
@@ -14,37 +44,3 @@ class NoteModel {
     this.updatedAt,
   });
 }
-
-
-List<NoteModel> notes = [
-  NoteModel(
-    image: 'assets/images/onBoarding_1.png',
-    title: 'Meeting Notes',
-    content: 'Discuss project milestones and deadlines.',
-    createdAt: DateTime.now().subtract(Duration(days: 1)),
-  ),
-  NoteModel(
-    image: 'assets/images/onBoarding_2.png',
-    title: 'Grocery List',
-    content: 'Milk, Eggs, Bread, Butter, Cheese.',
-    createdAt: DateTime.now().subtract(Duration(days: 2)),
-  ),
-  NoteModel(
-    image: 'assets/images/onBoarding_3.png',
-    title: 'Workout Plan',
-    content: 'Monday MondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMonday',
-    createdAt: DateTime.now().subtract(Duration(days: 3)),
-  ),
-  NoteModel(
-    image: 'assets/images/onBoarding_3.png',
-    title: 'Workout Plan',
-    content: 'Monday: Chest & Triceps\nTuesday: Back & Biceps\nWednesday: Legs & Shoulders',
-    createdAt: DateTime.now().subtract(Duration(days: 3)),
-  ),
-  NoteModel(
-    image: 'assets/images/onBoarding_3.png',
-    title: 'Workout Plan',
-    content: 'Monday: Chest & Triceps\nTuesday: Back & Biceps\nWednesday: Legs & Shoulders',
-    createdAt: DateTime.now().subtract(Duration(days: 3)),
-  ),
-];
