@@ -10,7 +10,12 @@ class CustomTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.textInputType,
     this.filled,
-    this.filledColor, this.borderColor, this.controller, this.onSaved, this.validate,
+    this.filledColor,
+    this.borderColor,
+    this.controller,
+    this.onSaved,
+    this.validate,
+    this.textStyle, this.onTap,
   });
 
   final int? maxLines;
@@ -19,28 +24,31 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? textInputType;
   final bool? filled;
   final Color? filledColor;
-  final Color?borderColor;
-  final TextEditingController?controller;
-  final void Function(String?)?onSaved;
+  final Color? borderColor;
+  final TextEditingController? controller;
+  final void Function(String?)? onSaved;
   final String? Function(String?)? validate;
-
+  final TextStyle? textStyle;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
-      BoxShadow(
-        color: Colors.black.withValues(alpha: 0.05),
-        blurRadius: 8,
-        offset: const Offset(0, 3),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(12),
       ),
-    ],
-    borderRadius: BorderRadius.circular(12),
-  ),
       child: TextFormField(
+        onTap: onTap,
+        style: textStyle,
         controller: controller,
-        onSaved:onSaved ,
-        validator:validate ,
+        onSaved: onSaved,
+        validator: validate,
         keyboardType: textInputType ?? TextInputType.text,
         maxLines: maxLines ?? 1,
         cursorColor: AppColors.kPrimaryColor,
@@ -61,7 +69,9 @@ class CustomTextFormField extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color:borderColor?? AppColors.textSecondary),
+            borderSide: BorderSide(
+              color: borderColor ?? AppColors.textSecondary,
+            ),
           ),
         ),
       ),

@@ -5,8 +5,7 @@ import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 import 'package:life_cycle/features/notes/view/widgets/add_note_sheet.dart';
-import 'package:life_cycle/features/notes/view/widgets/note_item.dart';
-import 'package:life_cycle/features/notes/view/widgets/notes_list.dart';
+import 'package:life_cycle/features/notes/view/widgets/notes_list_view.dart';
 
 class NoteScreen extends StatelessWidget {
   const NoteScreen({super.key});
@@ -36,13 +35,7 @@ class NoteScreen extends StatelessWidget {
             hintText: 'Search notes...',
           ),
           Expanded(
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: notes.length,
-              itemBuilder: (context, index) {
-                return NoteItem(noteModel: notes[index]);
-              },
-            ),
+            child: NotesListView(),
           ),
         ],
       ),

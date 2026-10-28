@@ -1,39 +1,39 @@
-import 'package:life_cycle/features/notes/data/models/note_model.dart';
+// import 'package:life_cycle/features/notes/data/models/note_model.dart';
 
   
-List<NoteModel> notes = [
-  NoteModel(
-    image: 'assets/images/onBoarding_1.png',
-    title: 'Meeting Notes',
-    content: 'Discuss project milestones and deadlines.',
-    createdAt: DateTime.now().subtract(Duration(days: 1)),
-  ),
-  NoteModel(
-    image: 'assets/images/onBoarding_2.png',
-    title: 'Grocery List',
-    content: 'Milk, Eggs, Bread, Butter, Cheese.',
-    createdAt: DateTime.now().subtract(Duration(days: 2)),
-  ),
-  NoteModel(
-    image: 'assets/images/onBoarding_3.png',
-    title: 'Workout Plan',
-    content:
-        'Monday MondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMonday',
-    createdAt: DateTime.now().subtract(Duration(days: 3)),
-  ),
-  NoteModel(
-    image: 'assets/images/onBoarding_3.png',
-    title: 'Workout Plan',
-    content:
-        'Monday: Chest & Triceps\nTuesday: Back & Biceps\nWednesday: Legs & Shoulders',
-    createdAt: DateTime.now().subtract(Duration(days: 3)),
-  ),
-  NoteModel(
-    image: 'assets/images/onBoarding_3.png',
-    title: 'Workout Plan',
-    content:
-        'Monday: Chest & Triceps\nTuesday: Back & Biceps\nWednesday: Legs & Shoulders',
-    createdAt: DateTime.now().subtract(Duration(days: 3)),
-  ),
-];
+// List<NoteModel> notes = [
+//   NoteModel(
+//     image: 'assets/images/onBoarding_1.png',
+//     title: 'Meeting Notes',
+//     content: 'Discuss project milestones and deadlines.',
+//     createdAt: DateTime.now().subtract(Duration(days: 1)),
+//   ),
+//   NoteModel(
+//     image: 'assets/images/onBoarding_2.png',
+//     title: 'Grocery List',
+//     content: 'Milk, Eggs, Bread, Butter, Cheese.',
+//     createdAt: DateTime.now().subtract(Duration(days: 2)),
+//   ),
+//   NoteModel(
+//     image: 'assets/images/onBoarding_3.png',
+//     title: 'Workout Plan',
+//     content:
+//         'Monday MondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMondayMonday',
+//     createdAt: DateTime.now().subtract(Duration(days: 3)),
+//   ),
+//   NoteModel(
+//     image: 'assets/images/onBoarding_3.png',
+//     title: 'Workout Plan',
+//     content:
+//         'Monday: Chest & Triceps\nTuesday: Back & Biceps\nWednesday: Legs & Shoulders',
+//     createdAt: DateTime.now().subtract(Duration(days: 3)),
+//   ),
+//   NoteModel(
+//     image: 'assets/images/onBoarding_3.png',
+//     title: 'Workout Plan',
+//     content:
+//         'Monday: Chest & Triceps\nTuesday: Back & Biceps\nWednesday: Legs & Shoulders',
+//     createdAt: DateTime.now().subtract(Duration(days: 3)),
+//   ),
+// ];
 

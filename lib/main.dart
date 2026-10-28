@@ -5,6 +5,7 @@ import 'package:life_cycle/core/helper/app_constants.dart';
 import 'package:life_cycle/core/utils/simple_bloc_observer.dart';
 import 'package:life_cycle/features/notes/data/models/note_model.dart';
 import 'package:life_cycle/features/notes/data/models/note_model_adapter.dart';
+import 'package:life_cycle/features/tasks/data/models/task_model.dart';
 import 'package:life_cycle/life_cycle.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -15,5 +16,8 @@ void main() async{
   Bloc.observer=SimpleBlocObserver();
   Hive.registerAdapter(NoteModelAdapter());
   await Hive.openBox<NoteModel>(kNotesBox);
+   Hive.registerAdapter(TaskModelAdapter());
+    await Hive.openBox<TaskModel>(kTasksBox);
+
   runApp(const LifeCycle());
 }

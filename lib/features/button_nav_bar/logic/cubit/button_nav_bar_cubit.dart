@@ -5,8 +5,10 @@ import 'package:life_cycle/features/finance/logic/cubit/transaction_categories_c
 import 'package:life_cycle/features/finance/view/screens/finance_screen.dart';
 import 'package:life_cycle/features/home/view/screens/home_screen.dart';
 import 'package:life_cycle/features/notes/logic/add_note_cubit/add_note_cubit.dart';
+import 'package:life_cycle/features/notes/logic/get_notes/notes_cubit.dart';
 import 'package:life_cycle/features/notes/view/screens/note_screen.dart';
-import 'package:life_cycle/features/tasks/logic/cubit/tasks_cubit.dart';
+import 'package:life_cycle/features/tasks/logic/add_task/add_task_cubit.dart';
+import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
 import 'package:life_cycle/features/tasks/view/screens/task_screen.dart';
 import 'package:meta/meta.dart';
 
@@ -26,11 +28,24 @@ class ButtonNavBarCubit extends Cubit<ButtonNavBarState> {
   List<Widget> getScreens() {
     return [
       const HomeScreen(),
-      BlocProvider(
-        create: (context) => AddNoteCubit(),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<AddNoteCubit>(create: (context) => AddNoteCubit()),
+          BlocProvider<NotesCubit>(
+            create: (context) => NotesCubit()..fetchNotes(),
+          ),
+        ],
         child: const NoteScreen(),
       ),
-      BlocProvider(create: (_) => TasksCubit(), child: const TaskScreen()),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<AddTaskCubit>(create: (context) => AddTaskCubit()),
+          BlocProvider<TasksCubit>(
+            create: (context) => TasksCubit()..fetchTasks(),
+          ),
+        ],
+        child: const TaskScreen(),
+      ),
       BlocProvider(
         create: (context) => TransactionCategoriesCubit(),
         child: const FinanceScreen(),

@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_circle_avatar.dart';
-import 'package:life_cycle/features/tasks/logic/cubit/tasks_cubit.dart';
+import 'package:life_cycle/features/tasks/logic/add_task/add_task_cubit.dart';
+import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
 import 'package:life_cycle/features/tasks/view/widgets/show_task_model_sheet_body.dart';
 import 'package:life_cycle/features/tasks/view/widgets/task_categories_row.dart';
 import 'package:life_cycle/features/tasks/view/widgets/tasks_listview.dart';
@@ -28,28 +29,40 @@ class TaskScreen extends StatelessWidget {
               ),
               CustomCircleAvatar(
                 icon: Icons.add,
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    useSafeArea: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16),
-                      ),
-                    ),
-                    builder: (context) {
-                      return AnimatedPadding(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeOut,
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.viewInsetsOf(context).bottom,
-                        ),
-                        child: ShowTaskModelSheetBody(),
-                      );
-                    },
-                  );
-                },
+              onPressed: () {
+  final tasksCubit = context.read<TasksCubit>();
+
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(16),
+      ),
+    ),
+    builder: (context) {
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => AddTaskCubit(),
+          ),
+          BlocProvider.value(
+            value: tasksCubit,
+          ),
+        ],
+        child: AnimatedPadding(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
+          ),
+          child: const ShowTaskModelSheetBody(),
+        ),
+      );
+    },
+  );
+},
               ),
             ],
           ),

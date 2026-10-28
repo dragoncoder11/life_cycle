@@ -14,7 +14,7 @@ import 'package:life_cycle/features/notes/view/screens/note_screen.dart';
 import 'package:life_cycle/features/notifications/view/screens/notifications_screen.dart';
 import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
-import 'package:life_cycle/features/tasks/logic/cubit/tasks_cubit.dart';
+import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
 import 'package:life_cycle/features/tasks/view/screens/edit_task_screen.dart';
 import 'package:life_cycle/features/tasks/view/screens/task_screen.dart';
 import 'package:life_cycle/splash_screen.dart';

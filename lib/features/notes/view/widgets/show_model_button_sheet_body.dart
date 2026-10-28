@@ -8,6 +8,7 @@ import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 import 'package:life_cycle/features/notes/data/models/note_model.dart';
 import 'package:life_cycle/features/notes/logic/add_note_cubit/add_note_cubit.dart';
+import 'package:life_cycle/features/notes/logic/get_notes/notes_cubit.dart';
 
 class ShowNoteModelButtonSheetBody extends StatelessWidget {
   const ShowNoteModelButtonSheetBody({super.key});
@@ -31,8 +32,9 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
           right: 16.w,
         ),
         child: BlocConsumer<AddNoteCubit, AddNoteState>(
-          listener: (context, state) {
+          listener: (context, state) async{
             if (state is AddNoteSuccess) {
+             await context.read<NotesCubit>().fetchNotes();
               Navigator.pop(context);
             }
             if (state is AddNoteFailure) {
@@ -55,6 +57,7 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
 
                     CustomTextFormField(
                       hintText: 'Add Note',
+                      textStyle: AppTextStyles.interWhite(16, FontWeight.w600),
                       controller: cubit.titleController,
                       validate: (value) {
                         if (value == null || value.trim() == '') {
@@ -72,6 +75,7 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
                     verticalSpace(4.h),
 
                     CustomTextFormField(
+                      textStyle: AppTextStyles.interWhite(16, FontWeight.w600),
                       hintText: 'Add Description',
                       maxLines: 5,
                       controller: cubit.contentController,
@@ -87,7 +91,6 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
                     CustomButton(
                       onTap: () async {
                         if (cubit.formKey.currentState!.validate()) {
-                          cubit.formKey.currentState!.save();
                           var noteModel = NoteModel(
                             title: cubit.titleController.text.trim(),
                             content: cubit.contentController.text.trim(),
@@ -98,7 +101,6 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
                           cubit.changeAutoValidateMode();
                         }
                       },
-                      // title: 'Add Note',
                       onCenter: Center(
                         child: state is AddNoteLoading
                             ? CircularProgressIndicator()

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/widgets/custom_category_card.dart';
-import 'package:life_cycle/features/tasks/logic/cubit/tasks_cubit.dart';
+import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
 
 class TaskCategoriesRow extends StatelessWidget {
   const TaskCategoriesRow({
