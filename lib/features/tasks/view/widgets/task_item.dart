@@ -11,15 +11,15 @@ class TaskItem extends StatelessWidget {
   final TaskModel taskModel;
   @override
   Widget build(BuildContext context) {
-    final startTime = DateFormat('hh:mm a', 'en').format(taskModel.startTime);
+    //final startTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
 
     final endTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
 
-    final dayName = DateFormat('EEE', 'en').format(taskModel.startTime);
+    final dayName = DateFormat('EEE', 'en').format(taskModel.endTime);
 
-    final dayNumber = DateFormat('dd', 'en').format(taskModel.startTime);
+    final dayNumber = DateFormat('dd', 'en').format(taskModel.endTime);
 
-    final monthName = DateFormat('MMM', 'en').format(taskModel.startTime);
+    final monthName = DateFormat('MMM', 'en').format(taskModel.endTime);
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
@@ -83,7 +83,7 @@ class TaskItem extends StatelessWidget {
                                 horizontalSpace(4),
                                 Flexible(
                                   child: Text(
-                                    '$startTime - $endTime',
+                                    '$endTime',
                                     style: AppTextStyles.interGrey(
                                       11,
                                       FontWeight.w400,

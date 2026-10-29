@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +7,6 @@ import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
-import 'package:life_cycle/features/notes/logic/add_note_cubit/add_note_cubit.dart';
 import 'package:life_cycle/features/tasks/data/models/task_model.dart';
 import 'package:life_cycle/features/tasks/logic/add_task/add_task_cubit.dart';
 import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
@@ -16,9 +16,10 @@ class ShowTaskModelSheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = BlocProvider.of<AddTaskCubit>(context);
+    final cubit = BlocProvider.of<AddTaskCubit>(context);
+
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
@@ -34,90 +35,129 @@ class ShowTaskModelSheetBody extends StatelessWidget {
         ),
         child: Form(
           key: cubit.formKey,
+          autovalidateMode: cubit.autovalidateMode,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Add Task',
-                  style: AppTextStyles.interWhite(16, FontWeight.w500),
+                  style: AppTextStyles.interWhite(
+                    16,
+                    FontWeight.w500,
+                  ),
                 ),
+
                 verticalSpace(4.h),
 
                 CustomTextFormField(
-                  textStyle: AppTextStyles.interWhite(16, FontWeight.w600),
+                  textStyle: AppTextStyles.interWhite(
+                    16,
+                    FontWeight.w600,
+                  ),
                   hintText: 'e.g finish the project',
                   controller: cubit.titleController,
                   validate: (value) {
-                    if (value == null || value.trim() == '') {
+                    if (value == null || value.trim().isEmpty) {
                       return 'field is required';
-                    } else {
-                      return null;
                     }
+
+                    return null;
                   },
                 ),
+
                 verticalSpace(6.h),
 
                 Text(
                   'From',
-                  style: AppTextStyles.interWhite(16, FontWeight.w500),
+                  style: AppTextStyles.interWhite(
+                    16,
+                    FontWeight.w500,
+                  ),
                 ),
+
                 verticalSpace(4),
+
                 CustomTextFormField(
                   onTap: () {
-                    cubit.pickedTheDate(cubit.startDateController, context);
+                    cubit.pickedTheDate(
+                      cubit.startDateController,
+                      context,
+                    );
                   },
-                  textStyle: AppTextStyles.interWhite(16, FontWeight.w600),
+                  textStyle: AppTextStyles.interWhite(
+                    16,
+                    FontWeight.w600,
+                  ),
                   hintText: 'Select date',
                   maxLines: 1,
                   prefixIcon: Icon(
                     Icons.date_range,
                     color: AppColors.background,
                   ),
-                  textInputType: TextInputType.datetime,
                   controller: cubit.startDateController,
+                  readOnly: true,
                   validate: (value) {
-                    if (value == null || value.trim() == '') {
+                    if (value == null || value.trim().isEmpty) {
                       return 'field is required';
-                    } else {
-                      return null;
                     }
+
+                    return null;
                   },
                 ),
+
                 verticalSpace(6.h),
 
                 Text(
                   'Time',
-                  style: AppTextStyles.interWhite(16, FontWeight.w500),
+                  style: AppTextStyles.interWhite(
+                    16,
+                    FontWeight.w500,
+                  ),
                 ),
+
                 verticalSpace(4),
+
                 CustomTextFormField(
                   onTap: () {
-                    cubit.pickedTheDate(cubit.endDateController, context);
+                    cubit.pickedTheTime(
+                      cubit.endDateController,
+                      context,
+                    );
                   },
-
-                  textStyle: AppTextStyles.interWhite(16, FontWeight.w600),
+                  textStyle: AppTextStyles.interWhite(
+                    16,
+                    FontWeight.w600,
+                  ),
                   hintText: 'Select time',
                   maxLines: 1,
-                  prefixIcon: Icon(Icons.schedule, color: AppColors.background),
-                  textInputType: TextInputType.datetime,
+                  prefixIcon: Icon(
+                    Icons.schedule,
+                    color: AppColors.background,
+                  ),
                   controller: cubit.endDateController,
+                  readOnly: true,
                   validate: (value) {
-                    if (value == null || value.trim() == '') {
+                    if (value == null || value.trim().isEmpty) {
                       return 'field is required';
-                    } else {
-                      return null;
                     }
+
+                    return null;
                   },
                 ),
+
                 verticalSpace(40.h),
+
                 BlocConsumer<AddTaskCubit, AddTaskState>(
                   listener: (context, state) {
                     if (state is AddTaskFailure) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(state.errMessage),
+                        ),
+                      );
                     }
+
                     if (state is AddTaskSuccess) {
                       context.read<TasksCubit>().fetchTasks();
                       Navigator.pop(context);
@@ -126,47 +166,52 @@ class ShowTaskModelSheetBody extends StatelessWidget {
                   builder: (context, state) {
                     return CustomButton(
                       onTap: () async {
-                        if (cubit.formKey.currentState!.validate()) {
-                          final startTime = DateTime(
-                            int.parse(
-                              cubit.startDateController.text.split('/')[2],
-                            ),
-                            int.parse(
-                              cubit.startDateController.text.split('/')[1],
-                            ),
-                            int.parse(
-                              cubit.startDateController.text.split('/')[0],
-                            ),
-                          );
+                        if (state is AddTaskLoading) return;
 
-                          final endTime = DateTime(
-                            int.parse(
-                              cubit.endDateController.text.split('/')[2],
-                            ),
-                            int.parse(
-                              cubit.endDateController.text.split('/')[1],
-                            ),
-                            int.parse(
-                              cubit.endDateController.text.split('/')[0],
-                            ),
-                          );
-
-                          final taskModel = TaskModel(
-                            title: cubit.titleController.text,
-                            startTime: startTime,
-                            endTime: endTime,
-                            isCompleted: false,
-                            date: DateTime.now().toString(),
-                          );
-
-                          await cubit.addTask(taskModel);
-                        } else {
+                        if (!cubit.formKey.currentState!.validate()) {
                           cubit.changeAutoValidateMode();
+                          return;
                         }
+
+                        final DateTime endTime;
+
+                        try {
+                          endTime = cubit.getSelectedDateTime();
+                        } catch (_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Please select a valid date and time',
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+
+                        // تحقق أخير قبل حفظ المهمة
+                        if (!endTime.isAfter(DateTime.now())) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Please select a time in the future',
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+
+                        final taskModel = TaskModel(
+                          title: cubit.titleController.text.trim(),
+                          endTime: endTime,
+                          isCompleted: false,
+                          date: endTime.toString(),
+                        );
+
+                        await cubit.addTask(taskModel);
                       },
                       onCenter: Center(
                         child: state is AddTaskLoading
-                            ? CircularProgressIndicator()
+                            ? const CircularProgressIndicator()
                             : Text(
                                 'Add Task',
                                 style: AppTextStyles.interWhite(

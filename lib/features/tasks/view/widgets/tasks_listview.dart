@@ -12,7 +12,7 @@ class TasksListview extends StatelessWidget {
       builder: (context, state) {
         final cubit = context.read<TasksCubit>();
         final tasks = cubit.tasks ?? [];
-
+        tasks.sort((a, b) => a.endTime.compareTo(b.endTime));
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
           itemCount: tasks.length,

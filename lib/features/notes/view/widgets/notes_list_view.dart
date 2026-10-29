@@ -13,8 +13,10 @@ class NotesListView extends StatelessWidget {
       builder: (context, state) {
         var cubit=context.read<NotesCubit>();
         List<NoteModel> notes=cubit.notes??[];
+        notes.sort(
+          (a, b) => b.createdAt.compareTo(a.createdAt),
+        );
         return ListView.builder(
-          reverse: true,
           physics: BouncingScrollPhysics(),
           itemCount: notes.length,
           itemBuilder: (context, index) {

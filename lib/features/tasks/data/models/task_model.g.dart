@@ -1,3 +1,4 @@
+
 part of 'task_model.dart';
 
 class TaskModelAdapter extends TypeAdapter<TaskModel> {
@@ -7,6 +8,7 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
   @override
   TaskModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
+
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++)
         reader.readByte(): reader.read(),
@@ -15,25 +17,22 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
     return TaskModel(
       title: fields[0] as String,
       date: fields[1] as String?,
-      startTime: fields[2] as DateTime,
-      endTime: fields[3] as DateTime,
-      isCompleted: fields[4] as bool,
+      endTime: fields[2] as DateTime,
+      isCompleted: fields[3] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, TaskModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
       ..write(obj.date)
       ..writeByte(2)
-      ..write(obj.startTime)
-      ..writeByte(3)
       ..write(obj.endTime)
-      ..writeByte(4)
+      ..writeByte(3)
       ..write(obj.isCompleted);
   }
 
