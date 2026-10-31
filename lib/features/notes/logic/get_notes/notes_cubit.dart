@@ -54,4 +54,12 @@ class NotesCubit extends Cubit<NotesState> {
   bool isNoteSelected(NoteModel note) {
     return selectedNotes.contains(note);
   }
+  
+  @override
+Future<void> close() {
+  title?.dispose();
+  describtion?.dispose();
+  return super.close();
+}
+
 }

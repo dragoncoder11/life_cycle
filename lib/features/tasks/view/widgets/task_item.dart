@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/features/tasks/data/models/task_model.dart';
 import 'package:intl/intl.dart';
+import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
 
 class TaskItem extends StatelessWidget {
   const TaskItem({super.key, required this.taskModel});
@@ -13,20 +15,24 @@ class TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     //final startTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
 
-    final endTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
+    final endTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime!);
 
-    final dayName = DateFormat('EEE', 'en').format(taskModel.endTime);
+    final dayName = DateFormat('EEE', 'en').format(taskModel.endTime!);
 
-    final dayNumber = DateFormat('dd', 'en').format(taskModel.endTime);
+    final dayNumber = DateFormat('dd', 'en').format(taskModel.endTime!);
 
-    final monthName = DateFormat('MMM', 'en').format(taskModel.endTime);
+    final monthName = DateFormat('MMM', 'en').format(taskModel.endTime!);
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          Routes.editTaskScreen,
-        ); //arguments: TaskModel//
-      },
+  onTap: () {
+  Navigator.pushNamed(
+    context,
+    Routes.editTaskScreen,
+    arguments: {
+      'task': taskModel,
+      'cubit': BlocProvider.of<TasksCubit>(context),
+    },
+  );
+},
       child: Card(
         elevation: 3,
         child: Container(
@@ -68,7 +74,7 @@ class TaskItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              taskModel.title,
+                              taskModel.title!,
                               style: AppTextStyles.interBlack(
                                 18,
                                 FontWeight.bold,
@@ -83,7 +89,7 @@ class TaskItem extends StatelessWidget {
                                 horizontalSpace(4),
                                 Flexible(
                                   child: Text(
-                                    '$endTime',
+                                    endTime,
                                     style: AppTextStyles.interGrey(
                                       11,
                                       FontWeight.w400,

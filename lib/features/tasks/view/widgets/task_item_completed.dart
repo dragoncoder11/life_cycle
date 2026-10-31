@@ -13,13 +13,13 @@ class TaskItemCompleted extends StatelessWidget {
   Widget build(BuildContext context) {
     //final startTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
 
-    final endTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
+    final endTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime!);
 
-    final dayName = DateFormat('EEE', 'en').format(taskModel.endTime);
+    final dayName = DateFormat('EEE', 'en').format(taskModel.endTime!);
 
-    final dayNumber = DateFormat('dd', 'en').format(taskModel.endTime);
+    final dayNumber = DateFormat('dd', 'en').format(taskModel.endTime!);
 
-    final monthName = DateFormat('MMM', 'en').format(taskModel.endTime);
+    final monthName = DateFormat('MMM', 'en').format(taskModel.endTime!);
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
@@ -68,7 +68,7 @@ class TaskItemCompleted extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              taskModel.title,
+                              taskModel.title!,
                               style: AppTextStyles.interBlack(
                                 18,
                                 FontWeight.bold,

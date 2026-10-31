@@ -26,16 +26,16 @@ class TasksListview extends StatelessWidget {
 
         final filteredTasks = tasks.where((task) {
           final taskDate = DateTime(
-            task.endTime.year,
-            task.endTime.month,
-            task.endTime.day,
+            task.endTime!.year,
+            task.endTime!.month,
+            task.endTime!.day,
           );
 
           // Today
           if (cubit.selectedIndex == 0) {
             return taskDate == today &&
                 task.isCompleted != true &&
-                task.endTime.isAfter(now);
+                task.endTime!.isAfter(now);
           }
 
           // Upcoming
@@ -47,14 +47,14 @@ class TasksListview extends StatelessWidget {
           // Completed
           if (cubit.selectedIndex == 2) {
             return task.isCompleted == true ||
-                !task.endTime.isAfter(now);
+                !task.endTime!.isAfter(now);
           }
 
           return false;
         }).toList();
 
         filteredTasks.sort(
-          (a, b) => b.endTime.compareTo(a.endTime),
+          (a, b) => b.endTime!.compareTo(a.endTime!),
         );
 
         return ListView.builder(

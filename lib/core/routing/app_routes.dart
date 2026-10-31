@@ -85,7 +85,15 @@ class AppRoutes {
           ),
         );
       case Routes.editTaskScreen:
-        return CustomPageRoute(builder: (_) => const EditTaskScreen());
+        final args = routeSettings.arguments as Map<String, dynamic>;
+
+        return CustomPageRoute(
+          settings: routeSettings,
+          builder: (_) => BlocProvider.value(
+            value: args['cubit'] as TasksCubit,
+            child: const EditTaskScreen(),
+          ),
+        );
       case Routes.notificationsScreen:
         return CustomPageRoute(builder: (_) => const NotificationsScreen());
       case Routes.addTransactionScreen:

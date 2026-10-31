@@ -29,6 +29,7 @@ class AddTaskCubit extends Cubit<AddTaskState> {
   final TextEditingController startDateController =
       TextEditingController();
 
+
   // Add Task
   Future<void> addTask(TaskModel task) async {
     emit(AddTaskLoading());
@@ -47,8 +48,8 @@ class AddTaskCubit extends Cubit<AddTaskState> {
       try {
         await NotificationService.scheduleTaskNotification(
           id: taskKey,
-          title: task.title,
-          scheduledDate: task.endTime,
+          title: task.title!,
+          scheduledDate: task.endTime!,
         );
 
         debugPrint('TASK NOTIFICATION SCHEDULED');
@@ -61,8 +62,8 @@ class AddTaskCubit extends Cubit<AddTaskState> {
       try {
         await TaskAlarmService.scheduleTaskAlarm(
           id: taskKey,
-          title: task.title,
-          scheduledDate: task.endTime,
+          title: task.title!,
+          scheduledDate: task.endTime!,
         );
 
         debugPrint('TASK ALARM REQUEST COMPLETED');
@@ -262,4 +263,5 @@ class AddTaskCubit extends Cubit<AddTaskState> {
 
     return super.close();
   }
+
 }

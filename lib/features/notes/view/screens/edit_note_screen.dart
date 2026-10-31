@@ -31,67 +31,72 @@ class EditNoteScreen extends StatelessWidget {
             top: 16.0.h,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_ios, color: AppColors.textPrimary),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    verticalSpace(10.h),
+                    Text(
+                      'Edit Note',
+                      style: AppTextStyles.interBlack(24, FontWeight.bold),
+                    ),
+                    verticalSpace(10.h),
+                
+                    Text(
+                      'Edit Note',
+                      style: AppTextStyles.interBlack(16, FontWeight.w500),
+                    ),
+                    verticalSpace(4.h),
+                    CustomTextFormField(
+                      // onChanged: (newTitle) {
+                      //   cubit.title!.text = newTitle;
+                      // },
+                      controller: cubit.title,
+                      maxLines: 1,
+                      filled: true,
+                    ),
+                    verticalSpace(8.h),
+                    Text(
+                      'Edit Description',
+                      style: AppTextStyles.interBlack(16, FontWeight.w500),
+                    ),
+                    verticalSpace(4.h),
+                    CustomTextFormField(
+                      filled: true,
+                      // onChanged: (newDescribtion) {
+                      //   cubit.describtion!.text = newDescribtion;
+                      // },
+                      controller: cubit.describtion,
+                      maxLines: 5,
+                    ),                   
+                  ],
+                ),
               ),
-              verticalSpace(10.h),
-              Text(
-                'Edit Note',
-                style: AppTextStyles.interBlack(24, FontWeight.bold),
-              ),
-              verticalSpace(10.h),
-
-              Text(
-                'Edit Note',
-                style: AppTextStyles.interBlack(16, FontWeight.w500),
-              ),
-              verticalSpace(4.h),
-              CustomTextFormField(
-                // onChanged: (newTitle) {
-                //   cubit.title!.text = newTitle;
-                // },
-                controller: cubit.title,
-                maxLines: 1,
-                filled: true,
-              ),
-              verticalSpace(8.h),
-              Text(
-                'Edit Description',
-                style: AppTextStyles.interBlack(16, FontWeight.w500),
-              ),
-              verticalSpace(4.h),
-              CustomTextFormField(
-                filled: true,
-                // onChanged: (newDescribtion) {
-                //   cubit.describtion!.text = newDescribtion;
-                // },
-                controller: cubit.describtion,
-                maxLines: 5,
-              ),
-              Spacer(),
-              CustomButton(
-                onTap: () async {
-                  noteModel.title = cubit.title!.text.trim().isEmpty
-                      ? noteModel.title
-                      : cubit.title!.text.trim();
-
-                  noteModel.content = cubit.describtion!.text.trim().isEmpty
-                      ? noteModel.content
-                      : cubit.describtion!.text.trim();
-
-                  await noteModel.save();
-
-                  cubit.fetchNotes();
-
-                  Navigator.pop(context);
-                },
-                title: 'Edit Note',
-              ),
+               CustomButton(
+                      onTap: () async {
+                        noteModel.title = cubit.title!.text.trim().isEmpty
+                            ? noteModel.title
+                            : cubit.title!.text.trim();
+                
+                        noteModel.content = cubit.describtion!.text.trim().isEmpty
+                            ? noteModel.content
+                            : cubit.describtion!.text.trim();
+                
+                        await noteModel.save();
+                
+                        cubit.fetchNotes();
+                
+                        Navigator.pop(context);
+                      },
+                      title: 'Edit Note',
+                    ),
             ],
           ),
         ),
