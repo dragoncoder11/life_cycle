@@ -6,4 +6,6 @@ sealed class TasksState {}
 final class TasksInitial extends TasksState {}
 final class IndexChanged extends TasksState {}
 final class TasksSuccess extends TasksState {}
+final class TasksChangesBetweenCategories extends TasksState {}
+
 

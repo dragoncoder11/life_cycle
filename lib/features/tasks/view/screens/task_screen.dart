@@ -71,7 +71,7 @@ class TaskScreen extends StatelessWidget {
           BlocBuilder<TasksCubit, TasksState>(
             builder: (context, state) {
               var cubit = context.read<TasksCubit>();
-              return TaskCategoriesRow(cubit: cubit);
+              return TaskCategoriesRow();
             },
           ),
           verticalSpace(12.h),
