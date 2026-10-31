@@ -22,6 +22,6 @@ void main() async {
   await Hive.openBox<TaskModel>(kTasksBox);
   await Alarm.init();
   await NotificationService.initialize();
-  await NotificationService.showTestNotification();
+ // await NotificationService.showTestNotification();
   runApp(const LifeCycle());
 }

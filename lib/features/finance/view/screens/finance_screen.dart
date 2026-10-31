@@ -17,7 +17,6 @@ import 'package:life_cycle/features/finance/view/widgets/transaction_list.dart';
 class FinanceScreen extends StatelessWidget {
   const FinanceScreen({super.key});
 
-  // إجمالي الدخل
   double get totalExpenses {
     return transactions
         .where(
@@ -30,7 +29,6 @@ class FinanceScreen extends StatelessWidget {
         );
   }
 
-  // إجمالي المصروفات
   double get totalIncome {
     return transactions
         .where(

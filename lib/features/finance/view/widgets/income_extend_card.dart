@@ -27,7 +27,7 @@ class IncomeExtendCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var queryWidth = MediaQuery.of(context).size.width;
-    var queryHeight = MediaQuery.of(context).size.height;
+ //   var queryHeight = MediaQuery.of(context).size.height;
     return Container(
       width: queryWidth * .4,
       padding: EdgeInsets.all(12),

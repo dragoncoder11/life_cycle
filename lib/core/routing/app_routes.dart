@@ -9,6 +9,7 @@ import 'package:life_cycle/features/finance/view/screens/add_transaction_screen.
 import 'package:life_cycle/features/finance/view/screens/finance_screen.dart';
 import 'package:life_cycle/features/home/view/screens/home_screen.dart';
 import 'package:life_cycle/features/notes/logic/add_note_cubit/add_note_cubit.dart';
+import 'package:life_cycle/features/notes/logic/get_notes/notes_cubit.dart';
 import 'package:life_cycle/features/notes/view/screens/edit_note_screen.dart';
 import 'package:life_cycle/features/notes/view/screens/note_screen.dart';
 import 'package:life_cycle/features/notifications/view/screens/notifications_screen.dart';
@@ -20,7 +21,7 @@ import 'package:life_cycle/features/tasks/view/screens/task_screen.dart';
 import 'package:life_cycle/splash_screen.dart';
 
 class CustomPageRoute extends MaterialPageRoute {
-  CustomPageRoute({required super.builder});
+  CustomPageRoute({required super.builder, super.settings});
 
   @override
   Duration get transitionDuration => const Duration(milliseconds: 750);
@@ -47,8 +48,11 @@ class AppRoutes {
         );
       case Routes.noteScreen:
         return CustomPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => AddNoteCubit(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => AddNoteCubit()),
+              BlocProvider(create: (context) => NotesCubit()..fetchNotes()),
+            ],
             child: const NoteScreen(),
           ),
         );
@@ -71,7 +75,15 @@ class AppRoutes {
       case Routes.splashScreen:
         return CustomPageRoute(builder: (_) => const SplashScreen());
       case Routes.editNoteScreen:
-        return CustomPageRoute(builder: (_) => const EditNoteScreen());
+        final args = routeSettings.arguments as Map<String, dynamic>;
+
+        return CustomPageRoute(
+          settings: routeSettings,
+          builder: (_) => BlocProvider.value(
+            value: args['cubit'] as NotesCubit,
+            child: const EditNoteScreen(),
+          ),
+        );
       case Routes.editTaskScreen:
         return CustomPageRoute(builder: (_) => const EditTaskScreen());
       case Routes.notificationsScreen:

@@ -30,9 +30,9 @@
 import 'package:hive/hive.dart';
 
 class NoteModel extends HiveObject {
-  final String? image;
-  final String title;
-  final String content;
+   String? image;
+   String title;
+   String content;
   final DateTime createdAt;
   final DateTime? updatedAt;
 

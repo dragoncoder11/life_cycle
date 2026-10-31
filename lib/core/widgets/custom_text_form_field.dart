@@ -15,7 +15,7 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.onSaved,
     this.validate,
-    this.textStyle, this.onTap, this.readOnly=false,
+    this.textStyle, this.onTap, this.readOnly=false, this.onChanged,
   });
 
   final int? maxLines;
@@ -31,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextStyle? textStyle;
   final void Function()? onTap;
   final bool readOnly;
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,6 +46,7 @@ class CustomTextFormField extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextFormField(
+        onChanged: onChanged,
         readOnly:readOnly ,
         onTap: onTap,
         style: textStyle,

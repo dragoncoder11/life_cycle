@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
-import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_circle_avatar.dart';
@@ -77,8 +76,8 @@ class TransactionItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '${transactionModel.type == TransactionType.expense ? '+' : '-'} ${transactionModel.amount.toStringAsFixed(0)} EGP',
-                    style: transactionModel.type == TransactionType.expense
+                    '${transactionModel.type == TransactionType.income ? '+' : '-'} ${transactionModel.amount.toStringAsFixed(0)} EGP',
+                    style: transactionModel.type == TransactionType.income
                         ? AppTextStyles.interBlack(
                             11,
                             FontWeight.bold,
