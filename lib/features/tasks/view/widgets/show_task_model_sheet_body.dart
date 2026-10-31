@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
+
 import 'package:life_cycle/features/tasks/data/models/task_model.dart';
 import 'package:life_cycle/features/tasks/logic/add_task/add_task_cubit.dart';
 import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
@@ -16,7 +17,7 @@ class ShowTaskModelSheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<AddTaskCubit>(context);
+    final cubit = context.read<AddTaskCubit>();
 
     return Container(
       decoration: const BoxDecoration(
@@ -29,7 +30,7 @@ class ShowTaskModelSheetBody extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(
           top: 32.h,
-          bottom: 16.w,
+          bottom: 16.h,
           left: 16.w,
           right: 16.w,
         ),
@@ -40,6 +41,7 @@ class ShowTaskModelSheetBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Task Title
                 Text(
                   'Add Task',
                   style: AppTextStyles.interWhite(
@@ -59,28 +61,29 @@ class ShowTaskModelSheetBody extends StatelessWidget {
                   controller: cubit.titleController,
                   validate: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'field is required';
+                      return 'Field is required';
                     }
 
                     return null;
                   },
                 ),
 
-                verticalSpace(6.h),
+                verticalSpace(12.h),
 
+                // Date And Time
                 Text(
-                  'From',
+                  'Reminder',
                   style: AppTextStyles.interWhite(
                     16,
                     FontWeight.w500,
                   ),
                 ),
 
-                verticalSpace(4),
+                verticalSpace(4.h),
 
                 CustomTextFormField(
                   onTap: () {
-                    cubit.pickedTheDate(
+                    cubit.pickedDateTime(
                       cubit.startDateController,
                       context,
                     );
@@ -89,57 +92,17 @@ class ShowTaskModelSheetBody extends StatelessWidget {
                     16,
                     FontWeight.w600,
                   ),
-                  hintText: 'Select date',
+                  hintText: 'Select date and time',
                   maxLines: 1,
                   prefixIcon: Icon(
-                    Icons.date_range,
+                    Icons.calendar_month,
                     color: AppColors.background,
                   ),
                   controller: cubit.startDateController,
                   readOnly: true,
                   validate: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'field is required';
-                    }
-
-                    return null;
-                  },
-                ),
-
-                verticalSpace(6.h),
-
-                Text(
-                  'Time',
-                  style: AppTextStyles.interWhite(
-                    16,
-                    FontWeight.w500,
-                  ),
-                ),
-
-                verticalSpace(4),
-
-                CustomTextFormField(
-                  onTap: () {
-                    cubit.pickedTheTime(
-                      cubit.endDateController,
-                      context,
-                    );
-                  },
-                  textStyle: AppTextStyles.interWhite(
-                    16,
-                    FontWeight.w600,
-                  ),
-                  hintText: 'Select time',
-                  maxLines: 1,
-                  prefixIcon: Icon(
-                    Icons.schedule,
-                    color: AppColors.background,
-                  ),
-                  controller: cubit.endDateController,
-                  readOnly: true,
-                  validate: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'field is required';
+                      return 'Field is required';
                     }
 
                     return null;
@@ -148,6 +111,7 @@ class ShowTaskModelSheetBody extends StatelessWidget {
 
                 verticalSpace(40.h),
 
+                // Add Task Button
                 BlocConsumer<AddTaskCubit, AddTaskState>(
                   listener: (context, state) {
                     if (state is AddTaskFailure) {
@@ -156,10 +120,9 @@ class ShowTaskModelSheetBody extends StatelessWidget {
                           content: Text(state.errMessage),
                         ),
                       );
-                    }
-
-                    if (state is AddTaskSuccess) {
+                    }if (state is AddTaskSuccess) {
                       context.read<TasksCubit>().fetchTasks();
+
                       Navigator.pop(context);
                     }
                   },
@@ -177,7 +140,7 @@ class ShowTaskModelSheetBody extends StatelessWidget {
 
                         try {
                           endTime = cubit.getSelectedDateTime();
-                        } catch (_) {
+                        } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
@@ -185,16 +148,19 @@ class ShowTaskModelSheetBody extends StatelessWidget {
                               ),
                             ),
                           );
+
                           return;
                         }
+
                         if (!endTime.isAfter(DateTime.now())) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
-                                'Please select a time in the future',
+                                'Please select a future date and time',
                               ),
                             ),
                           );
+
                           return;
                         }
 
