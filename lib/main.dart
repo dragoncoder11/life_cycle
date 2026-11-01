@@ -5,6 +5,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:life_cycle/core/helper/app_constants.dart';
 import 'package:life_cycle/core/utils/notification_server.dart';
 import 'package:life_cycle/core/utils/simple_bloc_observer.dart';
+import 'package:life_cycle/features/finance/data/models/transaction_category_model.g.dart';
+import 'package:life_cycle/features/finance/data/models/transaction_model.dart';
+import 'package:life_cycle/features/finance/data/models/transaction_model.g.dart';
+import 'package:life_cycle/features/finance/data/models/transaction_type.g.dart';
 import 'package:life_cycle/features/notes/data/models/note_model.dart';
 import 'package:life_cycle/features/notes/data/models/note_model_adapter.dart';
 import 'package:life_cycle/features/tasks/data/models/task_model.dart';
@@ -20,8 +24,14 @@ void main() async {
   await Hive.openBox<NoteModel>(kNotesBox);
   Hive.registerAdapter(TaskModelAdapter());
   await Hive.openBox<TaskModel>(kTasksBox);
+  Hive.registerAdapter(TransactionCategoryModelAdapter());
+  Hive.registerAdapter(TransactionModelAdapter());
+  Hive.registerAdapter(TransactionTypeAdapter());
+  await Hive.openBox<TransactionModel>(kTransactionsBox);
+    await Hive.openBox<double>(kInitialBalanceBox);
+
   await Alarm.init();
   await NotificationService.initialize();
- // await NotificationService.showTestNotification();
+  // await NotificationService.showTestNotification();
   runApp(const LifeCycle());
 }

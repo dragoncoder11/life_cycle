@@ -3,7 +3,7 @@ part of 'task_model.dart';
 
 class TaskModelAdapter extends TypeAdapter<TaskModel> {
   @override
-  final int typeId = 2;
+  final int typeId = 1;
 
   @override
   TaskModel read(BinaryReader reader) {

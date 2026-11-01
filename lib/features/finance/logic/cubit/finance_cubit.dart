@@ -1,21 +1,45 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:life_cycle/core/helper/app_constants.dart';
 
 import 'package:life_cycle/features/finance/data/models/transaction_model.dart';
 import 'package:life_cycle/features/finance/logic/cubit/finance_state.dart';
-import 'package:life_cycle/features/finance/view/widgets/transaction_list.dart';
 
 class FinanceCubit extends Cubit<FinanceState> {
+  late final Future<void> _loadFuture;
+
   FinanceCubit()
       : super(
           FinanceState(
             initialBalance: 0,
-            transactions: List.from(transactions),
+            transactions: [],
             selectedMonth: DateTime(
               DateTime.now().year,
               DateTime.now().month,
             ),
           ),
-        );
+        ) {
+    _loadFuture = _loadFinanceData();
+  }
+
+  // Load saved data from Hive
+  Future<void> _loadFinanceData() async {
+    final transactionsBox = Hive.box<TransactionModel>(kTransactionsBox);
+    final financeBox = Hive.box<double>(kInitialBalanceBox);
+
+    final transactions = transactionsBox.values.toList();
+    final initialBalance =
+        financeBox.get('initialBalance', defaultValue: 0.0) ?? 0.0;
+
+    if (isClosed) return;
+
+    emit(
+      state.copyWith(
+        initialBalance: initialBalance,
+        transactions: transactions,
+      ),
+    );
+  }
 
   // Current Balance
   double get currentBalance {
@@ -34,12 +58,13 @@ class FinanceCubit extends Cubit<FinanceState> {
   }
 
   // Transactions of selected month
- List<TransactionModel> get selectedMonthTransactions {
-  return state.transactions.where((transaction) {
-    return transaction.date.year == state.selectedMonth.year &&
-        transaction.date.month == state.selectedMonth.month;
-  }).toList();
-}
+  List<TransactionModel> get selectedMonthTransactions {
+    return state.transactions.where((transaction) {
+      return transaction.date.year == state.selectedMonth.year &&
+          transaction.date.month == state.selectedMonth.month;
+    }).toList();
+  }
+
   // Monthly Income
   double get monthlyIncome {
     return selectedMonthTransactions
@@ -112,24 +137,42 @@ class FinanceCubit extends Cubit<FinanceState> {
   }
 
   // Set Initial Balance
-  void setInitialBalance(double amount) {
+  Future<void> setInitialBalance(double amount) async {
+    await _loadFuture;
+
+    if (isClosed) return;
+
+    final financeBox = Hive.box<double>(kInitialBalanceBox);
+
+    await financeBox.put('initialBalance', amount);
+
+    if (isClosed) return;
+
     emit(state.copyWith(initialBalance: amount));
   }
 
   // Add Transaction
- void addTransaction(TransactionModel transaction) {
-  final updatedTransactions = [
-    ...state.transactions,
-    transaction,
-  ];
+  Future<void> addTransaction(TransactionModel transaction) async {
+    await _loadFuture;
 
-  emit(
-    state.copyWith(
-      transactions: updatedTransactions,
-      clearVisibleType: true,
-    ),
-  );
-}
+    if (isClosed) return;final transactionsBox = Hive.box<TransactionModel>(kTransactionsBox);
+
+    await transactionsBox.add(transaction);
+
+    if (isClosed) return;
+
+    final updatedTransactions = [
+      ...state.transactions,
+      transaction,
+    ];
+
+    emit(
+      state.copyWith(
+        transactions: updatedTransactions,
+        clearVisibleType: true,
+      ),
+    );
+  }
 
   // Select Month
   void selectMonth(DateTime month) {
@@ -140,9 +183,12 @@ class FinanceCubit extends Cubit<FinanceState> {
       ),
     );
   }
-List<TransactionModel> get currentMonthTransactions {
-  return selectedMonthTransactions;
-}
+
+  // Current Month Transactions
+  List<TransactionModel> get currentMonthTransactions {
+    return selectedMonthTransactions;
+  }
+
   // Show / Hide Transactions
   void toggleTransactions(TransactionType type) {
     if (state.visibleTransactionType == type) {

@@ -150,7 +150,7 @@ class ListOfTransactionFields extends StatelessWidget {
   void _saveTransaction(
     BuildContext context,
     TransactionCategoriesCubit cubit,
-  ) {
+  ) async{
     final amount = double.tryParse(cubit.amount);
 
     if (amount == null || amount <= 0) {
@@ -191,7 +191,7 @@ class ListOfTransactionFields extends StatelessWidget {
       note: cubit.note.trim().isEmpty ? null : cubit.note.trim(),
     );
 
-    context.read<FinanceCubit>().addTransaction(transaction);
+   await context.read<FinanceCubit>().addTransaction(transaction);
 
     cubit.resetForm();
 
