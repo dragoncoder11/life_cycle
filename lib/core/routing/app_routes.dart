@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/features/button_nav_bar/logic/cubit/button_nav_bar_cubit.dart';
 import 'package:life_cycle/features/button_nav_bar/view/screens/button_nav_bar_screen.dart';
+import 'package:life_cycle/features/finance/logic/cubit/finance_cubit.dart';
 import 'package:life_cycle/features/finance/logic/cubit/transaction_categories_cubit.dart';
 import 'package:life_cycle/features/finance/view/screens/add_balance_screen.dart';
 import 'package:life_cycle/features/finance/view/screens/add_transaction_screen.dart';
@@ -37,8 +38,16 @@ class AppRoutes {
             child: const ButtonNavBarScreen(),
           ),
         );
-      case Routes.financeScreen:
-        return CustomPageRoute(builder: (_) => const FinanceScreen());
+       case Routes.financeScreen:
+        return CustomPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => TransactionCategoriesCubit()),
+              BlocProvider(create: (context) => FinanceCubit()),
+            ],
+            child: const FinanceScreen(),
+          ),
+        );
       case Routes.homeScreen:
         return CustomPageRoute(
           builder: (_) => BlocProvider(
@@ -98,8 +107,11 @@ class AppRoutes {
         return CustomPageRoute(builder: (_) => const NotificationsScreen());
       case Routes.addTransactionScreen:
         return CustomPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => TransactionCategoriesCubit(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => TransactionCategoriesCubit()),
+              BlocProvider(create: (context) => FinanceCubit()),
+            ],
             child: const AddTransactionScreen(),
           ),
         );

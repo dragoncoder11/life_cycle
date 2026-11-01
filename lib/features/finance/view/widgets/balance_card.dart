@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
@@ -8,15 +7,13 @@ import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_circle_avatar.dart';
 
 class BalanceCard extends StatelessWidget {
-  const BalanceCard({
-    super.key,
-  });
-
+  const BalanceCard({super.key, required this.balance});
+  final double balance;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-          Navigator.pushNamed(context, Routes.addBalanceScreen,);
+        Navigator.pushNamed(context, Routes.addBalanceScreen);
       },
       child: Container(
         padding: EdgeInsets.all(16),
@@ -36,7 +33,7 @@ class BalanceCard extends StatelessWidget {
                 ),
                 verticalSpace(10),
                 Text(
-                  '4000 EGP',
+                  '${balance.toStringAsFixed(0)} EGP',
                   style: AppTextStyles.interBlack(20, FontWeight.bold),
                 ),
               ],

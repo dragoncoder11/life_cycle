@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:life_cycle/features/finance/logic/cubit/finance_cubit.dart';
 import 'package:life_cycle/features/finance/logic/cubit/transaction_categories_cubit.dart';
 import 'package:life_cycle/features/finance/view/screens/finance_screen.dart';
 import 'package:life_cycle/features/home/view/screens/home_screen.dart';
@@ -46,10 +47,14 @@ class ButtonNavBarCubit extends Cubit<ButtonNavBarState> {
         ],
         child: const TaskScreen(),
       ),
-      BlocProvider(
-        create: (context) => TransactionCategoriesCubit(),
-        child: const FinanceScreen(),
-      ),
+     MultiBlocProvider(
+            providers: [
+              BlocProvider<FinanceCubit>(create: (context) => FinanceCubit()),
+              BlocProvider<TransactionCategoriesCubit>(create: (context) => TransactionCategoriesCubit()),
+            ],
+            child: const FinanceScreen(),
+          ),
     ];
+           
   }
 }

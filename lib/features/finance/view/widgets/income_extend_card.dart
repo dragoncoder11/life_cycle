@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:life_cycle/core/helper/spacing.dart';
-import 'package:life_cycle/core/widgets/custom_circle_avatar.dart';
 
 class IncomeExtendCard extends StatelessWidget {
+  final Color cardColor;
+  final IconData icon;
+  final Color iconColor;
+  final Color circleColor;
+  final String title;
+  final double price;
+  final TextStyle titleStyle;
+  final TextStyle priceStyle;
+  final bool showViewAll;
+  final VoidCallback? onViewAll;
+
   const IncomeExtendCard({
     super.key,
     required this.cardColor,
@@ -14,44 +23,69 @@ class IncomeExtendCard extends StatelessWidget {
     required this.price,
     required this.titleStyle,
     required this.priceStyle,
+    this.showViewAll = false,
+    this.onViewAll,
   });
-  final Color cardColor;
-  final IconData icon;
-  final Color iconColor;
-  final Color circleColor;
-  final String title;
-  final double price;
-  final TextStyle titleStyle;
-  final TextStyle priceStyle;
 
   @override
   Widget build(BuildContext context) {
-    var queryWidth = MediaQuery.of(context).size.width;
- //   var queryHeight = MediaQuery.of(context).size.height;
     return Container(
-      width: queryWidth * .4,
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: cardColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Row(
         children: [
-          CustomCircleAvatar(
-            radius: 18.r,
-            icon: icon,
-            iconSize: 24.r,
-            color: circleColor,
-            iconColor: iconColor,
+          CircleAvatar(
+            radius: 16.r,
+            backgroundColor: circleColor,
+            child: Icon(
+              icon,
+              color: iconColor,
+              size: 18.r,
+            ),
           ),
-          horizontalSpace(7),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: titleStyle),
-              verticalSpace(4),
-              Text('${price.toInt()} EGP', style: priceStyle),
-            ],
+
+          SizedBox(width: 6.w),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: titleStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+                SizedBox(height: 3.h),
+
+                Text(
+                  '${price.toStringAsFixed(0)} EGP',
+                  style: priceStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+                if (showViewAll) ...[
+                  SizedBox(height: 3.h),
+
+                  GestureDetector(
+                    onTap: onViewAll,
+                    child: Text(
+                      'View All',
+                      style: titleStyle.copyWith(
+                        fontSize: 10.sp,
+                        decoration: TextDecoration.underline,
+                        decorationColor: titleStyle.color,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
         ],
       ),
