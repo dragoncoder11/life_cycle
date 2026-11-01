@@ -4,10 +4,11 @@ import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, this.title, this.onTap, this.onCenter});
+  const CustomButton({super.key, this.title, this.onTap, this.onCenter, this.size});
  final String? title;
  final GestureTapCallback? onTap;
  final Widget? onCenter;
+ final double? size;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -23,7 +24,7 @@ class CustomButton extends StatelessWidget {
       ),
       child: onCenter?? Text(
         title!,
-        style: AppTextStyles.interWhite(24, FontWeight.w600),
+        style: AppTextStyles.interWhite(size ?? 24, FontWeight.w600),
       ),
     );
   }

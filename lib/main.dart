@@ -28,7 +28,7 @@ void main() async {
   Hive.registerAdapter(TransactionModelAdapter());
   Hive.registerAdapter(TransactionTypeAdapter());
   await Hive.openBox<TransactionModel>(kTransactionsBox);
-    await Hive.openBox<double>(kInitialBalanceBox);
+    await Hive.openBox<dynamic>(kInitialBalanceBox);
 
   await Alarm.init();
   await NotificationService.initialize();

@@ -1,22 +1,30 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:life_cycle/core/helper/app_constants.dart';
 
+import 'package:life_cycle/core/helper/app_constants.dart';
 import 'package:life_cycle/features/finance/data/models/transaction_model.dart';
 import 'package:life_cycle/features/finance/logic/cubit/finance_state.dart';
 
 class FinanceCubit extends Cubit<FinanceState> {
   late final Future<void> _loadFuture;
 
+  final TextEditingController initialBalanceController =
+      TextEditingController();
+
+  bool _hasShownInitialBalanceDialog = false;
+
   FinanceCubit()
       : super(
           FinanceState(
             initialBalance: 0,
+            isInitialBalanceSet: false,
             transactions: [],
             selectedMonth: DateTime(
               DateTime.now().year,
               DateTime.now().month,
             ),
+            isLoading: true,
           ),
         ) {
     _loadFuture = _loadFinanceData();
@@ -24,21 +32,62 @@ class FinanceCubit extends Cubit<FinanceState> {
 
   // Load saved data from Hive
   Future<void> _loadFinanceData() async {
-    final transactionsBox = Hive.box<TransactionModel>(kTransactionsBox);
-    final financeBox = Hive.box<double>(kInitialBalanceBox);
+    final transactionsBox =
+        Hive.box<TransactionModel>(kTransactionsBox);
+
+    final financeBox = Hive.box<dynamic>(kInitialBalanceBox);
 
     final transactions = transactionsBox.values.toList();
+
     final initialBalance =
-        financeBox.get('initialBalance', defaultValue: 0.0) ?? 0.0;
+        (financeBox.get('initialBalance', defaultValue: 0.0) as num)
+            .toDouble();
+
+    final isInitialBalanceSet =
+        financeBox.get('isInitialBalanceSet', defaultValue: false) as bool;
+
+    _hasShownInitialBalanceDialog =
+        financeBox.get(
+          'hasSeenInitialBalanceDialog',
+          defaultValue: false,
+        ) as bool;
+
+    initialBalanceController.text =
+        isInitialBalanceSet ? initialBalance.toString() : '';
 
     if (isClosed) return;
 
     emit(
       state.copyWith(
         initialBalance: initialBalance,
+        isInitialBalanceSet: isInitialBalanceSet,
         transactions: transactions,
+        isLoading: false,
       ),
     );
+  }
+
+  // Show Initial Balance Dialog only once
+  Future<bool> tryShowInitialBalanceDialog() async {
+    await _loadFuture;
+
+    if (isClosed ||
+        _hasShownInitialBalanceDialog ||
+        state.isLoading ||
+        state.isInitialBalanceSet) {
+      return false;
+    }
+
+    // Set immediately to prevent multiple scheduled callbacks
+    _hasShownInitialBalanceDialog = true;
+
+    final financeBox = Hive.box<dynamic>(kInitialBalanceBox);
+
+    await financeBox.put('hasSeenInitialBalanceDialog', true);
+
+    if (isClosed) return false;
+
+    return true;
   }
 
   // Current Balance
@@ -94,9 +143,7 @@ class FinanceCubit extends Cubit<FinanceState> {
     final now = DateTime.now();
     final currentMonth = DateTime(now.year, now.month);
 
-    final months = <DateTime>[currentMonth];
-
-    for (final transaction in state.transactions) {
+    final months = <DateTime>[currentMonth];for (final transaction in state.transactions) {
       final month = DateTime(
         transaction.date.year,
         transaction.date.month,
@@ -142,20 +189,31 @@ class FinanceCubit extends Cubit<FinanceState> {
 
     if (isClosed) return;
 
-    final financeBox = Hive.box<double>(kInitialBalanceBox);
+    final financeBox = Hive.box<dynamic>(kInitialBalanceBox);
 
     await financeBox.put('initialBalance', amount);
+    await financeBox.put('isInitialBalanceSet', true);
+
+    initialBalanceController.text = amount.toString();
 
     if (isClosed) return;
 
-    emit(state.copyWith(initialBalance: amount));
+    emit(
+      state.copyWith(
+        initialBalance: amount,
+        isInitialBalanceSet: true,
+      ),
+    );
   }
 
   // Add Transaction
   Future<void> addTransaction(TransactionModel transaction) async {
     await _loadFuture;
 
-    if (isClosed) return;final transactionsBox = Hive.box<TransactionModel>(kTransactionsBox);
+    if (isClosed) return;
+
+    final transactionsBox =
+        Hive.box<TransactionModel>(kTransactionsBox);
 
     await transactionsBox.add(transaction);
 
@@ -194,7 +252,15 @@ class FinanceCubit extends Cubit<FinanceState> {
     if (state.visibleTransactionType == type) {
       emit(state.copyWith(clearVisibleType: true));
     } else {
-      emit(state.copyWith(visibleTransactionType: type));
+      emit(
+        state.copyWith(visibleTransactionType: type),
+      );
     }
+  }
+
+  @override
+  Future<void> close() {
+    initialBalanceController.dispose();
+    return super.close();
   }
 }
