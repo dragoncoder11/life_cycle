@@ -18,7 +18,7 @@ class AppTextStyles {
 
   static TextStyle interWhite(double fontSize, FontWeight fontWeight) {
     return setInterTextStyle(
-      color: AppColors.surface,
+      color: AppColors.whiteColor,
       fontSize: fontSize.sp,
       fontWeight: fontWeight,
     );
@@ -26,7 +26,7 @@ class AppTextStyles {
 
   static TextStyle interBlack(double fontSize, FontWeight fontWeight) {
     return setInterTextStyle(
-      color: AppColors.textPrimary,
+      color: AppColors.darkGreenColor,
       fontSize: fontSize.sp,
       fontWeight: fontWeight,
     );
@@ -34,7 +34,7 @@ class AppTextStyles {
 
   static TextStyle interGrey(double fontSize, FontWeight fontWeight) {
     return setInterTextStyle(
-      color: AppColors.textSecondary,
+      color: AppColors.greyColor,
       fontSize: fontSize.sp,
       fontWeight: fontWeight,
     );
@@ -50,7 +50,7 @@ class AppTextStyles {
 
   static TextStyle interDarkGreen(double fontSize, FontWeight fontWeight) {
     return setInterTextStyle(
-      color: AppColors.primaryDark,
+      color: AppColors.kPrimaryDark,
       fontSize: fontSize.sp,
       fontWeight: fontWeight,
     );

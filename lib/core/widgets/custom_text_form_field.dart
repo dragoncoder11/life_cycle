@@ -5,7 +5,7 @@ import 'package:life_cycle/core/theme/app_text_styles.dart';
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    this.maxLines,
+    this.maxLines=1,
     this.hintText,
     this.prefixIcon,
     this.textInputType,
@@ -18,10 +18,11 @@ class CustomTextFormField extends StatelessWidget {
     this.textStyle,
     this.onTap,
     this.readOnly = false,
-    this.onChanged,
+    this.onChanged, this.minLines, this.textInputAction,
   });
 
   final int? maxLines;
+  final int? minLines;
   final String? hintText;
   final Widget? prefixIcon;
   final TextInputType? textInputType;
@@ -35,14 +36,14 @@ class CustomTextFormField extends StatelessWidget {
   final void Function()? onTap;
   final bool readOnly;
   final void Function(String)? onChanged;
+  final TextInputAction? textInputAction;
 
   // تحديد اتجاه الكتابة حسب أول حرف عربي أو إنجليزي
   TextDirection _getTextDirection(String text, TextDirection fallback) {
     for (final character in text.runes) {
       final char = String.fromCharCode(character);
 
-      if (RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]')
-          .hasMatch(char)) {
+      if (RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]').hasMatch(char)) {
         return TextDirection.rtl;
       }
 
@@ -90,6 +91,8 @@ class CustomTextFormField extends StatelessWidget {
 
   Widget _buildTextField(TextDirection direction) {
     return TextFormField(
+      textInputAction: textInputAction ?? TextInputAction.newline,
+      minLines: minLines ?? 1,
       textDirection: direction,
       textAlign: TextAlign.start,
       onChanged: onChanged,
@@ -100,31 +103,28 @@ class CustomTextFormField extends StatelessWidget {
       onSaved: onSaved,
       validator: validate,
       keyboardType: textInputType ?? TextInputType.text,
-      maxLines: maxLines ?? 1,
+      maxLines: maxLines ,
       cursorColor: AppColors.kPrimaryColor,
       decoration: InputDecoration(
         hintText: hintText ?? 'Enter text...',
         hintStyle: AppTextStyles.interGrey(14, FontWeight.w400),
         prefixIcon: prefixIcon,
-        iconColor: AppColors.textSecondary,
+        iconColor: AppColors.greyColor,
         filled: filled ?? false,
-        fillColor: (filled ?? false) ? (filledColor ?? AppColors.background) : null,
+        fillColor: (filled ?? false)
+            ? (filledColor ?? AppColors.whiteColor)
+            : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.textSecondary),
+          borderSide: BorderSide(color: AppColors.greyColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: AppColors.kPrimaryColor,
-            width: 1.5,
-          ),
+          borderSide: BorderSide(color: AppColors.kPrimaryColor, width: 1.5),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: borderColor ?? AppColors.textSecondary,
-          ),
+          borderSide: BorderSide(color: borderColor ?? AppColors.greyColor),
         ),
       ),
     );

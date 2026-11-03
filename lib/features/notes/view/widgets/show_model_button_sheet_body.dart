@@ -22,7 +22,7 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         ),
-        color: AppColors.textPrimary,
+        color: AppColors.darkGreenColor,
       ),
       child: Padding(
         padding: EdgeInsets.only(
@@ -32,9 +32,9 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
           right: 16.w,
         ),
         child: BlocConsumer<AddNoteCubit, AddNoteState>(
-          listener: (context, state) async{
+          listener: (context, state) async {
             if (state is AddNoteSuccess) {
-             await context.read<NotesCubit>().fetchNotes();
+              await context.read<NotesCubit>().fetchNotes();
               Navigator.pop(context);
             }
             if (state is AddNoteFailure) {
@@ -77,7 +77,10 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
                     CustomTextFormField(
                       textStyle: AppTextStyles.interWhite(16, FontWeight.w600),
                       hintText: 'Add Description',
-                      maxLines: 5,
+                      maxLines: null,
+                      minLines: 5,
+                      textInputType: TextInputType.multiline,
+                      textInputAction: TextInputAction.newline,
                       controller: cubit.contentController,
                       validate: (value) {
                         if (value == null || value.trim() == '') {

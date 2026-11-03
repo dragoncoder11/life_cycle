@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,7 +45,7 @@ class EditTaskScreen extends StatelessWidget {
                       IconButton(
                         icon: Icon(
                           Icons.arrow_back_ios,
-                          color: AppColors.textPrimary,
+                          color: AppColors.darkGreenColor,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
@@ -115,8 +116,9 @@ class EditTaskScreen extends StatelessWidget {
 
               CustomButton(
                 onTap: () async {
-                  await cubit.editTask(taskModel);if (context.mounted) {
-                    cubit.fetchTasks();
+                  await cubit.editTask(taskModel);
+
+                  if (context.mounted) {
                     Navigator.pop(context);
                   }
                 },

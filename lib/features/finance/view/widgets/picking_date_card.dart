@@ -16,7 +16,7 @@ final String date;
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
-      color: AppColors.background,
+      color: AppColors.whiteColor,
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(

@@ -7,6 +7,7 @@ import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/features/notes/data/models/note_model.dart';
 import 'package:life_cycle/features/notes/logic/get_notes/notes_cubit.dart';
+import 'package:life_cycle/features/notes/view/widgets/hilighted_text.dart';
 
 class NoteItem extends StatelessWidget {
   const NoteItem({super.key, required this.noteModel});
@@ -44,9 +45,11 @@ class NoteItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isSelected
                       ? Colors.red.withOpacity(0.15)
-                      : AppColors.background,
-                  border:Border.all( color: isSelected ? Colors.red : Colors.transparent,
-                    width: 1.5,),
+                      : AppColors.whiteColor,
+                  border: Border.all(
+                    color: isSelected ? Colors.red : Colors.transparent,
+                    width: 1.5,
+                  ),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -56,7 +59,7 @@ class NoteItem extends StatelessWidget {
                       offset: const Offset(0, 0),
                     ),
                   ],
-                ),         
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(
@@ -67,30 +70,31 @@ class NoteItem extends StatelessWidget {
                         height: 60.h,
                         fit: BoxFit.cover,
                       ),
-                
+
                       horizontalSpace(12),
-                
+
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              noteModel.title,
+                            HighlightedText(
+                              text: noteModel.title ?? '',
+                              query: cubit.searchQuery ?? '',
                               style: AppTextStyles.interBlack(
                                 18,
                                 FontWeight.bold,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
                             ),
-                
                             verticalSpace(4),
-                
-                            Text(
-                              noteModel.content,
-                              style: AppTextStyles.interGrey(14, FontWeight.w500),
-                              overflow: TextOverflow.ellipsis,
+                            HighlightedText(
+                              text: noteModel.content ?? '',
+                              query: cubit.searchQuery ?? '',
+                              style: AppTextStyles.interGrey(
+                                14,
+                                FontWeight.w500,
+                              ),
                               maxLines: 2,
+                              showMatchContext: true,
                             ),
                             verticalSpace(8),
                             Align(
@@ -106,7 +110,7 @@ class NoteItem extends StatelessWidget {
                           ],
                         ),
                       ),
-                
+
                       if (isSelected)
                         const Icon(
                           Icons.check_circle,

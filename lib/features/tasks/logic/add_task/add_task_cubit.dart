@@ -134,7 +134,7 @@ class AddTaskCubit extends Cubit<AddTaskState> {
   await showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: AppColors.textPrimary,
+    backgroundColor: AppColors.darkGreenColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(24),

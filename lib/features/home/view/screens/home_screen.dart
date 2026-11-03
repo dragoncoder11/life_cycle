@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
-import 'package:life_cycle/core/routing/app_routes.dart';
 import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
@@ -43,8 +42,8 @@ class HomeScreen extends StatelessWidget {
               child: CircleAvatar(
                 radius: 22.r,
                 child: Card(
-                  color: AppColors.background,
-                  shadowColor: AppColors.background,
+                  color: AppColors.whiteColor,
+                  shadowColor: AppColors.whiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.r),
                   ),
@@ -61,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                         Center(
                           child: Icon(
                             Icons.notifications,
-                            color: AppColors.background,
+                            color: AppColors.whiteColor,
                           ),
                         ),
                       ],

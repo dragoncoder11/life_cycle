@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -129,7 +128,7 @@ Future.delayed(const Duration(seconds: 3), () {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryDark,
+      backgroundColor: AppColors.kPrimaryDark,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -159,14 +158,14 @@ Future.delayed(const Duration(seconds: 3), () {
                   width: 170.w,
                   padding: EdgeInsets.all(10.w),
                   decoration: BoxDecoration(
-                    color: AppColors.surface.withValues(alpha: 0.08),
+                    color: AppColors.whiteColor.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(40.r),
                     border: Border.all(
-                      color: AppColors.primaryLight.withValues(alpha: 0.4),
+                      color: AppColors.kPrimaryLight.withValues(alpha: 0.4),
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primaryLight.withValues(alpha: 0.2),
+                        color: AppColors.kPrimaryLight.withValues(alpha: 0.2),
                         blurRadius: 35.r,
                         spreadRadius: 3.r,
                       ),
@@ -193,7 +192,7 @@ Future.delayed(const Duration(seconds: 3), () {
                 child: Text(
                   'Life Cycle',
                   style: TextStyle(
-                    color: AppColors.textOnPrimary,
+                    color: AppColors.whiteColor,
                     fontSize: 34.sp,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
@@ -217,7 +216,7 @@ Future.delayed(const Duration(seconds: 3), () {
                     child: Text(
                       'Organize',
                       style: TextStyle(
-                        color: AppColors.primaryLight,
+                        color: AppColors.kPrimaryLight,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                       ),
@@ -239,7 +238,7 @@ Future.delayed(const Duration(seconds: 3), () {
                     child: Text(
                       'Plan',
                       style: TextStyle(
-                        color: AppColors.primaryLight,
+                        color: AppColors.kPrimaryLight,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                       ),
@@ -261,7 +260,7 @@ Future.delayed(const Duration(seconds: 3), () {
                     child: Text(
                       'Achieve',
                       style: TextStyle(
-                        color: AppColors.primaryLight,
+                        color: AppColors.kPrimaryLight,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                       ),
@@ -280,7 +279,7 @@ Future.delayed(const Duration(seconds: 3), () {
                 width: 90.w,
                 child: LinearProgressIndicator(
                   minHeight: 3.h,
-                  backgroundColor: AppColors.surface.withValues(alpha: 0.15),
+                  backgroundColor: AppColors.whiteColor.withValues(alpha: 0.15),
                   valueColor: const AlwaysStoppedAnimation<Color>(
                     AppColors.accent,
                   ),

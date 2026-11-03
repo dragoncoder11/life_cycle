@@ -35,7 +35,7 @@ class TransactionCategory extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.background,
+                color: AppColors.whiteColor,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.12),
@@ -52,7 +52,7 @@ class TransactionCategory extends StatelessWidget {
                     : null,
               ),
               child: CustomCircleAvatar(
-                color: AppColors.background,
+                color: AppColors.whiteColor,
                 iconColor: categoryColor,
                 icon: category.icon,
                 iconSize: 30.r,

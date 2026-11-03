@@ -47,7 +47,7 @@ class TaskScreen extends StatelessWidget {
                         },
                         icon: const Icon(
                           Icons.close,
-                          color: AppColors.textPrimary,
+                          color: AppColors.darkGreenColor,
                         ),
                       ),
                     ] else
@@ -64,7 +64,7 @@ class TaskScreen extends StatelessWidget {
               return TaskCategoriesRow();
             },
           ),
-          verticalSpace(12.h),
+          verticalSpace(4.h),
           Expanded(child: TasksListview()),
         ],
       ),

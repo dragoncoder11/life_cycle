@@ -4,7 +4,7 @@ import 'package:life_cycle/features/button_nav_bar/data/models/home_card_model.d
 
 List<HomeCardModel>homeCards=[
   HomeCardModel(icon: Icons.note_add, title: 'Notes', color: AppColors.kPrimaryColor,),
-    HomeCardModel(icon: Icons.check_box, title: 'Tasks', color: AppColors.info,  ),
+    HomeCardModel(icon: Icons.check_box, title: 'Tasks', color: AppColors.blueColor,  ),
 
   HomeCardModel(icon: Icons.wallet, title: 'Finance', color: AppColors.financeYellow, ),
 

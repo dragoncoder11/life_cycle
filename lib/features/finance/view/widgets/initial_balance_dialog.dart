@@ -18,7 +18,7 @@ Future<void> showInitialBalanceDialog(
       barrierDismissible: true,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor: AppColors.background,
+          backgroundColor: AppColors.whiteColor,
           scrollable: true,
           insetPadding: EdgeInsets.symmetric(
             horizontal: 20.w,
@@ -67,7 +67,7 @@ Future<void> showInitialBalanceDialog(
                 ),
                 filled: true,
                 filledColor: Colors.white,
-                borderColor: AppColors.background,
+                borderColor: AppColors.whiteColor,
                 prefixIcon: Icon(
                   Icons.account_balance_wallet_outlined,
                   color: AppColors.kPrimaryColor,

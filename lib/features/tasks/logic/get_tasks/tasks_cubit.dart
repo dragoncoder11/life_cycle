@@ -1,10 +1,19 @@
+
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:life_cycle/core/helper/app_constants.dart';
+import 'package:life_cycle/core/helper/spacing.dart';
+import 'package:life_cycle/core/theme/app_colors.dart';
+import 'package:life_cycle/core/theme/app_text_styles.dart';
+import 'package:life_cycle/core/utils/notification_server.dart';
+import 'package:life_cycle/core/utils/task_alarm_services.dart';
+import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/features/tasks/data/models/task_model.dart';
 import 'package:meta/meta.dart';
 
@@ -49,36 +58,51 @@ class TasksCubit extends Cubit<TasksState> {
     emit(TasksSuccess());
   }
 
-// Task Selection to remove multiple tasks at once
+  // Task Selection
   Set<TaskModel> selectedTasks = {};
-bool get isSelectionMode => selectedTasks.isNotEmpty;
 
-void toggleTaskSelection(TaskModel task) {
-  if (selectedTasks.contains(task)) {
-    selectedTasks.remove(task);
-  } else {
-    selectedTasks.add(task);
+  bool get isSelectionMode => selectedTasks.isNotEmpty;
+
+  void toggleTaskSelection(TaskModel task) {
+    if (selectedTasks.contains(task)) {
+      selectedTasks.remove(task);
+    } else {
+      selectedTasks.add(task);
+    }
+
+    emit(TasksSuccess());
   }
 
-  emit(TasksSuccess());
-}
+  // Delete Selected Tasks
+  Future<void> deleteSelectedTasks() async {
+    final tasksToDelete = selectedTasks.toList();
 
-Future<void> deleteSelectedTasks() async {
-  for (var task in selectedTasks.toList()) {
-    await task.delete();
+    for (final task in tasksToDelete) {
+      final taskId = task.key as int;
+
+      await NotificationService.cancelTaskNotification(taskId);
+
+      await TaskAlarmService.cancelTaskAlarm(taskId);
+
+      await task.delete();
+
+      debugPrint('TASK DELETED: $taskId');
+    }
+
+    selectedTasks.clear();
+
+    fetchTasks();
   }
 
-  selectedTasks.clear();
-  fetchTasks();
-}
- void clearSelection() {
+  void clearSelection() {
     selectedTasks.clear();
     emit(TasksSuccess());
   }
-    // Check if task is selected
+
   bool isTaskSelected(TaskModel task) {
     return selectedTasks.contains(task);
   }
+
   // Tasks Timer
   void startTasksTimer() {
     tasksTimer?.cancel();
@@ -109,43 +133,172 @@ Future<void> deleteSelectedTasks() async {
     taskEndDate = TextEditingController(
       text: task.endTime == null
           ? ''
-          : DateFormat('dd/MM/yyyy hh:mm a')
+          : DateFormat('dd/MM/yyyy  HH:mm')
               .format(task.endTime!),
     );
   }
 
   // Pick New Date And Time
   Future<void> pickEditDateTime(BuildContext context) async {
-    final initialDate = selectedEndTime ?? DateTime.now();
+    final now = DateTime.now();
 
-    final pickedDate = await showDatePicker(
+    final minimumDate = now.add(
+      const Duration(minutes: 1),
+    );
+
+    DateTime selectedDateTime =
+        selectedEndTime != null &&
+                selectedEndTime!.isAfter(now)
+            ? selectedEndTime!
+            : minimumDate;
+
+    final weekDays = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
+
+    final months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    String formatDateTime(DateTime date) {
+      final dayName = weekDays[date.weekday - 1];
+      final monthName = months[date.month - 1];
+
+      final hour = date.hour.toString().padLeft(2, '0');
+      final minute = date.minute.toString().padLeft(2, '0');
+
+      return '$dayName, ${date.day} $monthName ${date.year} • $hour:$minute';
+    }
+
+    await showModalBottomSheet(
       context: context,
-      initialDate: initialDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      isScrollControlled: true,
+      backgroundColor: AppColors.darkGreenColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(24),
+        ),
+      ),
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return SizedBox(
+              height: 420.h,
+              child: Column(
+                children: [
+                  verticalSpace(20.h),
+
+                  // Title
+                  Text(
+                    'Edit Reminder',
+                    style: AppTextStyles.interWhite(
+                      22,
+                      FontWeight.bold,
+                    ),
+                  ),
+
+                  verticalSpace(12.h),
+
+                  // Selected Date And Time
+                  Text(
+                    formatDateTime(selectedDateTime),
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.interWhite(
+                      17,
+                      FontWeight.w500,
+                    ).copyWith(
+                      color: AppColors.kPrimaryColor,
+                    ),
+                  ),
+
+                  verticalSpace(12.h),
+
+                  // Date And Time Picker
+                  Expanded(
+                    child: CupertinoTheme(
+                      data: CupertinoThemeData(
+                        primaryColor: AppColors.kPrimaryColor,
+                        brightness: Brightness.dark,
+                      ),
+                      child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.dateAndTime,
+                        minimumDate: minimumDate,
+                        initialDateTime: selectedDateTime,
+                        use24hFormat: true,
+                        onDateTimeChanged: (dateTime) {
+                          setState(() {
+                            selectedDateTime = dateTime;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+
+                  // Done Button
+                  Padding(
+                    padding: EdgeInsets.all(16.h),
+                    child: CustomButton(
+                      onTap: () {
+                        if (!selectedDateTime.isAfter(DateTime.now())) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Please select a future date and time',
+                              ),
+                            ),
+                          );
+
+                          return;
+                        }
+
+                        selectedEndTime = selectedDateTime;
+
+                        taskEndDate?.text =
+                            '${selectedDateTime.day.toString().padLeft(2, '0')}/'
+                            '${selectedDateTime.month.toString().padLeft(2, '0')}/'
+                            '${selectedDateTime.year}  '
+                            '${selectedDateTime.hour.toString().padLeft(2, '0')}:'
+                            '${selectedDateTime.minute.toString().padLeft(2, '0')}';
+
+                        emit(TasksSuccess());
+
+                        Navigator.pop(sheetContext);
+                      },
+                      onCenter: Center(
+                        child: Text(
+                          'Done',
+                          style: AppTextStyles.interWhite(
+                            20,
+                            FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
-
-    if (pickedDate == null || !context.mounted) return;
-
-    final pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(initialDate),
-    );
-
-    if (pickedTime == null) return;
-
-    selectedEndTime = DateTime(
-      pickedDate.year,
-      pickedDate.month,
-      pickedDate.day,
-      pickedTime.hour,
-      pickedTime.minute,
-    );
-
-    taskEndDate?.text = DateFormat('dd/MM/yyyy hh:mm a')
-        .format(selectedEndTime!);
-
-    emit(TasksSuccess());
   }
 
   // Edit Task
@@ -156,11 +309,37 @@ Future<void> deleteSelectedTasks() async {
       return;
     }
 
+    if (!selectedEndTime!.isAfter(DateTime.now())) {
+      return;
+    }
+
+    final taskId = task.key as int;
+
     task.title = taskTitle!.text.trim();
 
     task.endTime = selectedEndTime;
 
     await task.save();
+
+    // Cancel old notification
+    await NotificationService.cancelTaskNotification(taskId);
+
+    // Cancel old alarm
+    await TaskAlarmService.cancelTaskAlarm(taskId);
+
+    // Schedule updated notification
+    await NotificationService.scheduleTaskNotification(
+      id: taskId,
+      title: task.title!,
+      scheduledDate: task.endTime!,
+    );
+
+    // Schedule updated alarm
+    await TaskAlarmService.scheduleTaskAlarm(
+      id: taskId,
+      title: task.title!,
+      scheduledDate: task.endTime!,
+    );
 
     fetchTasks();
   }

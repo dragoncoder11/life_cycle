@@ -162,7 +162,7 @@ class FinanceScreen extends StatelessWidget {
                             AppColors.kPrimaryColor.withOpacity(.3),
                         icon: Icons.arrow_upward,
                         iconColor: AppColors.kPrimaryColor,
-                        circleColor: AppColors.income,
+                        circleColor: AppColors.kPrimaryColor.withOpacity(.3),
                         title: 'Income',
                         price: cubit.monthlyIncome,
                         titleStyle: AppTextStyles.interDarkGreen(
@@ -200,7 +200,7 @@ class FinanceScreen extends StatelessWidget {
                         cardColor:
                             AppColors.expense.withOpacity(.4),
                         icon: Icons.arrow_downward,
-                        iconColor: AppColors.error,
+                        iconColor: AppColors.redColor,
                         circleColor: AppColors.expense,
                         title: 'Expenses',price: cubit.monthlyExpenses,
                         titleStyle: AppTextStyles.interRed(
@@ -250,7 +250,7 @@ class FinanceScreen extends StatelessWidget {
                         transactionModel: transaction,
                       ),
                     ),
-                  ),
+                  ).toList().reversed,
                 ],
 
                 verticalSpace(20.h),

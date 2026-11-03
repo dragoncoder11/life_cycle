@@ -110,7 +110,7 @@ class OnBoardingScreen extends StatelessWidget {
                         dotHeight: 16,
                         dotWidth: 16,
                         activeDotColor: AppColors.kPrimaryColor,
-                        dotColor: AppColors.textSecondary,
+                        dotColor: AppColors.greyColor,
                       ),
                     ),
                   ),

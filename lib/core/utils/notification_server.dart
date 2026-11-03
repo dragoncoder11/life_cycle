@@ -29,7 +29,7 @@ class NotificationService {
       );
 
       const androidSettings = AndroidInitializationSettings(
-        '@mipmap/ic_launcher',
+        'notification_small_logo',
       );
 
       const initializationSettings = InitializationSettings(
@@ -95,10 +95,16 @@ class NotificationService {
           android: AndroidNotificationDetails(
             'task_reminders',
             'Task Reminders',
-            channelDescription: 'Reminders for your scheduled tasks',
+            channelDescription:
+                'Reminders for your scheduled tasks',
             importance: Importance.max,
             priority: Priority.high,
             playSound: true,
+
+            // Large Icon
+            largeIcon: DrawableResourceAndroidBitmap(
+              'large_logo',
+            ),
           ),
         ),
         androidScheduleMode:
@@ -130,10 +136,16 @@ class NotificationService {
         android: AndroidNotificationDetails(
           'task_reminders',
           'Task Reminders',
-          channelDescription: 'Reminders for your scheduled tasks',
+          channelDescription:
+              'Reminders for your scheduled tasks',
           importance: Importance.max,
           priority: Priority.high,
           playSound: true,
+
+          // Large Icon
+          largeIcon: DrawableResourceAndroidBitmap(
+            'large_logo',
+          ),
         ),
       ),
     );
@@ -142,6 +154,7 @@ class NotificationService {
   // Cancel a scheduled notification
   static Future<void> cancelTaskNotification(int id) async {
     await _notifications.cancel(id: id);
+
     debugPrint('NOTIFICATION: Cancelled ID = $id');
   }
 }

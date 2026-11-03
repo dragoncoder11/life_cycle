@@ -32,7 +32,7 @@ class AddBalanceScreen extends StatelessWidget {
                           IconButton(
                             icon: Icon(
                               Icons.arrow_back_ios,
-                              color: AppColors.textPrimary,
+                              color: AppColors.darkGreenColor,
                             ),
                             onPressed: () {
                               Navigator.pop(context);
@@ -72,7 +72,7 @@ class AddBalanceScreen extends StatelessWidget {
 
                       CustomTextFormField(
                         controller: cubit.initialBalanceController,
-                        borderColor: AppColors.background,
+                        borderColor: AppColors.whiteColor,
                         textInputType:
                             const TextInputType.numberWithOptions(
                           decimal: true,

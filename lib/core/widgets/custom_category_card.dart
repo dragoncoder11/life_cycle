@@ -6,7 +6,7 @@ import 'package:life_cycle/core/theme/app_text_styles.dart';
 
 class CustomCategoryCard extends StatelessWidget {
   const CustomCategoryCard({
-    super.key, required this.title, this.color=AppColors.switchTrackOff,
+    super.key, required this.title, this.color=AppColors.greyColor,
   });
 final String title;
 final Color color;

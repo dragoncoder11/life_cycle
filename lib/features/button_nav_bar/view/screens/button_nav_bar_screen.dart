@@ -32,10 +32,10 @@ class ButtonNavBarScreen extends StatelessWidget {
             ),
             selectedFontSize: 13,
             selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
-            unselectedItemColor: AppColors.textSecondary,
+            unselectedItemColor: AppColors.greyColor,
             unselectedIconTheme: const IconThemeData(
               size: 28,
-              color: AppColors.textSecondary,
+              color: AppColors.greyColor,
             ),
             unselectedFontSize: 13,
             unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),

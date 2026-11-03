@@ -18,7 +18,7 @@ final double?radius;
       radius: radius?? 20.r,
       backgroundColor:color?? AppColors.kPrimaryColor,
       child: Center(
-        child: IconButton(onPressed: onPressed, icon: Icon(icon,color:iconColor?? AppColors.background), iconSize: iconSize?? 24,padding: EdgeInsets.zero,)
+        child: IconButton(onPressed: onPressed, icon: Icon(icon,color:iconColor?? AppColors.whiteColor), iconSize: iconSize?? 24,padding: EdgeInsets.zero,)
       ),
     );
   }

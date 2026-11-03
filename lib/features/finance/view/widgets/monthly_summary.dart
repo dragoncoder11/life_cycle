@@ -24,7 +24,7 @@ class MonthlySummary extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(12.w),
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: AppColors.whiteColor,
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
@@ -65,7 +65,7 @@ class MonthlySummary extends StatelessWidget {
                     ).copyWith(
                       color: cubit.netSavings >= 0
                           ? AppColors.kPrimaryColor
-                          : AppColors.error,
+                          : AppColors.redColor,
                     ),
                   ),
                 ],
@@ -102,7 +102,7 @@ class MonthlySummary extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: progress,
                   minHeight: 8.h,
-                  backgroundColor: AppColors.switchTrackOff,
+                  backgroundColor: AppColors.greyColor,
                   valueColor: AlwaysStoppedAnimation<Color>(
                    cubit.netSavings >= 0 ? AppColors.kPrimaryColor : AppColors.expense,
                   ),

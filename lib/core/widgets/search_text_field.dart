@@ -41,11 +41,11 @@ class _SearchTextFieldState extends State<SearchTextField> {
               Icons.search,
               color: hasFocus
                   ? AppColors.kPrimaryColor
-                  : AppColors.textSecondary,
+                  : AppColors.greyColor,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColors.textSecondary),
+              borderSide: BorderSide(color: AppColors.greyColor),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -56,7 +56,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColors.textSecondary),
+              borderSide: BorderSide(color: AppColors.greyColor),
             ),
           ),
         );

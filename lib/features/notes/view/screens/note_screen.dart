@@ -19,8 +19,6 @@ class NoteScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           verticalSpace(12.h),
-
-          // Header
           BlocBuilder<NotesCubit, NotesState>(
             builder: (context, state) {
               var cubit = context.read<NotesCubit>();
@@ -55,7 +53,7 @@ class NoteScreen extends StatelessWidget {
                       },
                       icon: const Icon(
                         Icons.close,
-                        color: AppColors.textPrimary,
+                        color: AppColors.darkGreenColor,
                       ),
                     ),
                   ] else
@@ -66,16 +64,30 @@ class NoteScreen extends StatelessWidget {
           ),
 
           verticalSpace(10.h),
-
-          // Search
-          CustomTextFormField(
-            filled: true,
-            borderColor: AppColors.background,
-            prefixIcon: Icon(
-              Icons.search,
-              color: AppColors.textHint,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.r),
+              boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      blurRadius: 2,
+                      spreadRadius: 1,
+                      offset: const Offset(0, 0),
+              ),]
             ),
-            hintText: 'Search notes...',
+            child: CustomTextFormField(
+              controller: context.read<NotesCubit>().searchController,
+              onChanged: (value) {
+                context.read<NotesCubit>().searchNotes(value);
+              },
+              filled: true,
+              borderColor: AppColors.whiteColor,
+              prefixIcon: Icon(
+                Icons.search,
+                color: AppColors.greyColor,
+              ),
+              hintText: 'Search notes...',
+            ),
           ),
 
           Expanded(

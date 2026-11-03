@@ -19,7 +19,7 @@ class NotificationItem extends StatelessWidget {
         elevation: 3,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: AppColors.whiteColor,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
@@ -37,7 +37,7 @@ class NotificationItem extends StatelessWidget {
                 CustomCircleAvatar(
                   color: AppColors.kPrimaryColor,
                   icon: Icons.check,
-                  iconColor: AppColors.background,
+                  iconColor: AppColors.whiteColor,
                 ),
                 horizontalSpace(12),
                 Expanded(

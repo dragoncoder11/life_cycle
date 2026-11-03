@@ -33,7 +33,7 @@ class TaskCategoriesRow extends StatelessWidget {
                     title: 'Today',
                     color: cubit.selectedIndex == 0
                         ? AppColors.kPrimaryColor
-                        : AppColors.switchTrackOff,
+                        : AppColors.greyColor,
                   ),
                 ),
               ),
@@ -50,7 +50,7 @@ class TaskCategoriesRow extends StatelessWidget {
                     title: 'Upcoming',
                     color: cubit.selectedIndex == 1
                         ? AppColors.kPrimaryColor
-                        : AppColors.switchTrackOff,
+                        : AppColors.greyColor,
                   ),
                 ),
               ),
@@ -67,7 +67,7 @@ class TaskCategoriesRow extends StatelessWidget {
                     title: 'Completed',
                     color: cubit.selectedIndex == 2
                         ? AppColors.kPrimaryColor
-                        : AppColors.switchTrackOff,
+                        : AppColors.greyColor,
                   ),
                 ),
               ),

@@ -85,7 +85,7 @@ class ListOfTransactionFields extends StatelessWidget {
                                 colorScheme: ColorScheme.light(
                                   primary: AppColors.kPrimaryColor,
                                   onPrimary: Colors.white,
-                                  onSurface: AppColors.textPrimary,
+                                  onSurface: AppColors.darkGreenColor,
                                 ),
                                 textButtonTheme: TextButtonThemeData(
                                   style: TextButton.styleFrom(
@@ -109,10 +109,10 @@ class ListOfTransactionFields extends StatelessWidget {
                           vertical: 16.h,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.background,
+                          color: AppColors.whiteColor,
                           borderRadius: BorderRadius.circular(12.r),
                           border: Border.all(
-                            color: AppColors.textPrimary.withOpacity(.2),
+                            color: AppColors.darkGreenColor.withOpacity(.2),
                           ),
                         ),
                         child: Row(
@@ -152,7 +152,10 @@ class ListOfTransactionFields extends StatelessWidget {
                     verticalSpace(6.h),
 
                     CustomTextFormField(
-                      maxLines: 3,
+                      maxLines: null,
+                      minLines: 3,
+                      textInputType: TextInputType.multiline,
+                      textInputAction: TextInputAction.newline,
                       onChanged: cubit.changeNote,
                       controller: cubit.noteController,
                       filled: true,

@@ -25,7 +25,7 @@ class ShowTaskModelSheetBody extends StatelessWidget {
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         ),
-        color: AppColors.textPrimary,
+        color: AppColors.darkGreenColor,
       ),
       child: Padding(
         padding: EdgeInsets.only(
@@ -96,7 +96,7 @@ class ShowTaskModelSheetBody extends StatelessWidget {
                   maxLines: 1,
                   prefixIcon: Icon(
                     Icons.calendar_month,
-                    color: AppColors.background,
+                    color: AppColors.whiteColor,
                   ),
                   controller: cubit.startDateController,
                   readOnly: true,

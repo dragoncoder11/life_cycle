@@ -32,7 +32,7 @@ class AddTransactionScreen extends StatelessWidget {
                         IconButton(
                           icon: Icon(
                             Icons.arrow_back_ios,
-                            color: AppColors.textPrimary,
+                            color: AppColors.darkGreenColor,
                           ),
                           onPressed: () {
                             Navigator.pop(context);

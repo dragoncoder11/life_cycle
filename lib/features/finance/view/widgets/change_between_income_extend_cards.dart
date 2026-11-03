@@ -30,7 +30,7 @@ class ChangeBetweenIncomeExtendCards extends StatelessWidget {
                 title: 'Expense',
                 color: cubit.selectedType == 'Expense'
                     ? AppColors.kPrimaryColor
-                    : AppColors.switchTrackOff,
+                    : AppColors.greyColor,
               ),
             ),
           ),
@@ -44,7 +44,7 @@ class ChangeBetweenIncomeExtendCards extends StatelessWidget {
                 title: 'Income',
                 color: cubit.selectedType == 'Income'
                     ? AppColors.kPrimaryColor
-                    : AppColors.switchTrackOff,
+                    : AppColors.greyColor,
               ),
             ),
           ),

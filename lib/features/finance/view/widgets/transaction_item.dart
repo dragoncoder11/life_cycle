@@ -14,7 +14,7 @@ class TransactionItem extends StatelessWidget {
       elevation: 3,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.background,
+          color: AppColors.whiteColor,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -50,24 +50,28 @@ class TransactionItem extends StatelessWidget {
                               FontWeight.bold,
                             ),
                           )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                transactionModel.category.name,
-                                style: AppTextStyles.interBlack(
-                                  11,
-                                  FontWeight.bold,
+                        : Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  transactionModel.category.name,
+                                  style: AppTextStyles.interBlack(
+                                    11,
+                                    FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                transactionModel.note!,
-                                style: AppTextStyles.interGrey(
-                                  10,
-                                  FontWeight.w500,
+                                Text(
+                                  transactionModel.note!,
+                                  style: AppTextStyles.interGrey(
+                                    10,
+                                    FontWeight.w500,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                   ],
                 ),

@@ -16,7 +16,7 @@ class LifeCycle extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: MaterialApp(
-        theme: ThemeData(scaffoldBackgroundColor: AppColors.background),
+        theme: ThemeData(scaffoldBackgroundColor: AppColors.whiteColor),
         debugShowCheckedModeBanner: false,
       //  home:const SplashScreen(),
           onGenerateRoute: AppRoutes().generateRoute,

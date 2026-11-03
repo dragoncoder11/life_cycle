@@ -52,7 +52,7 @@ class BalanceCard extends StatelessWidget {
               radius: 28.r,
               icon: Icons.wallet,
               iconSize: 32.r,
-              color: AppColors.income,
+              color: AppColors.kPrimaryColor,
             ),
           ],
         ),

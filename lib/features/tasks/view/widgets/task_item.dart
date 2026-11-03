@@ -40,118 +40,121 @@ class TaskItem extends StatelessWidget {
           );
         }
       },
-      child: Card(
-        elevation: 3,
-        child: Container(
-          decoration: BoxDecoration(
-           color: isSelected
-                      ? Colors.red.withOpacity(0.15)
-                      : AppColors.background,
-                  border:Border.all( color: isSelected ? Colors.red : Colors.transparent,
-                    width: 1.5,),
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.08),
-                blurRadius: 2,
-                spreadRadius: 1,
-                offset: const Offset(0, 0),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.kPrimaryColor,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                      horizontalSpace(8),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              taskModel.title!,
-                              style: AppTextStyles.interBlack(
-                                18,
-                                FontWeight.bold,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            verticalSpace(8),
-                            Row(
-                              children: [
-                                const Icon(Icons.date_range, size: 16),
-                                horizontalSpace(4),
-                                Expanded(
-                                  child: Text(
-                                    endTime,
-                                    style: AppTextStyles.interGrey(
-                                      11,
-                                      FontWeight.w400,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Text.rich(
-                                  TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: '$dayName ',
-                                        style: AppTextStyles.interGrey(
-                                          11,
-                                          FontWeight.w600,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: '$dayNumber ',
-                                        style: AppTextStyles.interGrey(
-                                          11,
-                                          FontWeight.w600,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: monthName,
-                                        style: AppTextStyles.interLightGreen(
-                                          11,
-                                          FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  maxLines: 1,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (isSelected)
-                        const Icon(
-                          Icons.check_circle,
-                          color: Colors.red,
-                          size: 24,
-                        ),
-                    ],
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.only( top: 8.0, ),
+        child: Card(
+          elevation: 3,
+          child: Container(
+            decoration: BoxDecoration(
+             color: isSelected
+                        ? Colors.red.withOpacity(0.15)
+                        : AppColors.whiteColor,
+                    border:Border.all( color: isSelected ? Colors.red : Colors.transparent,
+                      width: 1.5,),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 2,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 0),
                 ),
               ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.kPrimaryColor,
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                        horizontalSpace(8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                taskModel.title!,
+                                style: AppTextStyles.interBlack(
+                                  18,
+                                  FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              verticalSpace(8),
+                              Row(
+                                children: [
+                                  const Icon(Icons.date_range, size: 16),
+                                  horizontalSpace(4),
+                                  Expanded(
+                                    child: Text(
+                                      endTime,
+                                      style: AppTextStyles.interGrey(
+                                        11,
+                                        FontWeight.w400,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: '$dayName ',
+                                          style: AppTextStyles.interGrey(
+                                            11,
+                                            FontWeight.w600,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '$dayNumber ',
+                                          style: AppTextStyles.interGrey(
+                                            11,
+                                            FontWeight.w600,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: monthName,
+                                          style: AppTextStyles.interLightGreen(
+                                            11,
+                                            FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (isSelected)
+                          const Icon(
+                            Icons.check_circle,
+                            color: Colors.red,
+                            size: 24,
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
