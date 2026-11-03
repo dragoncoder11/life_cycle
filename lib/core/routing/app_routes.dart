@@ -21,6 +21,7 @@ import 'package:life_cycle/features/notifications/view/screens/notifications_scr
 
 import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
+import 'package:life_cycle/features/onBoarding/view/widgets/app_start_screen.dart';
 
 import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
 import 'package:life_cycle/features/tasks/view/screens/edit_task_screen.dart';
@@ -130,6 +131,19 @@ class AppRoutes {
       case Routes.notificationsScreen:
         return CustomPageRoute(
           builder: (_) => const NotificationsScreen(),
+          
+        );
+         case Routes.appstartScreen:
+        return CustomPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => OnBoardingCubit()..checkOnBoarding(),),
+              BlocProvider(
+                create: (_) => ButtonNavBarCubit(),
+              ),
+            ],
+            child: const AppStartScreen(),
+          ),
         );
 
       default:

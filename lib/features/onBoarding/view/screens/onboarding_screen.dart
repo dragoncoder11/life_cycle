@@ -85,6 +85,7 @@ class OnBoardingScreen extends StatelessWidget {
                   right: 24.w,
                   child: GestureDetector(
                     onTap: () {
+                      context.read<OnBoardingCubit>().completeOnBoarding();
                       Navigator.pushReplacementNamed(
                         context,
                         Routes.buttonNavBarScreen,
@@ -92,7 +93,10 @@ class OnBoardingScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Skip',
-                      style: AppTextStyles.interGrey(16, FontWeight.w600),
+                      style: AppTextStyles.interGrey(
+                        16,
+                        FontWeight.w600,
+                      ).copyWith(decoration: TextDecoration.underline),
                     ),
                   ),
                 ),
@@ -129,6 +133,7 @@ class OnBoardingScreen extends StatelessWidget {
                       if (cubit.startIndex < onboardingData.length - 1) {
                         cubit.nextPage();
                       } else {
+                        context.read<OnBoardingCubit>().completeOnBoarding();
                         Navigator.pushReplacementNamed(
                           context,
                           Routes.buttonNavBarScreen,

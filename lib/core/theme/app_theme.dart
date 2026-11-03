@@ -13,7 +13,7 @@ final ThemeData lightTheme = ThemeData(
   ),
 
   bottomSheetTheme: const BottomSheetThemeData(
-    backgroundColor: AppColors.bottomSheet,
+    backgroundColor: AppColors.darkGreenColor,
   ),
 
   textTheme: TextTheme(

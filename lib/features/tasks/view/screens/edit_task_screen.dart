@@ -92,23 +92,20 @@ class EditTaskScreen extends StatelessWidget {
 
                       verticalSpace(4.h),
 
-                      TextFormField(
+                      CustomTextFormField(
                         controller: cubit.taskEndDate,
                         readOnly: true,
                         onTap: () {
                           cubit.pickEditDateTime(context);
                         },
-                        decoration: InputDecoration(
                           filled: true,
                           prefixIcon: const Icon(
                             Icons.date_range,
                           ),
                           hintText: 'Select Date & Time',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
+                          
                         ),
-                      ),
+                      
                     ],
                   ),
                 ),
