@@ -54,7 +54,7 @@ class TasksListview extends StatelessWidget {
         }).toList();
 
         filteredTasks.sort(
-          (a, b) => b.endTime!.compareTo(a.endTime!),
+          (a, b) => a.endTime!.compareTo(b.endTime!),
         );
 
         return ListView.builder(

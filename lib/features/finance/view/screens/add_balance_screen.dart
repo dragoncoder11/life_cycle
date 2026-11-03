@@ -120,15 +120,3 @@ class AddBalanceScreen extends StatelessWidget {
     );
   }
 }
-
-  // verticalSpace(12.h),
-                      // Text(
-                      //   'Salary Period',
-                      //   style: AppTextStyles.interBlack(18, FontWeight.w600),
-                      // ),
-                      // Text(
-                      //   'Choose the start and end date of your salary cycle',
-                      //   style: AppTextStyles.interGrey(15, FontWeight.w400),
-                      // ),
-                      // verticalSpace(10.h),
-                      // PickDateContainer(),

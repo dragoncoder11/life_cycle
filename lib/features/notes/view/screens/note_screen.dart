@@ -21,67 +21,61 @@ class NoteScreen extends StatelessWidget {
           verticalSpace(12.h),
 
           // Header
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: BlocBuilder<NotesCubit, NotesState>(
-              builder: (context, state) {
-                var cubit = context.read<NotesCubit>();
-
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      cubit.isSelectionMode
-                          ? '${cubit.selectedNotes.length} Selected'
-                          : 'Notes',
-                      style: AppTextStyles.interBlack(
-                        24,
-                        FontWeight.bold,
+          BlocBuilder<NotesCubit, NotesState>(
+            builder: (context, state) {
+              var cubit = context.read<NotesCubit>();
+          
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    cubit.isSelectionMode
+                        ? '${cubit.selectedNotes.length} Selected'
+                        : 'Notes',
+                    style: AppTextStyles.interBlack(
+                      24,
+                      FontWeight.bold,
+                    ),
+                  ),
+          
+                  if (cubit.isSelectionMode) ...[
+                    IconButton(
+                      onPressed: () async {
+                        await cubit.deleteSelectedNotes();
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
                       ),
                     ),
-
-                    if (cubit.isSelectionMode) ...[
-                      IconButton(
-                        onPressed: () async {
-                          await cubit.deleteSelectedNotes();
-                        },
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
+          
+                    IconButton(
+                      onPressed: () {
+                        cubit.clearSelection();
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        color: AppColors.textPrimary,
                       ),
-
-                      IconButton(
-                        onPressed: () {
-                          cubit.clearSelection();
-                        },
-                        icon: const Icon(
-                          Icons.close,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ] else
-                      const AddNoteSheet(),
-                  ],
-                );
-              },
-            ),
+                    ),
+                  ] else
+                    const AddNoteSheet(),
+                ],
+              );
+            },
           ),
 
           verticalSpace(10.h),
 
           // Search
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: CustomTextFormField(
-              filled: true,
-              borderColor: AppColors.background,
-              prefixIcon: Icon(
-                Icons.search,
-                color: AppColors.textHint,
-              ),
-              hintText: 'Search notes...',
+          CustomTextFormField(
+            filled: true,
+            borderColor: AppColors.background,
+            prefixIcon: Icon(
+              Icons.search,
+              color: AppColors.textHint,
             ),
+            hintText: 'Search notes...',
           ),
 
           Expanded(

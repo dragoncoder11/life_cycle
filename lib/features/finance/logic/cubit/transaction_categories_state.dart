@@ -6,4 +6,6 @@ sealed class TransactionCategoriesState {}
 final class TransactionCategoriesInitial extends TransactionCategoriesState {}
 final class ChangeIndex extends TransactionCategoriesState {}
 final class ChangeCategoriesIndex extends TransactionCategoriesState {}
+final class ChangeAutoValidateMode extends TransactionCategoriesState {}
+
 

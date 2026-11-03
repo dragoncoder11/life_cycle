@@ -34,77 +34,87 @@ class NoteItem extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   Routes.editNoteScreen,
-                  arguments: {
-                    'note': noteModel,
-                    'cubit': cubit,
-                  },
+                  arguments: {'note': noteModel, 'cubit': cubit},
                 );
               }
             },
             child: Card(
               elevation: 3,
-              color: isSelected
-                  ? Colors.red.withOpacity(0.15)
-                  : AppColors.background,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-                side: BorderSide(
+              child: Container(
+                decoration: BoxDecoration(
                   color: isSelected
-                      ? Colors.red
-                      : Colors.transparent,
-                  width: 1.5,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      noteModel.image ??
-                          'assets/images/icon_logo.png',
-                      width: 60.w,
-                      height: 60.h,
-                      fit: BoxFit.cover,
+                      ? Colors.red.withOpacity(0.15)
+                      : AppColors.background,
+                  border:Border.all( color: isSelected ? Colors.red : Colors.transparent,
+                    width: 1.5,),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      blurRadius: 2,
+                      spreadRadius: 1,
+                      offset: const Offset(0, 0),
                     ),
-
-                    horizontalSpace(12),
-
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            noteModel.title,
-                            style: AppTextStyles.interBlack(
-                              18,
-                              FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-
-                          verticalSpace(4),
-
-                          Text(
-                            noteModel.content,
-                            style: AppTextStyles.interGrey(
-                              14,
-                              FontWeight.w500,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    if (isSelected)
-                      const Icon(
-                        Icons.check_circle,
-                        color: Colors.red,
-                        size: 24,
-                      ),
                   ],
+                ),         
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        noteModel.image ?? 'assets/images/icon_logo.png',
+                        width: 60.w,
+                        height: 60.h,
+                        fit: BoxFit.cover,
+                      ),
+                
+                      horizontalSpace(12),
+                
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              noteModel.title,
+                              style: AppTextStyles.interBlack(
+                                18,
+                                FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                
+                            verticalSpace(4),
+                
+                            Text(
+                              noteModel.content,
+                              style: AppTextStyles.interGrey(14, FontWeight.w500),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                            verticalSpace(8),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Text(
+                                '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                                style: AppTextStyles.interGrey(
+                                  12,
+                                  FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                
+                      if (isSelected)
+                        const Icon(
+                          Icons.check_circle,
+                          color: Colors.red,
+                          size: 24,
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),

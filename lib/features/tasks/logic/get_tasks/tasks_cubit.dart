@@ -49,6 +49,36 @@ class TasksCubit extends Cubit<TasksState> {
     emit(TasksSuccess());
   }
 
+// Task Selection to remove multiple tasks at once
+  Set<TaskModel> selectedTasks = {};
+bool get isSelectionMode => selectedTasks.isNotEmpty;
+
+void toggleTaskSelection(TaskModel task) {
+  if (selectedTasks.contains(task)) {
+    selectedTasks.remove(task);
+  } else {
+    selectedTasks.add(task);
+  }
+
+  emit(TasksSuccess());
+}
+
+Future<void> deleteSelectedTasks() async {
+  for (var task in selectedTasks.toList()) {
+    await task.delete();
+  }
+
+  selectedTasks.clear();
+  fetchTasks();
+}
+ void clearSelection() {
+    selectedTasks.clear();
+    emit(TasksSuccess());
+  }
+    // Check if task is selected
+  bool isTaskSelected(TaskModel task) {
+    return selectedTasks.contains(task);
+  }
   // Tasks Timer
   void startTasksTimer() {
     tasksTimer?.cancel();

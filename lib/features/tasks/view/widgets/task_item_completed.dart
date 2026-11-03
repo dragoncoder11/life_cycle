@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
-import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/features/tasks/data/models/task_model.dart';
 import 'package:intl/intl.dart';
+import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
 
 class TaskItemCompleted extends StatelessWidget {
   const TaskItemCompleted({super.key, required this.taskModel});
   final TaskModel taskModel;
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<TasksCubit>();
+    bool isSelected = cubit.isTaskSelected(taskModel);
     //final startTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
 
     final endTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime!);
@@ -21,18 +24,21 @@ class TaskItemCompleted extends StatelessWidget {
 
     final monthName = DateFormat('MMM', 'en').format(taskModel.endTime!);
     return GestureDetector(
+      onLongPress: () {
+        cubit.toggleTaskSelection(taskModel);
+      },
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          Routes.editTaskScreen,
-        ); //arguments: TaskModel//
+       cubit.toggleTaskSelection(taskModel);
       },
       child: Card(
         elevation: 3,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.textHint,
-            borderRadius: BorderRadius.circular(12),
+ color: isSelected
+                      ? Colors.red.withOpacity(0.15)
+                      : AppColors.textHint,
+                  border:Border.all( color: isSelected ? Colors.red : Colors.transparent,
+                    width: 1.5,),            borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.08),
@@ -57,7 +63,7 @@ class TaskItemCompleted extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: AppColors.expense,
+                            color: AppColors.overlay,
                             width: 2,
                           ),
                         ),
@@ -81,16 +87,45 @@ class TaskItemCompleted extends StatelessWidget {
                               children: [
                                 const Icon(Icons.date_range, size: 16),
                                 horizontalSpace(4),
-                                Flexible(
+
+                                Expanded(
                                   child: Text(
-                                    '$endTime',
-                                    style: AppTextStyles.interRed(
+                                    endTime,
+                                    style: AppTextStyles.interGrey(
                                       11,
                                       FontWeight.w400,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
+                                ),
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: '$dayName ',
+                                        style: AppTextStyles.interGrey(
+                                          11,
+                                          FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: '$dayNumber ',
+                                        style: AppTextStyles.interGrey(
+                                          11,
+                                          FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: monthName,
+                                        style: AppTextStyles.interGrey(
+                                          11,
+                                          FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  maxLines: 1,
                                 ),
                               ],
                             ),
@@ -99,36 +134,6 @@ class TaskItemCompleted extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-                horizontalSpace(8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const Icon(Icons.more_vert),
-                    verticalSpace(12),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '$dayName ',
-                            style: AppTextStyles.interGrey(11, FontWeight.w600),
-                          ),
-                          TextSpan(
-                            text: '$dayNumber ',
-                            style: AppTextStyles.interGrey(11, FontWeight.w600),
-                          ),
-                          TextSpan(
-                            text: monthName,
-                            style: AppTextStyles.interRed(
-                              11,
-                              FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      maxLines: 1,
-                    ),
-                  ],
                 ),
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'transaction_categories_state.dart';
@@ -40,4 +41,14 @@ class TransactionCategoriesCubit extends Cubit<TransactionCategoriesState> {
 
     emit(ChangeIndex());
   }
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController noteController = TextEditingController();
+
+AutovalidateMode autovalidateMode =
+    AutovalidateMode.disabled;
+
+void changeAutoValidateMode() {
+  autovalidateMode = AutovalidateMode.onUserInteraction;
+  emit(ChangeAutoValidateMode());
+}
 }

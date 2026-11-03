@@ -13,6 +13,9 @@ class TaskItem extends StatelessWidget {
   final TaskModel taskModel;
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<TasksCubit>();
+    bool isSelected = cubit.isTaskSelected(taskModel);
+
     //final startTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
 
     final endTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime!);
@@ -23,21 +26,29 @@ class TaskItem extends StatelessWidget {
 
     final monthName = DateFormat('MMM', 'en').format(taskModel.endTime!);
     return GestureDetector(
-  onTap: () {
-  Navigator.pushNamed(
-    context,
-    Routes.editTaskScreen,
-    arguments: {
-      'task': taskModel,
-      'cubit': BlocProvider.of<TasksCubit>(context),
-    },
-  );
-},
+      onLongPress: () {
+        cubit.toggleTaskSelection(taskModel);
+      },
+      onTap: () {
+        if (cubit.isSelectionMode) {
+          cubit.toggleTaskSelection(taskModel);
+        } else {
+          Navigator.pushNamed(
+            context,
+            Routes.editTaskScreen,
+            arguments: {'task': taskModel, 'cubit': cubit},
+          );
+        }
+      },
       child: Card(
         elevation: 3,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.background,
+           color: isSelected
+                      ? Colors.red.withOpacity(0.15)
+                      : AppColors.background,
+                  border:Border.all( color: isSelected ? Colors.red : Colors.transparent,
+                    width: 1.5,),
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
@@ -87,7 +98,7 @@ class TaskItem extends StatelessWidget {
                               children: [
                                 const Icon(Icons.date_range, size: 16),
                                 horizontalSpace(4),
-                                Flexible(
+                                Expanded(
                                   child: Text(
                                     endTime,
                                     style: AppTextStyles.interGrey(
@@ -98,43 +109,47 @@ class TaskItem extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: '$dayName ',
+                                        style: AppTextStyles.interGrey(
+                                          11,
+                                          FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: '$dayNumber ',
+                                        style: AppTextStyles.interGrey(
+                                          11,
+                                          FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: monthName,
+                                        style: AppTextStyles.interLightGreen(
+                                          11,
+                                          FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  maxLines: 1,
+                                ),
                               ],
                             ),
                           ],
                         ),
                       ),
+                      if (isSelected)
+                        const Icon(
+                          Icons.check_circle,
+                          color: Colors.red,
+                          size: 24,
+                        ),
                     ],
                   ),
-                ),
-                horizontalSpace(8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const Icon(Icons.more_vert),
-                    verticalSpace(12),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '$dayName ',
-                            style: AppTextStyles.interGrey(11, FontWeight.w600),
-                          ),
-                          TextSpan(
-                            text: '$dayNumber ',
-                            style: AppTextStyles.interGrey(11, FontWeight.w600),
-                          ),
-                          TextSpan(
-                            text: monthName,
-                            style: AppTextStyles.interLightGreen(
-                              11,
-                              FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      maxLines: 1,
-                    ),
-                  ],
                 ),
               ],
             ),
