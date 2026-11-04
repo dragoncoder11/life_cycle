@@ -34,6 +34,8 @@ class EditNoteScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -77,6 +79,7 @@ class EditNoteScreen extends StatelessWidget {
                         textInputType: TextInputType.multiline,
                         textInputAction: TextInputAction.newline,
                       ),
+                      verticalSpace(12.h),
                     ],
                   ),
                 ),

@@ -16,58 +16,22 @@ class NoteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<NotesCubit>();
 
-    double? dragStartX;
-    double? dragStartY;
-    bool isEdgeSwipe = false;
+    return BlocBuilder<NotesCubit, NotesState>(
+      builder: (context, state) {
+        return PopScope(
+          canPop: !cubit.isSelectionMode,
+          onPopInvokedWithResult: (didPop, result) {
+            if (!didPop && cubit.isSelectionMode) {
+              cubit.clearSelection();
+            }
+          },
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                verticalSpace(12.h),
 
-    return Listener(
-      onPointerDown: (event) {
-        if (!cubit.isSelectionMode) return;
-
-        final screenWidth = MediaQuery.of(context).size.width;
-        final startX = event.position.dx;
-
-        isEdgeSwipe = startX <= 25 || startX >= screenWidth - 25;
-
-        if (isEdgeSwipe) {
-          dragStartX = startX;
-          dragStartY = event.position.dy;
-        }
-      },
-      onPointerMove: (event) {
-        if (!isEdgeSwipe || !cubit.isSelectionMode) return;
-
-        final deltaX = (event.position.dx - dragStartX!).abs();
-        final deltaY = (event.position.dy - dragStartY!).abs();
-
-        if (deltaX > 15 && deltaX > deltaY) {
-          cubit.clearSelection();
-
-          isEdgeSwipe = false;
-          dragStartX = null;
-          dragStartY = null;
-        }
-      },
-      onPointerUp: (_) {
-        isEdgeSwipe = false;
-        dragStartX = null;
-        dragStartY = null;
-      },
-      onPointerCancel: (_) {
-        isEdgeSwipe = false;
-        dragStartX = null;
-        dragStartY = null;
-      },
-      child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            verticalSpace(12.h),
-            BlocBuilder<NotesCubit, NotesState>(
-              builder: (context, state) {
-                var cubit = context.read<NotesCubit>();
-
-                return Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -103,43 +67,45 @@ class NoteScreen extends StatelessWidget {
                     ] else
                       const AddNoteSheet(),
                   ],
-                );
-              },
-            ),
-
-            verticalSpace(10.h),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.08),blurRadius: 2,
-                    spreadRadius: 1,
-                    offset: const Offset(0, 0),
-                  ),
-                ],
-              ),
-              child: CustomTextFormField(
-                controller: context.read<NotesCubit>().searchController,
-                onChanged: (value) {
-                  context.read<NotesCubit>().searchNotes(value);
-                },
-                filled: true,
-                borderColor: AppColors.whiteColor,
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: AppColors.greyColor,
                 ),
-                hintText: 'Search notes...',
-              ),
-            ),
 
-            Expanded(
-              child: NotesListView(),
+                verticalSpace(10.h),
+
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.08),
+                        blurRadius: 2,
+                        spreadRadius: 1,
+                        offset: const Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                  child: CustomTextFormField(
+                    controller: cubit.searchController,
+                    onChanged: (value) {
+                      cubit.searchNotes(value);
+                    },
+                    filled: true,
+                    borderColor: AppColors.whiteColor,
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: AppColors.greyColor,
+                    ),
+                    hintText: 'Search notes...',
+                  ),
+                ),
+
+                Expanded(
+                  child: NotesListView(),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

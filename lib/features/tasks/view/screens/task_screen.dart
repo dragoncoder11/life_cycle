@@ -14,60 +14,63 @@ class TaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          verticalSpace(12.h),
-          BlocBuilder<TasksCubit, TasksState>(
+    return BlocBuilder<TasksCubit, TasksState>(
             builder: (context, state) {
               var cubit = context.read<TasksCubit>();
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                   cubit.isSelectionMode ? '${cubit.selectedTasks.length} Selected' : 'Tasks',
-                    style: AppTextStyles.interBlack(24, FontWeight.bold),
+              return PopScope(
+                 canPop: !cubit.isSelectionMode,
+          onPopInvokedWithResult: (didPop, result) {
+            if (!didPop && cubit.isSelectionMode) {
+              cubit.clearSelection();
+            }
+          },
+                child: SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      verticalSpace(12.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                           cubit.isSelectionMode ? '${cubit.selectedTasks.length} Selected' : 'Tasks',
+                            style: AppTextStyles.interBlack(24, FontWeight.bold),
+                          ),
+                      
+                            if (cubit.isSelectionMode) ...[
+                              IconButton(
+                                onPressed: () async {
+                                  await cubit.deleteSelectedTasks();
+                                },
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                              ),
+                      
+                              IconButton(
+                                onPressed: () {
+                                  cubit.clearSelection();
+                                },
+                                icon: const Icon(
+                                  Icons.close,
+                                  color: AppColors.darkGreenColor,
+                                ),
+                              ),
+                            ] else
+                              const AddTaskSheet(),
+                        ],
+                      ),
+                    
+                          verticalSpace(12.h),
+                           TaskCategoriesRow(),
+                verticalSpace(4.h),
+                          Expanded(child: TasksListview()),
+                    ],
                   ),
-
-                    if (cubit.isSelectionMode) ...[
-                      IconButton(
-                        onPressed: () async {
-                          await cubit.deleteSelectedTasks();
-                        },
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                      ),
-
-                      IconButton(
-                        onPressed: () {
-                          cubit.clearSelection();
-                        },
-                        icon: const Icon(
-                          Icons.close,
-                          color: AppColors.darkGreenColor,
-                        ),
-                      ),
-                    ] else
-                      const AddTaskSheet(),
-                ],
+                ),
               );
             },
-          ),
-          verticalSpace(12.h),
-
-          BlocBuilder<TasksCubit, TasksState>(
-            builder: (context, state) {
-              var cubit = context.read<TasksCubit>();
-              return TaskCategoriesRow();
-            },
-          ),
-          verticalSpace(4.h),
-          Expanded(child: TasksListview()),
-        ],
-      ),
-    );
+          );
   }
 }
