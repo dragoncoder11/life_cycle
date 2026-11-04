@@ -12,4 +12,5 @@ class Routes {
   static const String addTransactionScreen = 'add_Transaction_screen';
   static const String notificationsScreen ='notificationsScreen';
   static const String appstartScreen ='appStartScreen';
+  static const String settingScreen='setting_screen';
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,11 +36,12 @@ class EditNoteScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
-                
+                  physics: const BouncingScrollPhysics(),
+
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      
                       IconButton(
                         icon: Icon(
                           Icons.arrow_back_ios,
@@ -53,8 +56,24 @@ class EditNoteScreen extends StatelessWidget {
                         'Edit Note',
                         style: AppTextStyles.interBlack(24, FontWeight.bold),
                       ),
-                      verticalSpace(10.h),
-                  
+                      if (noteModel.image != null &&
+                          noteModel.image!.isNotEmpty &&
+                          File(noteModel.image!).existsSync()) ...[
+                        verticalSpace(12.h),
+
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12.r),
+                          child: Image.file(
+                            File(noteModel.image!),
+                            width: double.infinity,
+                            height: 150.h,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+
+                        verticalSpace(16.h),
+                      ],
+                       
                       Text(
                         'Edit Note',
                         style: AppTextStyles.interBlack(16, FontWeight.w500),

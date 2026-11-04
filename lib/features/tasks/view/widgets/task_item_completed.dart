@@ -94,13 +94,13 @@ class TaskItemCompleted extends StatelessWidget {
                               verticalSpace(8),
                               Row(
                                 children: [
-                                  const Icon(Icons.date_range, size: 16),
+                                  const Icon(Icons.date_range, size: 16,color: AppColors.blackColor,),
                                   horizontalSpace(4),
 
                                   Expanded(
                                     child: Text(
                                       endTime,
-                                      style: AppTextStyles.interGrey(
+                                      style: AppTextStyles.interBlack(
                                         11,
                                         FontWeight.w400,
                                       ),
@@ -113,21 +113,21 @@ class TaskItemCompleted extends StatelessWidget {
                                       children: [
                                         TextSpan(
                                           text: '$dayName ',
-                                          style: AppTextStyles.interGrey(
+                                          style: AppTextStyles.interBlack(
                                             11,
                                             FontWeight.w600,
                                           ),
                                         ),
                                         TextSpan(
                                           text: '$dayNumber ',
-                                          style: AppTextStyles.interGrey(
+                                          style: AppTextStyles.interBlack(
                                             11,
                                             FontWeight.w600,
                                           ),
                                         ),
                                         TextSpan(
                                           text: monthName,
-                                          style: AppTextStyles.interGrey(
+                                          style: AppTextStyles.interBlack(
                                             11,
                                             FontWeight.w600,
                                           ),

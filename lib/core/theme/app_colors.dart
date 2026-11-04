@@ -18,7 +18,7 @@ class AppColors {
   static const Color notificationCard = Color(0xFF1A1F29);
   static const Color bottomSheet = Color(0xFF1C2723);
 /////////////////////////////////////////////////////////////////////////////////
-  static const Color kPrimaryDark = Color(0xFF02302A); // for splash
+  static const Color kPrimaryDark = Color.fromARGB(255, 8, 74, 65); // for splash
   static const Color kPrimaryLight = Color(0xFF45B89A); // for splash
   static const Color accent = Color(0xFFFFC247); // for splash
   static const Color financeYellow = Color(0xFFFFC247); // for finance in home

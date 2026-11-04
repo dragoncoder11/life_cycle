@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
@@ -7,27 +6,80 @@ import 'package:life_cycle/features/home/data/models/home_card_model.dart';
 
 class HomeCard extends StatelessWidget {
   const HomeCard({
-    super.key, required this.homeCardModel, required this.onTap,
+    super.key,
+    required this.homeCardModel,
+    required this.onTap,
   });
-final HomeCardModel homeCardModel;
-final Function() onTap;
+
+  final HomeCardModel homeCardModel;
+  final Function() onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ,
+      onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(color: homeCardModel.color.withOpacity(.2),borderRadius: BorderRadius.circular(16)),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-          Icon(homeCardModel.icon,color: homeCardModel.color,size: 35.r,),
-          verticalSpace(16),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
-                        Text(homeCardModel.title,style: AppTextStyles.interBlack(14, FontWeight.bold),),
-                        Icon(Icons.arrow_forward,color:homeCardModel.color ,)
-              
-          ],)
-        ],),
-        
+        padding: EdgeInsets.all(12.r),
+        decoration: BoxDecoration(
+          color: homeCardModel.color.withOpacity(.2),
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              homeCardModel.icon,
+              color: homeCardModel.color,
+              size: 35.r,
+            ),
+
+            horizontalSpace(6),
+
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          homeCardModel.title,
+                          style: AppTextStyles.interBlack(
+                            14,
+                            FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      horizontalSpace(5),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: homeCardModel.color,
+                        size: 18.r,
+                      ),
+                    ],
+                  ),
+
+                  verticalSpace(6),
+
+                  Text(
+                    homeCardModel.subTitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.interBlack(
+                      11,
+                      FontWeight.w500,
+                    ).copyWith(
+                      color: homeCardModel.color,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

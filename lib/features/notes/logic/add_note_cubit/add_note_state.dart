@@ -12,4 +12,6 @@ final class AddNoteFailure extends AddNoteState {
   AddNoteFailure({required this.errMessage});
 }
 final class ChangeAutoValidate extends AddNoteState {}
+final class AddNoteImageChanged extends AddNoteState {}
+final class NotesImageRemoved extends AddNoteState {}
 

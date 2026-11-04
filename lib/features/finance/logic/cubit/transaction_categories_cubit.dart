@@ -8,6 +8,7 @@ class TransactionCategoriesCubit extends Cubit<TransactionCategoriesState> {
   TransactionCategoriesCubit() : super(TransactionCategoriesInitial());
   String selectedType = 'Expense';
   String? selectedCategoryId;
+  final DateTime appStartDate = DateTime.now();
   String amount = '';
   String note = '';
   DateTime selectedDate = DateTime.now();

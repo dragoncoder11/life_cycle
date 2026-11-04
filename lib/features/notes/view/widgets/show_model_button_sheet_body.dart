@@ -9,6 +9,7 @@ import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 import 'package:life_cycle/features/notes/data/models/note_model.dart';
 import 'package:life_cycle/features/notes/logic/add_note_cubit/add_note_cubit.dart';
 import 'package:life_cycle/features/notes/logic/get_notes/notes_cubit.dart';
+import 'package:life_cycle/features/notes/view/widgets/add_note_image_picker.dart';
 
 class ShowNoteModelButtonSheetBody extends StatelessWidget {
   const ShowNoteModelButtonSheetBody({super.key});
@@ -67,7 +68,7 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
                         }
                       },
                     ),
-                    verticalSpace(16.h),
+                    verticalSpace(12.h),
                     Text(
                       'Add Description',
                       style: AppTextStyles.interWhite(16, FontWeight.w500),
@@ -90,7 +91,9 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
                         }
                       },
                     ),
-                    verticalSpace(40.h),
+                    verticalSpace(12),
+                    AddNoteImagePicker(),
+                    verticalSpace(20.h),
                     CustomButton(
                       onTap: () async {
                         if (cubit.formKey.currentState!.validate()) {

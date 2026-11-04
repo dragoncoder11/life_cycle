@@ -76,8 +76,12 @@ class ListOfTransactionFields extends StatelessWidget {
                       onTap: () async {
                         final pickedDate = await showDatePicker(
                           context: context,
-                          initialDate: cubit.selectedDate,
-                          firstDate: DateTime(2000),
+                          initialDate:
+                              cubit.selectedDate.isBefore(cubit.appStartDate)
+                              ? cubit.appStartDate
+                              : cubit.selectedDate,
+
+                          firstDate: cubit.appStartDate,
                           lastDate: DateTime.now(),
                           builder: (context, child) {
                             return Theme(
@@ -164,7 +168,6 @@ class ListOfTransactionFields extends StatelessWidget {
 
                     verticalSpace(8.h),
 
-                    // Save Button
                     CustomButton(
                       onTap: () async {
                         await _saveTransaction(context, cubit);

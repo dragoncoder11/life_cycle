@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +10,7 @@ import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/features/notes/data/models/note_model.dart';
 import 'package:life_cycle/features/notes/logic/get_notes/notes_cubit.dart';
 import 'package:life_cycle/features/notes/view/widgets/hilighted_text.dart';
+import 'package:life_cycle/features/notes/view/widgets/text_direction_helper.dart';
 
 class NoteItem extends StatelessWidget {
   const NoteItem({super.key, required this.noteModel});
@@ -21,6 +24,15 @@ class NoteItem extends StatelessWidget {
         var cubit = context.read<NotesCubit>();
 
         bool isSelected = cubit.isNoteSelected(noteModel);
+
+        final noteText = (noteModel.title.trim().isNotEmpty ?? false)
+            ? noteModel.title
+            : noteModel.content;
+
+        final direction = TextDirectionHelper.getDirection(
+          noteText,
+          fallback: Directionality.of(context),
+        );
 
         return Padding(
           padding: EdgeInsets.only(top: 10.h),
@@ -56,68 +68,83 @@ class NoteItem extends StatelessWidget {
                       color: Colors.black.withValues(alpha: 0.08),
                       blurRadius: 2,
                       spreadRadius: 1,
-                      offset: const Offset(0, 0),
                     ),
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        noteModel.image ?? 'assets/images/icon_logo.png',
-                        width: 60.w,
-                        height: 60.h,
-                        fit: BoxFit.cover,
-                      ),
-
-                      horizontalSpace(12),
-
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HighlightedText(
-                              text: noteModel.title ?? '',
-                              query: cubit.searchQuery ?? '',
-                              style: AppTextStyles.interBlack(
-                                18,
-                                FontWeight.bold,
-                              ),
-                            ),
-                            verticalSpace(4),
-                            HighlightedText(
-                              text: noteModel.content ?? '',
-                              query: cubit.searchQuery ?? '',
-                              style: AppTextStyles.interGrey(
-                                14,
-                                FontWeight.w500,
-                              ),
-                              maxLines: 2,
-                              showMatchContext: true,
-                            ),
-                            verticalSpace(8),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Text(
-                                '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-                                style: AppTextStyles.interGrey(
-                                  12,
-                                  FontWeight.w400,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  child: Directionality(
+                    textDirection: direction,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (noteModel.image != null &&
+                                  noteModel.image!.isNotEmpty &&
+                                  File(noteModel.image!).existsSync()) ...[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  child: Image.file(
+                                    File(noteModel.image!),
+                                    width: double.infinity,
+                                    height: 120.h,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                verticalSpace(6),
+                              ],
+                              HighlightedText(
+                                text: noteModel.title,
+                                query: cubit.searchQuery ?? '',
+                                style: AppTextStyles.interBlack(
+                                  18,
+                                  FontWeight.bold,
                                 ),
                               ),
-                            ),
-                          ],
+                              HighlightedText(
+                                text: noteModel.content,
+                                query: cubit.searchQuery ?? '',
+                                style:
+                                    AppTextStyles.interBlack(
+                                      14,
+                                      FontWeight.w500,
+                                    ).copyWith(
+                                      color: AppColors.blackColor.withOpacity(
+                                        .7,
+                                      ),
+                                    ),
+                                maxLines: 1,
+                                showMatchContext: true,
+                              ),
+                              verticalSpace(6),
+                              Align(
+                                alignment: AlignmentDirectional.bottomEnd,
+                                child: Text(
+                                  '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                                  style: AppTextStyles.interGrey(
+                                    11,
+                                    FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-
-                      if (isSelected)
-                        const Icon(
-                          Icons.check_circle,
-                          color: Colors.red,
-                          size: 24,
-                        ),
-                    ],
+                        if (isSelected) ...[
+                          horizontalSpace(8),
+                          const Icon(
+                            Icons.check_circle,
+                            color: Colors.red,
+                            size: 24,
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
                 ),
               ),

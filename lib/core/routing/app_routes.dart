@@ -22,6 +22,7 @@ import 'package:life_cycle/features/notifications/view/screens/notifications_scr
 import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
 import 'package:life_cycle/features/onBoarding/view/widgets/app_start_screen.dart';
+import 'package:life_cycle/features/settings/views/screens/setting_screen.dart';
 
 import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
 import 'package:life_cycle/features/tasks/view/screens/edit_task_screen.dart';
@@ -106,6 +107,10 @@ class AppRoutes {
       case Routes.splashScreen:
         return CustomPageRoute(
           builder: (_) => const SplashScreen(),
+        );
+        case Routes.settingScreen:
+        return CustomPageRoute(
+          builder: (_) => const SettingScreen(),
         );
 
       case Routes.editNoteScreen:

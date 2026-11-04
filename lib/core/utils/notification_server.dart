@@ -143,9 +143,9 @@ class NotificationService {
           playSound: true,
 
           // Large Icon
-          largeIcon: DrawableResourceAndroidBitmap(
-            'large_logo',
-          ),
+          // largeIcon: DrawableResourceAndroidBitmap(
+          //   'large_logo',
+          // ),
         ),
       ),
     );
