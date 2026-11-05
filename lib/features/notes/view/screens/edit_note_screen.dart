@@ -62,7 +62,7 @@ class EditNoteScreen extends StatelessWidget {
                         verticalSpace(12.h),
 
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(12.r),
+                          borderRadius: BorderRadius.circular(24.r),
                           child: Image.file(
                             File(noteModel.image!),
                             width: double.infinity,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:life_cycle/core/helper/app_constants.dart';
+import 'package:life_cycle/core/utils/caching.dart';
 import 'package:life_cycle/core/utils/notification_server.dart';
 import 'package:life_cycle/core/utils/simple_bloc_observer.dart';
 import 'package:life_cycle/features/finance/data/models/transaction_category_model.g.dart';
@@ -11,6 +12,7 @@ import 'package:life_cycle/features/finance/data/models/transaction_model.g.dart
 import 'package:life_cycle/features/finance/data/models/transaction_type.g.dart';
 import 'package:life_cycle/features/notes/data/models/note_model.dart';
 import 'package:life_cycle/features/notes/data/models/note_model_adapter.dart';
+import 'package:life_cycle/features/notifications/view/widgets/notification_status.dart';
 import 'package:life_cycle/features/tasks/data/models/task_model.dart';
 import 'package:life_cycle/life_cycle.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -28,10 +30,11 @@ void main() async {
   Hive.registerAdapter(TransactionModelAdapter());
   Hive.registerAdapter(TransactionTypeAdapter());
   await Hive.openBox<TransactionModel>(kTransactionsBox);
-    await Hive.openBox<dynamic>(kInitialBalanceBox);
-
+  await Hive.openBox<dynamic>(kInitialBalanceBox);
+  await NotificationStatus.initialize();
   await Alarm.init();
   await NotificationService.initialize();
+  await Cache.instance.cacheInitialization();
   // await NotificationService.showTestNotification();
   runApp(const LifeCycle());
 }

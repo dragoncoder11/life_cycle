@@ -15,18 +15,18 @@ class OnBoardingCubit extends Cubit<OnBoardingState> {
 
   PageController pageController = PageController();
 
-  final Cache cache = Cache();
+ // final Cache cache = Cache();
 
   Future<void> checkOnBoarding() async {
-    await cache.cacheInitialization();
+  //  await cache.cacheInitialization();
 
-    isCompleted = cache.getData('isCompleted') ?? false;
+    isCompleted = Cache.instance.getData('isCompleted') ?? false;
 
     emit(CheckOnBoardingCompleted());
   }
 
   Future<void> completeOnBoarding() async {
-    await cache.setData('isCompleted', true);
+    await Cache.instance.setData('isCompleted', true);
 
     isCompleted = true;
 

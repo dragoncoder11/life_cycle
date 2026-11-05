@@ -88,7 +88,7 @@ class NoteItem extends StatelessWidget {
                                   noteModel.image!.isNotEmpty &&
                                   File(noteModel.image!).existsSync()) ...[
                                 ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.r),
+                                  borderRadius: BorderRadius.circular(24.r),
                                   child: Image.file(
                                     File(noteModel.image!),
                                     width: double.infinity,

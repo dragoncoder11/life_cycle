@@ -59,11 +59,16 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       horizontalSpace(8),
-                      CustomCircleAvatar(
-                        color: AppColors.greyColor.withOpacity(.2),
-                        icon: Icons.settings_outlined,
-                        iconSize: 30.r,
-                        iconColor: AppColors.kPrimaryColor,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.settingScreen);
+                        },
+                        child: CustomCircleAvatar(
+                          color: AppColors.greyColor.withOpacity(.2),
+                          icon: Icons.settings_outlined,
+                          iconSize: 30.r,
+                          iconColor: AppColors.kPrimaryColor,
+                        ),
                       ),
                     ],
                   ),

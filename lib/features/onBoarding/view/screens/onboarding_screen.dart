@@ -90,6 +90,7 @@ class OnBoardingScreen extends StatelessWidget {
                         context,
                         Routes.buttonNavBarScreen,
                       );
+                      
                     },
                     child: Text(
                       'Skip',

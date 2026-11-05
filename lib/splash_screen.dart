@@ -107,7 +107,7 @@ _introController.forward();
 _pulseController.repeat(reverse: true);
 
 // Navigate to OnBoarding after 3 seconds
-Future.delayed(const Duration(seconds: 3), () {
+Future.delayed(const Duration(seconds: 2), () {
   if (!mounted) return;
 
   Navigator.pushReplacementNamed(

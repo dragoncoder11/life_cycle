@@ -1,7 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class CacheData {
+class Cache {
+  static final Cache instance = Cache._internal();
+
   late SharedPreferences sharedPreferences;
+
+  Cache._internal();
 
   Future<void> cacheInitialization() async {
     sharedPreferences = await SharedPreferences.getInstance();
@@ -9,17 +13,17 @@ abstract class CacheData {
 
   Future<bool> setData(String key, dynamic value) async {
     if (value is int) {
-      return await sharedPreferences.setInt(key, value);
+      return sharedPreferences.setInt(key, value);
     } else if (value is double) {
-      return await sharedPreferences.setDouble(key, value);
+      return sharedPreferences.setDouble(key, value);
     } else if (value is bool) {
-      return await sharedPreferences.setBool(key, value);
+      return sharedPreferences.setBool(key, value);
     } else if (value is List<String>) {
-      return await sharedPreferences.setStringList(key, value);
+      return sharedPreferences.setStringList(key, value);
     } else if (value is String) {
-      return await sharedPreferences.setString(key, value);
+      return sharedPreferences.setString(key, value);
     } else {
-      throw Exception("Invalid data type");
+      throw Exception('Invalid data type');
     }
   }
 
@@ -28,10 +32,6 @@ abstract class CacheData {
   }
 
   Future<bool> deleteData(String key) async {
-    return await sharedPreferences.remove(key);
+    return sharedPreferences.remove(key);
   }
-}
-
-class Cache extends CacheData {
-  Cache();
 }

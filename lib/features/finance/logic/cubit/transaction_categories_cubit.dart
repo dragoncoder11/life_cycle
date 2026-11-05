@@ -12,6 +12,7 @@ class TransactionCategoriesCubit extends Cubit<TransactionCategoriesState> {
   String amount = '';
   String note = '';
   DateTime selectedDate = DateTime.now();
+  
  void changeType(String type) {
     selectedType = type;
     emit(ChangeIndex());
