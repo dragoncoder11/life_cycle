@@ -5,6 +5,7 @@ import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
+import 'package:life_cycle/core/theme/status_bar_mode.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -36,114 +37,116 @@ class OnBoardingScreen extends StatelessWidget {
     return BlocBuilder<OnBoardingCubit, OnBoardingState>(
       builder: (context, state) {
         var cubit = context.read<OnBoardingCubit>();
-        return Scaffold(
-          body: SafeArea(
-            child: Stack(
-              children: [
-                PageView.builder(
-                  controller: cubit.pageController,
-                  itemCount: onboardingData.length,
-                  onPageChanged: (index) {
-                    cubit.changeIndex(index);
-                  },
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Column(
-                        children: [
-                          verticalSpace(112),
-                          Image.asset(
-                            onboardingData[index]['image'],
-                            fit: BoxFit.contain,
-                            height: 200.h,
-                            width: double.infinity,
-                          ),
-                          verticalSpace(10),
-                          Text(
-                            onboardingData[index]['title'],
-                            style: AppTextStyles.interBlack(
-                              24,
-                              FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          verticalSpace(10),
-                          Text(
-                            onboardingData[index]['description'],
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.interGrey(14, FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-
-                // 2. Skip فوق الـ PageView
-                Positioned(
-                  top: 24.h,
-                  right: 24.w,
-                  child: GestureDetector(
-                    onTap: () {
-                      context.read<OnBoardingCubit>().completeOnBoarding();
-                      Navigator.pushReplacementNamed(
-                        context,
-                        Routes.buttonNavBarScreen,
-                      );
-                      
+        return StatusBarMode(
+          child: Scaffold(
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  PageView.builder(
+                    controller: cubit.pageController,
+                    itemCount: onboardingData.length,
+                    onPageChanged: (index) {
+                      cubit.changeIndex(index);
                     },
-                    child: Text(
-                      'Skip',
-                      style: AppTextStyles.interGrey(
-                        16,
-                        FontWeight.w600,
-                      ).copyWith(decoration: TextDecoration.underline),
-                    ),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Column(
+                          children: [
+                            verticalSpace(112),
+                            Image.asset(
+                              onboardingData[index]['image'],
+                              fit: BoxFit.contain,
+                              height: 200.h,
+                              width: double.infinity,
+                            ),
+                            verticalSpace(10),
+                            Text(
+                              onboardingData[index]['title'],
+                              style: AppTextStyles.interBlack(
+                                24,
+                                FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            verticalSpace(10),
+                            Text(
+                              onboardingData[index]['description'],
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.interGrey(14, FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                ),
-
-                // 3. Page indicator
-                Positioned(
-                  bottom: 100.h,
-                  left: 0,
-                  right: 0,
-                  child: Center(
-                    child: SmoothPageIndicator(
-                      controller: cubit.pageController,
-                      count: onboardingData.length,
-                      effect: JumpingDotEffect(
-                        dotHeight: 16,
-                        dotWidth: 16,
-                        activeDotColor: AppColors.kPrimaryColor,
-                        dotColor: AppColors.greyColor,
-                      ),
-                    ),
-                  ),
-                ),
-
-                // 4. Button فوق الـ PageView
-                Positioned(
-                  bottom: 24.h,
-                  left: 16.w,
-                  right: 16.w,
-                  child: CustomButton(
-                    title: cubit.startIndex < onboardingData.length - 1
-                        ? 'Next'
-                        : 'Get Started',
-                    onTap: () {
-                      if (cubit.startIndex < onboardingData.length - 1) {
-                        cubit.nextPage();
-                      } else {
+          
+                  // 2. Skip فوق الـ PageView
+                  Positioned(
+                    top: 24.h,
+                    right: 24.w,
+                    child: GestureDetector(
+                      onTap: () {
                         context.read<OnBoardingCubit>().completeOnBoarding();
                         Navigator.pushReplacementNamed(
                           context,
                           Routes.buttonNavBarScreen,
                         );
-                      }
-                    },
+                        
+                      },
+                      child: Text(
+                        'Skip',
+                        style: AppTextStyles.interGrey(
+                          16,
+                          FontWeight.w600,
+                        ).copyWith(decoration: TextDecoration.underline),
+                      ),
+                    ),
                   ),
-                ),
-              ],
+          
+                  // 3. Page indicator
+                  Positioned(
+                    bottom: 100.h,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: SmoothPageIndicator(
+                        controller: cubit.pageController,
+                        count: onboardingData.length,
+                        effect: JumpingDotEffect(
+                          dotHeight: 16,
+                          dotWidth: 16,
+                          activeDotColor: AppColors.kPrimaryColor,
+                          dotColor: AppColors.greyColor,
+                        ),
+                      ),
+                    ),
+                  ),
+          
+                  // 4. Button فوق الـ PageView
+                  Positioned(
+                    bottom: 24.h,
+                    left: 16.w,
+                    right: 16.w,
+                    child: CustomButton(
+                      title: cubit.startIndex < onboardingData.length - 1
+                          ? 'Next'
+                          : 'Get Started',
+                      onTap: () {
+                        if (cubit.startIndex < onboardingData.length - 1) {
+                          cubit.nextPage();
+                        } else {
+                          context.read<OnBoardingCubit>().completeOnBoarding();
+                          Navigator.pushReplacementNamed(
+                            context,
+                            Routes.buttonNavBarScreen,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );

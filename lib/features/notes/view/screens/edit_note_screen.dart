@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
+import 'package:life_cycle/core/theme/status_bar_mode.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 import 'package:life_cycle/features/notes/data/models/note_model.dart';
@@ -23,105 +24,107 @@ class EditNoteScreen extends StatelessWidget {
     final noteModel = args['note'] as NoteModel;
     cubit.title = TextEditingController(text: noteModel.title);
     cubit.describtion = TextEditingController(text: noteModel.content);
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 16.0.w,
-            right: 16.0.w,
-            bottom: 16.0.h,
-            top: 16.0.h,
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: AppColors.darkGreenColor,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      verticalSpace(10.h),
-                      Text(
-                        'Edit Note',
-                        style: AppTextStyles.interBlack(24, FontWeight.bold),
-                      ),
-                      if (noteModel.image != null &&
-                          noteModel.image!.isNotEmpty &&
-                          File(noteModel.image!).existsSync()) ...[
-                        verticalSpace(12.h),
-
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(24.r),
-                          child: Image.file(
-                            File(noteModel.image!),
-                            width: double.infinity,
-                            height: 150.h,
-                            fit: BoxFit.cover,
+    return StatusBarMode(
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 16.0.w,
+              right: 16.0.w,
+              bottom: 16.0.h,
+              top: 16.0.h,
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+      
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        
+                        IconButton(
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: AppColors.darkGreenColor,
                           ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
-
-                        verticalSpace(16.h),
+                        verticalSpace(10.h),
+                        Text(
+                          'Edit Note',
+                          style: AppTextStyles.interBlack(24, FontWeight.bold),
+                        ),
+                        if (noteModel.image != null &&
+                            noteModel.image!.isNotEmpty &&
+                            File(noteModel.image!).existsSync()) ...[
+                          verticalSpace(12.h),
+      
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(24.r),
+                            child: Image.file(
+                              File(noteModel.image!),
+                              width: double.infinity,
+                              height: 150.h,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+      
+                          verticalSpace(16.h),
+                        ],
+                         
+                        Text(
+                          'Edit Note',
+                          style: AppTextStyles.interBlack(16, FontWeight.w500),
+                        ),
+                        verticalSpace(4.h),
+                        CustomTextFormField(
+                          controller: cubit.title,
+                          maxLines: 1,
+                          filled: true,
+                        ),
+                        verticalSpace(8.h),
+                        Text(
+                          'Edit Description',
+                          style: AppTextStyles.interBlack(16, FontWeight.w500),
+                        ),
+                        verticalSpace(4.h),
+                        CustomTextFormField(
+                          filled: true,
+                          controller: cubit.describtion,
+                          maxLines: null,
+                          minLines: 5,
+                          textInputType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
+                        ),
+                        verticalSpace(12.h),
                       ],
-                       
-                      Text(
-                        'Edit Note',
-                        style: AppTextStyles.interBlack(16, FontWeight.w500),
-                      ),
-                      verticalSpace(4.h),
-                      CustomTextFormField(
-                        controller: cubit.title,
-                        maxLines: 1,
-                        filled: true,
-                      ),
-                      verticalSpace(8.h),
-                      Text(
-                        'Edit Description',
-                        style: AppTextStyles.interBlack(16, FontWeight.w500),
-                      ),
-                      verticalSpace(4.h),
-                      CustomTextFormField(
-                        filled: true,
-                        controller: cubit.describtion,
-                        maxLines: null,
-                        minLines: 5,
-                        textInputType: TextInputType.multiline,
-                        textInputAction: TextInputAction.newline,
-                      ),
-                      verticalSpace(12.h),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-              CustomButton(
-                onTap: () async {
-                  noteModel.title = cubit.title!.text.trim().isEmpty
-                      ? noteModel.title
-                      : cubit.title!.text.trim();
-
-                  noteModel.content = cubit.describtion!.text.trim().isEmpty
-                      ? noteModel.content
-                      : cubit.describtion!.text.trim();
-
-                  await noteModel.save();
-
-                  cubit.fetchNotes();
-
-                  Navigator.pop(context);
-                },
-                title: 'Edit Note',
-              ),
-            ],
+                CustomButton(
+                  onTap: () async {
+                    noteModel.title = cubit.title!.text.trim().isEmpty
+                        ? noteModel.title
+                        : cubit.title!.text.trim();
+      
+                    noteModel.content = cubit.describtion!.text.trim().isEmpty
+                        ? noteModel.content
+                        : cubit.describtion!.text.trim();
+      
+                    await noteModel.save();
+      
+                    cubit.fetchNotes();
+      
+                    Navigator.pop(context);
+                  },
+                  title: 'Edit Note',
+                ),
+              ],
+            ),
           ),
         ),
       ),

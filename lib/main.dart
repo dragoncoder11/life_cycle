@@ -36,5 +36,6 @@ void main() async {
   await NotificationService.initialize();
   await Cache.instance.cacheInitialization();
   // await NotificationService.showTestNotification();
+ // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const LifeCycle());
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
+import 'package:life_cycle/core/theme/status_bar_mode.dart';
 import 'package:life_cycle/features/button_nav_bar/logic/cubit/button_nav_bar_cubit.dart';
 
 class ButtonNavBarScreen extends StatelessWidget {
@@ -13,73 +14,75 @@ class ButtonNavBarScreen extends StatelessWidget {
       builder: (context, state) {
         final cubit = context.read<ButtonNavBarCubit>();
 
-        return Scaffold(
-          body: Stack(
-            children: [
-              Positioned.fill(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
-                  child: cubit.getScreens()[cubit.selectedIndex],
-                ),
-              ),
-
-              Positioned(
-                left: 20.w,
-                right: 20.w,
-                bottom: MediaQuery.of(context).padding.bottom + 4.h,
-                child: Container(
-                  height: 60.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(35.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
-                        blurRadius: 15,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _navItem(
-                        icon: Icons.home_outlined,
-                        selectedIcon: Icons.home,
-                        label: 'Home',
-                        index: 0,
-                        selectedIndex: cubit.selectedIndex,
-                        onTap: () => cubit.changeIndex(0),
-                      ),
-                      _navItem(
-                        icon: Icons.note_alt_outlined,
-                        selectedIcon: Icons.note_alt,
-                        label: 'Notes',
-                        index: 1,
-                        selectedIndex: cubit.selectedIndex,
-                        onTap: () => cubit.changeIndex(1),
-                      ),
-                      _navItem(
-                        icon: Icons.check_box_outlined,
-                        selectedIcon: Icons.check_box,
-                        label: 'Tasks',
-                        index: 2,
-                        selectedIndex: cubit.selectedIndex,
-                        onTap: () => cubit.changeIndex(2),
-                      ),
-                      _navItem(
-                        icon: Icons.account_balance_wallet_outlined,
-                        selectedIcon: Icons.account_balance_wallet,
-                        label: 'Finance',
-                        index: 3,
-                        selectedIndex: cubit.selectedIndex,
-                        onTap: () => cubit.changeIndex(3),
-                      ),
-                    ],
+        return StatusBarMode(
+          child: Scaffold(
+            body: Stack(
+              children: [
+                Positioned.fill(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
+                    child: cubit.getScreens()[cubit.selectedIndex],
                   ),
                 ),
-              ),
-            ],
+          
+                Positioned(
+                  left: 20.w,
+                  right: 20.w,
+                  bottom: MediaQuery.of(context).padding.bottom + 4.h,
+                  child: Container(
+                    height: 60.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.whiteColor,
+                      borderRadius: BorderRadius.circular(35.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.08),
+                          blurRadius: 15,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _navItem(
+                          icon: Icons.home_outlined,
+                          selectedIcon: Icons.home,
+                          label: 'Home',
+                          index: 0,
+                          selectedIndex: cubit.selectedIndex,
+                          onTap: () => cubit.changeIndex(0),
+                        ),
+                        _navItem(
+                          icon: Icons.note_alt_outlined,
+                          selectedIcon: Icons.note_alt,
+                          label: 'Notes',
+                          index: 1,
+                          selectedIndex: cubit.selectedIndex,
+                          onTap: () => cubit.changeIndex(1),
+                        ),
+                        _navItem(
+                          icon: Icons.check_box_outlined,
+                          selectedIcon: Icons.check_box,
+                          label: 'Tasks',
+                          index: 2,
+                          selectedIndex: cubit.selectedIndex,
+                          onTap: () => cubit.changeIndex(2),
+                        ),
+                        _navItem(
+                          icon: Icons.account_balance_wallet_outlined,
+                          selectedIcon: Icons.account_balance_wallet,
+                          label: 'Finance',
+                          index: 3,
+                          selectedIndex: cubit.selectedIndex,
+                          onTap: () => cubit.changeIndex(3),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

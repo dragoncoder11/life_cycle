@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
+import 'package:life_cycle/core/theme/status_bar_mode.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 import 'package:life_cycle/features/tasks/data/models/task_model.dart';
@@ -24,104 +25,106 @@ class EditTaskScreen extends StatelessWidget {
 
     cubit.initEditTask(taskModel);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 16.w,
-            right: 16.w,
-            bottom: 16.h,
-            top: 16.h,
-          ),
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: AppColors.darkGreenColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-
-                    verticalSpace(10.h),
-
-                    Text(
-                      'Edit Task',
-                      style: AppTextStyles.interBlack(
-                        24,
-                        FontWeight.bold,
-                      ),
-                    ),
-
-                    verticalSpace(12.h),
-
-                    Text(
-                      'Edit Task Title',
-                      style: AppTextStyles.interBlack(
-                        16,
-                        FontWeight.w500,
-                      ),
-                    ),
-
-                    verticalSpace(4.h),
-
-                    CustomTextFormField(
-                      controller: cubit.taskTitle,
-                      maxLines: 1,
-                      filled: true,
-                    ),
-
-                    verticalSpace(12.h),
-
-                    Text(
-                      'Edit Date & Time',
-                      style: AppTextStyles.interBlack(
-                        16,
-                        FontWeight.w500,
-                      ),
-                    ),
-
-                    verticalSpace(4.h),
-
-                    CustomTextFormField(
-                      controller: cubit.taskEndDate,
-                      readOnly: true,
-                      onTap: () {
-                        cubit.pickEditDateTime(context);
-                      },
-                      filled: true,
-                      prefixIcon: const Icon(
-                        Icons.date_range,
-                      ),
-                      hintText: 'Select Date & Time',
-                    ),
-
-                    const Spacer(),
-
-                    verticalSpace(12.h),
-
-                    CustomButton(
-                      onTap: () async {
-                        await cubit.editTask(taskModel);
-
-                        if (context.mounted) {
+    return StatusBarMode(
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 16.w,
+              right: 16.w,
+              bottom: 16.h,
+              top: 16.h,
+            ),
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: AppColors.darkGreenColor,
+                        ),
+                        onPressed: () {
                           Navigator.pop(context);
-                        }
-                      },
-                      title: 'Edit Task',
-                    ),
-                  ],
+                        },
+                      ),
+      
+                      verticalSpace(10.h),
+      
+                      Text(
+                        'Edit Task',
+                        style: AppTextStyles.interBlack(
+                          24,
+                          FontWeight.bold,
+                        ),
+                      ),
+      
+                      verticalSpace(12.h),
+      
+                      Text(
+                        'Edit Task Title',
+                        style: AppTextStyles.interBlack(
+                          16,
+                          FontWeight.w500,
+                        ),
+                      ),
+      
+                      verticalSpace(4.h),
+      
+                      CustomTextFormField(
+                        controller: cubit.taskTitle,
+                        maxLines: 1,
+                        filled: true,
+                      ),
+      
+                      verticalSpace(12.h),
+      
+                      Text(
+                        'Edit Date & Time',
+                        style: AppTextStyles.interBlack(
+                          16,
+                          FontWeight.w500,
+                        ),
+                      ),
+      
+                      verticalSpace(4.h),
+      
+                      CustomTextFormField(
+                        controller: cubit.taskEndDate,
+                        readOnly: true,
+                        onTap: () {
+                          cubit.pickEditDateTime(context);
+                        },
+                        filled: true,
+                        prefixIcon: const Icon(
+                          Icons.date_range,
+                        ),
+                        hintText: 'Select Date & Time',
+                      ),
+      
+                      const Spacer(),
+      
+                      verticalSpace(12.h),
+      
+                      CustomButton(
+                        onTap: () async {
+                          await cubit.editTask(taskModel);
+      
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
+                        },
+                        title: 'Edit Task',
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -17,8 +17,7 @@ final ThemeData lightTheme = ThemeData(
   ),
 
   textTheme: TextTheme(
-       displayLarge:AppTextStyles.interWhite(24, FontWeight.bold),
-
+    displayLarge: AppTextStyles.interWhite(24, FontWeight.bold),
 
     displayMedium: AppTextStyles.interWhite(18, FontWeight.bold),
 
@@ -26,9 +25,9 @@ final ThemeData lightTheme = ThemeData(
 
     headlineMedium: AppTextStyles.interWhite(14, FontWeight.w500),
 
-    titleLarge:AppTextStyles.interWhite(12, FontWeight.w600),
+    titleLarge: AppTextStyles.interWhite(12, FontWeight.w600),
 
-    titleMedium: AppTextStyles.interWhite(11,FontWeight.w500),
+    titleMedium: AppTextStyles.interWhite(11, FontWeight.w500),
   ),
 );
 final ThemeData darkTheme = ThemeData(
@@ -46,8 +45,7 @@ final ThemeData darkTheme = ThemeData(
   ),
 
   textTheme: TextTheme(
-    displayLarge:AppTextStyles.interWhite(24, FontWeight.bold),
-
+    displayLarge: AppTextStyles.interWhite(24, FontWeight.bold),
 
     displayMedium: AppTextStyles.interWhite(18, FontWeight.bold),
 
@@ -55,8 +53,8 @@ final ThemeData darkTheme = ThemeData(
 
     headlineMedium: AppTextStyles.interWhite(14, FontWeight.w500),
 
-    titleLarge:AppTextStyles.interWhite(12, FontWeight.w600),
+    titleLarge: AppTextStyles.interWhite(12, FontWeight.w600),
 
-    titleMedium: AppTextStyles.interWhite(11,FontWeight.w500),
+    titleMedium: AppTextStyles.interWhite(11, FontWeight.w500),
   ),
 );
