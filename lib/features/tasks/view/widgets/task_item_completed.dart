@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/features/tasks/data/models/task_model.dart';
 import 'package:intl/intl.dart';
 import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
@@ -12,6 +12,7 @@ class TaskItemCompleted extends StatelessWidget {
   final TaskModel taskModel;
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     var cubit = context.read<TasksCubit>();
     bool isSelected = cubit.isTaskSelected(taskModel);
     //final startTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
@@ -84,26 +85,24 @@ class TaskItemCompleted extends StatelessWidget {
                             children: [
                               Text(
                                 taskModel.title!,
-                                style: AppTextStyles.interBlack(
-                                  18,
-                                  FontWeight.bold,
-                                ),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 18.sp),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               verticalSpace(8),
                               Row(
                                 children: [
-                                  const Icon(Icons.date_range, size: 16,color: AppColors.blackColor,),
+                                   Icon(
+                                    Icons.date_range,
+                                    size: 16,
+                                    color:isDark?AppColors.whiteColor: AppColors.blackColor,
+                                  ),
                                   horizontalSpace(4),
 
                                   Expanded(
                                     child: Text(
                                       endTime,
-                                      style: AppTextStyles.interBlack(
-                                        11,
-                                        FontWeight.w400,
-                                      ),
+                                      style:Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 11.sp),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -113,24 +112,15 @@ class TaskItemCompleted extends StatelessWidget {
                                       children: [
                                         TextSpan(
                                           text: '$dayName ',
-                                          style: AppTextStyles.interBlack(
-                                            11,
-                                            FontWeight.w600,
-                                          ),
+                                          style:Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 11.sp),
                                         ),
                                         TextSpan(
                                           text: '$dayNumber ',
-                                          style: AppTextStyles.interBlack(
-                                            11,
-                                            FontWeight.w600,
-                                          ),
+                                          style:Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 11.sp),
                                         ),
                                         TextSpan(
                                           text: monthName,
-                                          style: AppTextStyles.interBlack(
-                                            11,
-                                            FontWeight.w600,
-                                          ),
+                                          style:Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 11.sp),
                                         ),
                                       ],
                                     ),
@@ -141,7 +131,7 @@ class TaskItemCompleted extends StatelessWidget {
                             ],
                           ),
                         ),
-                         if (isSelected)
+                        if (isSelected)
                           const Icon(
                             Icons.check_circle,
                             color: Colors.red,
@@ -150,7 +140,6 @@ class TaskItemCompleted extends StatelessWidget {
                       ],
                     ),
                   ),
-                  
                 ],
               ),
             ),

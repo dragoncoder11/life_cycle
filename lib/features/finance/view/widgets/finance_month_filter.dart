@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/features/finance/logic/cubit/finance_cubit.dart';
 import 'package:life_cycle/features/finance/logic/cubit/finance_state.dart';
 
@@ -29,10 +28,7 @@ class MonthFilter extends StatelessWidget {
             .toList();
 
         return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 12.w,
-            vertical: 4.h,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
           decoration: BoxDecoration(
             color: AppColors.kPrimaryColor.withOpacity(.15),
             borderRadius: BorderRadius.circular(12.r),
@@ -42,10 +38,9 @@ class MonthFilter extends StatelessWidget {
             children: [
               Text(
                 DateFormat('MMMM yyyy').format(selectedMonth),
-                style: AppTextStyles.interBlack(
-                  15,
-                  FontWeight.w600,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.displaySmall?.copyWith(fontSize: 15.sp),
               ),
 
               DropdownButton<DateTime>(
@@ -60,10 +55,9 @@ class MonthFilter extends StatelessWidget {
                     value: month,
                     child: Text(
                       DateFormat('MMMM yyyy').format(month),
-                      style: AppTextStyles.interBlack(
-                        13,
-                        FontWeight.w500,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.displaySmall?.copyWith(fontSize: 13.sp),
                     ),
                   );
                 }).toList(),

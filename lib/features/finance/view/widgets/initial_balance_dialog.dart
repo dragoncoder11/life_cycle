@@ -11,6 +11,7 @@ Future<void> showInitialBalanceDialog(
   FinanceCubit cubit,
 ) async {
   final controller = TextEditingController();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
   try {
     await showDialog(
@@ -18,7 +19,7 @@ Future<void> showInitialBalanceDialog(
       barrierDismissible: true,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor: AppColors.whiteColor,
+          backgroundColor:isDark?AppColors.notificationCard: AppColors.whiteColor,
           scrollable: true,
           insetPadding: EdgeInsets.symmetric(
             horizontal: 20.w,
@@ -29,10 +30,7 @@ Future<void> showInitialBalanceDialog(
           ),
           title: Text(
             'Set Initial Balance',
-            style: AppTextStyles.interBlack(
-              20,
-              FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 20.sp)
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -50,10 +48,7 @@ Future<void> showInitialBalanceDialog(
 
               Text(
                 'Amount',
-                style: AppTextStyles.interBlack(
-                  15,
-                  FontWeight.w500,
-                ),
+                style:Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 15.sp)
               ),
 
               SizedBox(height: 8.h),
@@ -66,7 +61,7 @@ Future<void> showInitialBalanceDialog(
                   decimal: true,
                 ),
                 filled: true,
-                filledColor: Colors.white,
+                filledColor:isDark?AppColors.notificationCard.withOpacity(.7): Colors.white,
                 borderColor: AppColors.whiteColor,
                 prefixIcon: Icon(
                   Icons.account_balance_wallet_outlined,

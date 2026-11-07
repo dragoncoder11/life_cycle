@@ -16,7 +16,7 @@ class AddNoteImagePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AddNoteCubit>();
-
+    final isDark=Theme.of(context).brightness==Brightness.dark;
     return BlocBuilder<AddNoteCubit, AddNoteState>(
       builder: (context, state) {
         return Column(

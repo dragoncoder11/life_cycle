@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/theme/status_bar_mode.dart';
 import 'package:life_cycle/features/settings/views/widgets/setting_list_tile.dart';
 import 'package:life_cycle/features/theme/data/theme_enum.dart';
@@ -38,8 +37,8 @@ class SettingScreen extends StatelessWidget {
                       },
                     ),
                     Text(
-                      'Notifications',
-                      style: AppTextStyles.interBlack(24, FontWeight.bold),
+                      'Settings',
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                   ],
                 ),
@@ -51,9 +50,11 @@ class SettingScreen extends StatelessWidget {
                   trailing: CupertinoSwitch(
                     value: isDark,
                     activeTrackColor: AppColors.kPrimaryColor,
-      
+
                     onChanged: (status) {
-                      themeCubit.changeTheme(status?ThemeState.Dark:ThemeState.Light);
+                      themeCubit.changeTheme(
+                        status ? ThemeState.Dark : ThemeState.Light,
+                      );
                     },
                   ),
                 ),
@@ -62,7 +63,11 @@ class SettingScreen extends StatelessWidget {
                   icon: Icons.notifications,
                   title: 'Notifications',
                 ),
+                verticalSpace(2),
+
                 SettingListTile(icon: Icons.shield, title: 'App Info'),
+                verticalSpace(2),
+
                 SettingListTile(icon: Icons.info, title: 'About Life Cycle'),
               ],
             ),

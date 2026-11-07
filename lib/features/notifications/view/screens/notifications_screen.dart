@@ -269,7 +269,7 @@ class NotificationsScreen extends StatelessWidget {
                     ),
                     Text(
                       'Notifications',
-                      style: AppTextStyles.interBlack(24, FontWeight.bold),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                   ],
                 ),

@@ -18,14 +18,15 @@ class ShowTaskModelSheetBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AddTaskCubit>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         ),
-        color: AppColors.darkGreenColor,
+        color: isDark ? AppColors.bottomSheet : AppColors.darkGreenColor,
       ),
       child: Padding(
         padding: EdgeInsets.only(
@@ -44,19 +45,13 @@ class ShowTaskModelSheetBody extends StatelessWidget {
                 // Task Title
                 Text(
                   'Add Task',
-                  style: AppTextStyles.interWhite(
-                    16,
-                    FontWeight.w500,
-                  ),
+                  style: AppTextStyles.interWhite(16, FontWeight.w500),
                 ),
 
                 verticalSpace(4.h),
 
                 CustomTextFormField(
-                  textStyle: AppTextStyles.interWhite(
-                    16,
-                    FontWeight.w600,
-                  ),
+                  textStyle: AppTextStyles.interWhite(16, FontWeight.w600),
                   hintText: 'e.g finish the project',
                   controller: cubit.titleController,
                   validate: (value) {
@@ -73,25 +68,16 @@ class ShowTaskModelSheetBody extends StatelessWidget {
                 // Date And Time
                 Text(
                   'Reminder',
-                  style: AppTextStyles.interWhite(
-                    16,
-                    FontWeight.w500,
-                  ),
+                  style: AppTextStyles.interWhite(16, FontWeight.w500),
                 ),
 
                 verticalSpace(4.h),
 
                 CustomTextFormField(
                   onTap: () {
-                    cubit.pickedDateTime(
-                      cubit.startDateController,
-                      context,
-                    );
+                    cubit.pickedDateTime(cubit.startDateController, context);
                   },
-                  textStyle: AppTextStyles.interWhite(
-                    16,
-                    FontWeight.w600,
-                  ),
+                  textStyle: AppTextStyles.interWhite(16, FontWeight.w600),
                   hintText: 'Select date and time',
                   maxLines: 1,
                   prefixIcon: Icon(
@@ -115,12 +101,11 @@ class ShowTaskModelSheetBody extends StatelessWidget {
                 BlocConsumer<AddTaskCubit, AddTaskState>(
                   listener: (context, state) {
                     if (state is AddTaskFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(state.errMessage),
-                        ),
-                      );
-                    }if (state is AddTaskSuccess) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+                    }
+                    if (state is AddTaskSuccess) {
                       context.read<TasksCubit>().fetchTasks();
 
                       Navigator.pop(context);

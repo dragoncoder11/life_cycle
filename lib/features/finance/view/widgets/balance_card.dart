@@ -39,12 +39,12 @@ class BalanceCard extends StatelessWidget {
               children: [
                 Text(
                   'My Balance',
-                  style: AppTextStyles.interBlack(14, FontWeight.w500),
+                          style: Theme.of(context).textTheme.titleMedium,
                 ),
                 verticalSpace(10),
                 Text(
                   '${balance.toStringAsFixed(0)} EGP',
-                  style: AppTextStyles.interBlack(20, FontWeight.bold),
+                          style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 20.sp),
                 ),
               ],
             ),

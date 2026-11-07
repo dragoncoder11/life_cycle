@@ -62,7 +62,7 @@ class TransactionCategory extends StatelessWidget {
           verticalSpace(3),
           Text(
             category.name,
-            style: AppTextStyles.interDarkGreen(
+            style: AppTextStyles.interPrimaryDark(
               10,
               FontWeight.w500,
             ).copyWith(color: categoryColor),

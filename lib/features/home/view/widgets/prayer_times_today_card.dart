@@ -11,16 +11,17 @@ class PrayerTimesTodayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Card(
       elevation: 3,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.whiteColor,
+          color: isDark?AppColors.notificationCard: AppColors.whiteColor,
           border: Border.all(color: Colors.transparent, width: 1.5),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color:isDark?AppColors.whiteColor.withValues(alpha: 0.08): AppColors.blackColor.withValues(alpha: 0.08),
               blurRadius: 2,
               spreadRadius: 1,
               offset: const Offset(0, 0),
@@ -44,7 +45,7 @@ class PrayerTimesTodayCard extends StatelessWidget {
                       horizontalSpace(8),
                       Text(
                         'Prayer Times Today',
-                        style: AppTextStyles.interBlack(15, FontWeight.w600),
+                        style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 18.sp)
                       ),
                     ],
                   ),
@@ -70,7 +71,6 @@ class PrayerTimesTodayCard extends StatelessWidget {
                   PrayerItem(prayerModel: prayers[4]),
                 ],
               ),
-              
             ],
           ),
         ),

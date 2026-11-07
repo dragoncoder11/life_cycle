@@ -30,14 +30,14 @@ class FinanceScreen extends StatelessWidget {
     return BlocBuilder<FinanceCubit, FinanceState>(
       builder: (context, state) {
         final cubit = context.read<FinanceCubit>();
+        final isDark = Theme.of(context).brightness == Brightness.dark;
 
         // Show Initial Balance Dialog once.
         if (!state.isLoading && !state.isInitialBalanceSet) {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
             if (!context.mounted) return;
 
-            final shouldShow =
-                await cubit.tryShowInitialBalanceDialog();
+            final shouldShow = await cubit.tryShowInitialBalanceDialog();
 
             if (!context.mounted || !shouldShow) return;
 
@@ -46,9 +46,7 @@ class FinanceScreen extends StatelessWidget {
         }
 
         if (state.isLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         final now = DateTime.now();
@@ -82,30 +80,25 @@ class FinanceScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Finance',
-                      style: AppTextStyles.interBlack(
-                        24,
-                        FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
 
                     CustomCircleAvatar(
                       icon: Icons.add,
                       onPressed: () {
-                        final financeCubit =
-                            context.read<FinanceCubit>();
+                        final financeCubit = context.read<FinanceCubit>();
 
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) {return MultiBlocProvider(
+                            builder: (_) {
+                              return MultiBlocProvider(
                                 providers: [
                                   BlocProvider<FinanceCubit>.value(
                                     value: financeCubit,
                                   ),
-                                  BlocProvider<
-                                      TransactionCategoriesCubit>(
-                                    create: (_) =>
-                                        TransactionCategoriesCubit(),
+                                  BlocProvider<TransactionCategoriesCubit>(
+                                    create: (_) => TransactionCategoriesCubit(),
                                   ),
                                 ],
                                 child: const AddTransactionScreen(),
@@ -123,8 +116,7 @@ class FinanceScreen extends StatelessWidget {
                 // Current Balance
                 GestureDetector(
                   onTap: () {
-                    final financeCubit =
-                        context.read<FinanceCubit>();
+                    final financeCubit = context.read<FinanceCubit>();
 
                     Navigator.push(
                       context,
@@ -136,9 +128,7 @@ class FinanceScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  child: BalanceCard(
-                    balance: cubit.currentBalance,
-                  ),
+                  child: BalanceCard(balance: cubit.currentBalance),
                 ),
 
                 verticalSpace(6.h),
@@ -158,29 +148,30 @@ class FinanceScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: IncomeExtendCard(
-                        cardColor:
-                            AppColors.kPrimaryColor.withOpacity(.3),
+                        cardColor: AppColors.kPrimaryColor.withOpacity(.3),
                         icon: Icons.arrow_upward,
                         iconColor: AppColors.kPrimaryColor,
                         circleColor: AppColors.kPrimaryColor.withOpacity(.3),
                         title: 'Income',
                         price: cubit.monthlyIncome,
-                        titleStyle: AppTextStyles.interDarkGreen(
-                          11,
-                          FontWeight.w500,
-                        ),
+                        titleStyle:
+                            AppTextStyles.interPrimaryDark(
+                              11,
+                              FontWeight.w500,
+                            ).copyWith(
+                              color: isDark
+                                  ? AppColors.whiteColor
+                                  : AppColors.kPrimaryDark,
+                            ),
                         priceStyle: AppTextStyles.interLightGreen(
                           12,
                           FontWeight.bold,
                         ),
-                        showViewAll: isPastMonth &&
-                            cubit.hasTransactionsOfType(
-                              TransactionType.income,
-                            ),
+                        showViewAll:
+                            isPastMonth &&
+                            cubit.hasTransactionsOfType(TransactionType.income),
                         onViewAll: () {
-                          cubit.toggleTransactions(
-                            TransactionType.income,
-                          );
+                          cubit.toggleTransactions(TransactionType.income);
                         },
                       ),
                     ),
@@ -197,28 +188,26 @@ class FinanceScreen extends StatelessWidget {
 
                     Expanded(
                       child: IncomeExtendCard(
-                        cardColor:
-                            AppColors.expense.withOpacity(.4),
+                        cardColor: AppColors.expense.withOpacity(.4),
                         icon: Icons.arrow_downward,
                         iconColor: AppColors.redColor,
                         circleColor: AppColors.expense,
-                        title: 'Expenses',price: cubit.monthlyExpenses,
-                        titleStyle: AppTextStyles.interRed(
-                          11,
-                          FontWeight.w500,
-                        ),
-                        priceStyle: AppTextStyles.interRed(
-                          12,
-                          FontWeight.bold,
-                        ),
-                        showViewAll: isPastMonth &&
+                        title: 'Expenses',
+                        price: cubit.monthlyExpenses,
+                        titleStyle: AppTextStyles.interRed(11, FontWeight.w500)
+                            .copyWith(
+                              color: isDark
+                                  ? AppColors.whiteColor
+                                  : AppColors.redColor,
+                            ),
+                        priceStyle: AppTextStyles.interRed(12, FontWeight.bold),
+                        showViewAll:
+                            isPastMonth &&
                             cubit.hasTransactionsOfType(
                               TransactionType.expense,
                             ),
                         onViewAll: () {
-                          cubit.toggleTransactions(
-                            TransactionType.expense,
-                          );
+                          cubit.toggleTransactions(TransactionType.expense);
                         },
                       ),
                     ),
@@ -233,24 +222,24 @@ class FinanceScreen extends StatelessWidget {
                     isCurrentMonth
                         ? 'Transactions'
                         : visibleType == TransactionType.income
-                            ? 'Income Transactions'
-                            : 'Expense Transactions',
-                    style: AppTextStyles.interBlack(
-                      18,
-                      FontWeight.bold,
-                    ),
+                        ? 'Income Transactions'
+                        : 'Expense Transactions',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.displaySmall?.copyWith(fontSize: 18.sp),
                   ),
 
                   verticalSpace(4.h),
 
-                  ...transactionsToShow.map(
-                    (transaction) => Padding(
-                      padding: EdgeInsets.only(bottom: 10.h),
-                      child: TransactionItem(
-                        transactionModel: transaction,
-                      ),
-                    ),
-                  ).toList().reversed,
+                  ...transactionsToShow
+                      .map(
+                        (transaction) => Padding(
+                          padding: EdgeInsets.only(bottom: 10.h),
+                          child: TransactionItem(transactionModel: transaction),
+                        ),
+                      )
+                      .toList()
+                      .reversed,
                 ],
 
                 verticalSpace(20.h),

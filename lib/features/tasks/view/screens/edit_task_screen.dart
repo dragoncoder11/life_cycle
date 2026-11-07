@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/theme/status_bar_mode.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
@@ -15,11 +14,11 @@ class EditTaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final cubit = BlocProvider.of<TasksCubit>(context);
 
     final args =
-        ModalRoute.of(context)!.settings.arguments
-            as Map<String, dynamic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     final taskModel = args['task'] as TaskModel;
 
@@ -46,53 +45,44 @@ class EditTaskScreen extends StatelessWidget {
                       IconButton(
                         icon: Icon(
                           Icons.arrow_back_ios,
-                          color: AppColors.darkGreenColor,
+                          color:isDark?AppColors.whiteColor: AppColors.darkGreenColor,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                       ),
-      
+
                       verticalSpace(10.h),
-      
+
                       Text(
                         'Edit Task',
-                        style: AppTextStyles.interBlack(
-                          24,
-                          FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.displaySmall,
                       ),
-      
+
                       verticalSpace(12.h),
-      
+
                       Text(
                         'Edit Task Title',
-                        style: AppTextStyles.interBlack(
-                          16,
-                          FontWeight.w500,
-                        ),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 15.sp)
                       ),
-      
+
                       verticalSpace(4.h),
-      
+
                       CustomTextFormField(
                         controller: cubit.taskTitle,
                         maxLines: 1,
                         filled: true,
                       ),
-      
+
                       verticalSpace(12.h),
-      
+
                       Text(
                         'Edit Date & Time',
-                        style: AppTextStyles.interBlack(
-                          16,
-                          FontWeight.w500,
-                        ),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 15.sp)
                       ),
-      
+
                       verticalSpace(4.h),
-      
+
                       CustomTextFormField(
                         controller: cubit.taskEndDate,
                         readOnly: true,
@@ -100,20 +90,18 @@ class EditTaskScreen extends StatelessWidget {
                           cubit.pickEditDateTime(context);
                         },
                         filled: true,
-                        prefixIcon: const Icon(
-                          Icons.date_range,
-                        ),
+                        prefixIcon: const Icon(Icons.date_range),
                         hintText: 'Select Date & Time',
                       ),
-      
+
                       const Spacer(),
-      
+
                       verticalSpace(12.h),
-      
+
                       CustomButton(
                         onTap: () async {
                           await cubit.editTask(taskModel);
-      
+
                           if (context.mounted) {
                             Navigator.pop(context);
                           }

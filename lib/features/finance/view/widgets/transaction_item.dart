@@ -10,15 +10,16 @@ class TransactionItem extends StatelessWidget {
   final TransactionModel transactionModel;
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Card(
       elevation: 3,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.whiteColor,
+          color:isDark?AppColors.notificationCard: AppColors.whiteColor,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color:isDark?AppColors.whiteColor.withValues(alpha: 0.08): AppColors.blackColor.withValues(alpha: 0.08),
               blurRadius: 2,
               spreadRadius: 1,
               offset: const Offset(0, 0),
@@ -45,10 +46,7 @@ class TransactionItem extends StatelessWidget {
                             transactionModel.note == null)
                         ? Text(
                             transactionModel.category.name,
-                            style: AppTextStyles.interBlack(
-                              12,
-                              FontWeight.bold,
-                            ),
+                            style:Theme.of(context).textTheme.titleLarge
                           )
                         : Expanded(
                             child: Column(
@@ -56,15 +54,12 @@ class TransactionItem extends StatelessWidget {
                               children: [
                                 Text(
                                   transactionModel.category.name,
-                                  style: AppTextStyles.interBlack(
-                                    11,
-                                    FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context).textTheme.titleLarge
                                 ),
                                 Text(
                                   transactionModel.note!,
                                   style: AppTextStyles.interGrey(
-                                    10,
+                                    12,
                                     FontWeight.w500,
                                   ),
                                   overflow: TextOverflow.ellipsis,

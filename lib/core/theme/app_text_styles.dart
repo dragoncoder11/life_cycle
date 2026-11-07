@@ -48,7 +48,7 @@ class AppTextStyles {
     );
   }
 
-  static TextStyle interDarkGreen(double fontSize, FontWeight fontWeight) {
+  static TextStyle interPrimaryDark(double fontSize, FontWeight fontWeight) {
     return setInterTextStyle(
       color: AppColors.kPrimaryDark,
       fontSize: fontSize.sp,

@@ -45,10 +45,7 @@ class HomeCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           homeCardModel.title,
-                          style: AppTextStyles.interBlack(
-                            14,
-                            FontWeight.bold,
-                          ),
+                          style:Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 16.sp),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

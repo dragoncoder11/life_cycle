@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/theme/status_bar_mode.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
@@ -16,6 +15,7 @@ class AddBalanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<FinanceCubit>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return StatusBarMode(
       child: Scaffold(
@@ -34,7 +34,7 @@ class AddBalanceScreen extends StatelessWidget {
                             IconButton(
                               icon: Icon(
                                 Icons.arrow_back_ios,
-                                color: AppColors.darkGreenColor,
+                                color: isDark?AppColors.whiteColor: AppColors.darkGreenColor,
                               ),
                               onPressed: () {
                                 Navigator.pop(context);
@@ -43,10 +43,7 @@ class AddBalanceScreen extends StatelessWidget {
                             horizontalSpace(6),
                             Text(
                               'Initial Balance',
-                              style: AppTextStyles.interBlack(
-                                24,
-                                FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.displaySmall
                             ),
                           ],
                         ),
@@ -64,13 +61,10 @@ class AddBalanceScreen extends StatelessWidget {
       
                         Text(
                           'Amount',
-                          style: AppTextStyles.interBlack(
-                            16,
-                            FontWeight.w500,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 15.sp),
                         ),
       
-                        verticalSpace(4.h),
+                        verticalSpace(8.h),
       
                         CustomTextFormField(
                           controller: cubit.initialBalanceController,

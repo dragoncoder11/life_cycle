@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -35,10 +36,10 @@ class HomeScreen extends StatelessWidget {
                       horizontalSpace(10),
                       Text(
                         'Life Cycle',
-                        style: AppTextStyles.interDarkGreen(
+                        style: AppTextStyles.interPrimaryDark(
                           24,
                           FontWeight.bold,
-                        ),
+                        ).copyWith(color: isDark?AppColors.whiteColor:AppColors.kPrimaryDark),
                       ),
                     ],
                   ),
@@ -79,26 +80,16 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Good Morning..',
-                    style: AppTextStyles.interBlack(
-                      24,
-                      FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
                   horizontalSpace(5),
-                  Icon(
-                    Icons.sunny,
-                    color: AppColors.financeYellow,
-                    size: 32,
-                  ),
+                  Icon(Icons.sunny, color: AppColors.financeYellow, size: 32),
                 ],
               ),
               verticalSpace(4),
               Text(
                 'Small steps make big progress',
-                style: AppTextStyles.interGrey(
-                  12,
-                  FontWeight.w600,
-                ),
+                style: AppTextStyles.interGrey(12, FontWeight.w600),
               ),
               verticalSpace(8),
               MosqueCard(),
@@ -108,7 +99,6 @@ class HomeScreen extends StatelessWidget {
             ]),
           ),
           HomeCardGridView(),
-          
         ],
       ),
     );

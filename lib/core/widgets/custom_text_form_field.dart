@@ -5,7 +5,7 @@ import 'package:life_cycle/core/theme/app_text_styles.dart';
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    this.maxLines=1,
+    this.maxLines = 1,
     this.hintText,
     this.prefixIcon,
     this.textInputType,
@@ -18,7 +18,9 @@ class CustomTextFormField extends StatelessWidget {
     this.textStyle,
     this.onTap,
     this.readOnly = false,
-    this.onChanged, this.minLines, this.textInputAction,
+    this.onChanged,
+    this.minLines,
+    this.textInputAction,
   });
 
   final int? maxLines;
@@ -71,7 +73,7 @@ class CustomTextFormField extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: controller == null
-          ? _buildTextField(fallbackDirection)
+          ? _buildTextField(context, fallbackDirection)
           : ValueListenableBuilder<TextEditingValue>(
               valueListenable: controller!,
               builder: (context, value, child) {
@@ -82,14 +84,15 @@ class CustomTextFormField extends StatelessWidget {
 
                 return Directionality(
                   textDirection: direction,
-                  child: _buildTextField(direction),
+                  child: _buildTextField(context, direction),
                 );
               },
             ),
     );
   }
 
-  Widget _buildTextField(TextDirection direction) {
+  Widget _buildTextField(BuildContext context, TextDirection direction) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return TextFormField(
       textInputAction: textInputAction ?? TextInputAction.newline,
       minLines: minLines ?? 1,
@@ -103,16 +106,18 @@ class CustomTextFormField extends StatelessWidget {
       onSaved: onSaved,
       validator: validate,
       keyboardType: textInputType ?? TextInputType.text,
-      maxLines: maxLines ,
+      maxLines: maxLines,
       cursorColor: AppColors.kPrimaryColor,
       decoration: InputDecoration(
         hintText: hintText ?? 'Enter text...',
         hintStyle: AppTextStyles.interGrey(14, FontWeight.w400),
         prefixIcon: prefixIcon,
-        iconColor: AppColors.greyColor,
+        iconColor: isDark ? AppColors.whiteColor : AppColors.greyColor,
+
         filled: filled ?? false,
         fillColor: (filled ?? false)
-            ? (filledColor ?? AppColors.whiteColor)
+            ? (filledColor ??
+                  (isDark ? AppColors.notificationCard : AppColors.whiteColor))
             : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

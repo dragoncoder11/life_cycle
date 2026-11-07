@@ -34,6 +34,7 @@ class OnBoardingScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return BlocBuilder<OnBoardingCubit, OnBoardingState>(
       builder: (context, state) {
         var cubit = context.read<OnBoardingCubit>();
@@ -63,24 +64,24 @@ class OnBoardingScreen extends StatelessWidget {
                             verticalSpace(10),
                             Text(
                               onboardingData[index]['title'],
-                              style: AppTextStyles.interBlack(
-                                24,
-                                FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.displayMedium,
                               textAlign: TextAlign.center,
                             ),
                             verticalSpace(10),
                             Text(
                               onboardingData[index]['description'],
                               textAlign: TextAlign.center,
-                              style: AppTextStyles.interGrey(14, FontWeight.w600),
+                              style: AppTextStyles.interGrey(
+                                14,
+                                FontWeight.w600,
+                              ),
                             ),
                           ],
                         ),
                       );
                     },
                   ),
-          
+
                   // 2. Skip فوق الـ PageView
                   Positioned(
                     top: 24.h,
@@ -92,7 +93,6 @@ class OnBoardingScreen extends StatelessWidget {
                           context,
                           Routes.buttonNavBarScreen,
                         );
-                        
                       },
                       child: Text(
                         'Skip',
@@ -103,7 +103,7 @@ class OnBoardingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-          
+
                   // 3. Page indicator
                   Positioned(
                     bottom: 100.h,
@@ -122,7 +122,7 @@ class OnBoardingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-          
+
                   // 4. Button فوق الـ PageView
                   Positioned(
                     bottom: 24.h,

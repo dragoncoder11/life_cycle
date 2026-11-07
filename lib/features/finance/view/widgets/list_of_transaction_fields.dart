@@ -17,6 +17,7 @@ class ListOfTransactionFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SliverToBoxAdapter(
       child:
           BlocBuilder<TransactionCategoriesCubit, TransactionCategoriesState>(
@@ -34,7 +35,9 @@ class ListOfTransactionFields extends StatelessWidget {
                     // Amount
                     Text(
                       'Amount',
-                      style: AppTextStyles.interBlack(16, FontWeight.w500),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.displaySmall?.copyWith(fontSize: 15.sp),
                     ),
 
                     verticalSpace(6.h),
@@ -67,7 +70,9 @@ class ListOfTransactionFields extends StatelessWidget {
                     // Date
                     Text(
                       'Date',
-                      style: AppTextStyles.interBlack(16, FontWeight.w500),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.displaySmall?.copyWith(fontSize: 15.sp),
                     ),
 
                     verticalSpace(6.h),
@@ -88,8 +93,12 @@ class ListOfTransactionFields extends StatelessWidget {
                               data: Theme.of(context).copyWith(
                                 colorScheme: ColorScheme.light(
                                   primary: AppColors.kPrimaryColor,
-                                  onPrimary: Colors.white,
-                                  onSurface: AppColors.darkGreenColor,
+                                  onPrimary: isDark
+                                      ? AppColors.notificationCard
+                                      : AppColors.whiteColor,
+                                  onSurface: isDark
+                                      ? AppColors.whiteColor
+                                      : AppColors.darkGreenColor,
                                 ),
                                 textButtonTheme: TextButtonThemeData(
                                   style: TextButton.styleFrom(
@@ -113,10 +122,14 @@ class ListOfTransactionFields extends StatelessWidget {
                           vertical: 16.h,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.whiteColor,
+                          color: isDark
+                              ? AppColors.notificationCard
+                              : AppColors.whiteColor,
                           borderRadius: BorderRadius.circular(12.r),
                           border: Border.all(
-                            color: AppColors.darkGreenColor.withOpacity(.2),
+                            color: isDark
+                                ? AppColors.whiteColor.withOpacity(.2)
+                                : AppColors.darkGreenColor.withOpacity(.2),
                           ),
                         ),
                         child: Row(
@@ -127,10 +140,7 @@ class ListOfTransactionFields extends StatelessWidget {
                               DateFormat(
                                 'dd MMM yyyy',
                               ).format(cubit.selectedDate),
-                              style: AppTextStyles.interBlack(
-                                14,
-                                FontWeight.w500,
-                              ),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 14.sp),
                             ),
                           ],
                         ),
@@ -144,7 +154,9 @@ class ListOfTransactionFields extends StatelessWidget {
                       children: [
                         Text(
                           'Note',
-                          style: AppTextStyles.interBlack(16, FontWeight.w500),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.displaySmall?.copyWith(fontSize: 15.sp),
                         ),
                         Text(
                           ' (Optional)',

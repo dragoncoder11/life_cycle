@@ -19,6 +19,7 @@ class NoteItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return BlocBuilder<NotesCubit, NotesState>(
       builder: (context, state) {
         var cubit = context.read<NotesCubit>();
@@ -57,7 +58,7 @@ class NoteItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isSelected
                       ? Colors.red.withOpacity(0.15)
-                      : AppColors.whiteColor,
+                      : isDark?AppColors.notificationCard: AppColors.whiteColor,
                   border: Border.all(
                     color: isSelected ? Colors.red : Colors.transparent,
                     width: 1.5,
@@ -65,7 +66,7 @@ class NoteItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
+                      color:isDark?AppColors.whiteColor.withValues(alpha: 0.08): AppColors.blackColor.withValues(alpha: 0.08),
                       blurRadius: 2,
                       spreadRadius: 1,
                     ),
@@ -101,10 +102,7 @@ class NoteItem extends StatelessWidget {
                               HighlightedText(
                                 text: noteModel.title,
                                 query: cubit.searchQuery ?? '',
-                                style: AppTextStyles.interBlack(
-                                  18,
-                                  FontWeight.bold,
-                                ),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 15.sp)
                               ),
                               HighlightedText(
                                 text: noteModel.content,
@@ -114,7 +112,7 @@ class NoteItem extends StatelessWidget {
                                       14,
                                       FontWeight.w500,
                                     ).copyWith(
-                                      color: AppColors.blackColor.withOpacity(
+                                      color:isDark?AppColors.greyColor: AppColors.blackColor.withOpacity(
                                         .7,
                                       ),
                                     ),

@@ -16,6 +16,7 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = BlocProvider.of<AddNoteCubit>(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       decoration: BoxDecoration(
@@ -23,7 +24,7 @@ class ShowNoteModelButtonSheetBody extends StatelessWidget {
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         ),
-        color: AppColors.darkGreenColor,
+        color: isDark?AppColors.bottomSheet: AppColors.darkGreenColor,
       ),
       child: Padding(
         padding: EdgeInsets.only(

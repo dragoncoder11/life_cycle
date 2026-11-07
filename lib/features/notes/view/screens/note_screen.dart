@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
 import 'package:life_cycle/features/notes/logic/get_notes/notes_cubit.dart';
 import 'package:life_cycle/features/notes/view/widgets/add_note_sheet.dart';
@@ -14,6 +13,7 @@ class NoteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark=Theme.of(context).brightness==Brightness.dark;
     final cubit = context.read<NotesCubit>();
 
     return BlocBuilder<NotesCubit, NotesState>(
@@ -38,10 +38,7 @@ class NoteScreen extends StatelessWidget {
                       cubit.isSelectionMode
                           ? '${cubit.selectedNotes.length} Selected'
                           : 'Notes',
-                      style: AppTextStyles.interBlack(
-                        24,
-                        FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall
                     ),
 
                     if (cubit.isSelectionMode) ...[
@@ -59,9 +56,9 @@ class NoteScreen extends StatelessWidget {
                         onPressed: () {
                           cubit.clearSelection();
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.close,
-                          color: AppColors.darkGreenColor,
+                          color: isDark?AppColors.whiteColor: AppColors.darkGreenColor,
                         ),
                       ),
                     ] else
@@ -76,7 +73,7 @@ class NoteScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.08),
+                        color: isDark?AppColors.whiteColor.withValues(alpha: 0.08): AppColors.blackColor.withValues(alpha: 0.08),
                         blurRadius: 2,
                         spreadRadius: 1,
                         offset: const Offset(0, 0),

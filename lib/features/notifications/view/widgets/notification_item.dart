@@ -126,17 +126,18 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: EdgeInsets.only(bottom: 5.h),
       child: Card(
         elevation: 3,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.whiteColor,
+            color:isDark?AppColors.notificationCard: AppColors.whiteColor,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.08),
+                color:isDark?AppColors.whiteColor.withValues(alpha: 0.08): AppColors.blackColor.withValues(alpha: 0.08),
                 blurRadius: 2,
                 spreadRadius: 1,
               ),
@@ -160,20 +161,14 @@ class NotificationItem extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: AppTextStyles.interBlack(
-                          16,
-                          FontWeight.bold,
-                        ),
+                        style:Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 16.sp),
                       ),
 
                       verticalSpace(4),
 
                       Text(
                         body,
-                        style: AppTextStyles.interGrey(
-                          12,
-                          FontWeight.w600,
-                        ),
+                        style: AppTextStyles.interGrey(12, FontWeight.w600),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -181,13 +176,8 @@ class NotificationItem extends StatelessWidget {
                       verticalSpace(5),
 
                       Text(
-                        DateFormat(
-                          'dd MMM yyyy • hh:mm a',
-                        ).format(date),
-                        style: AppTextStyles.interGrey(
-                          11,
-                          FontWeight.w500,
-                        ),
+                        DateFormat('dd MMM yyyy • hh:mm a').format(date),
+                        style: AppTextStyles.interGrey(11, FontWeight.w500),
                       ),
                     ],
                   ),

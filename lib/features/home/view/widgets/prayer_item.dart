@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/features/home/data/models/prayer_model.dart';
 
 class PrayerItem extends StatelessWidget {
   const PrayerItem({super.key, required this.prayerModel});
-final PrayerModel prayerModel;
+  final PrayerModel prayerModel;
   @override
   Widget build(BuildContext context) {
-    var mediaQueryWidth=MediaQuery.of(context).size.width;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    var mediaQueryWidth = MediaQuery.of(context).size.width;
     return Container(
       height: 70.h,
-      width: mediaQueryWidth*.16,
+      width: mediaQueryWidth * .16,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
+        color:isDark?AppColors.notificationCard.withOpacity(.7): AppColors.whiteColor,
         borderRadius: BorderRadius.circular(16),
         // boxShadow: [
         //   BoxShadow(
@@ -26,17 +27,29 @@ final PrayerModel prayerModel;
         //   ),
         // ],
       ),
-      child:Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-           Icon(prayerModel.prayerIcon, size: 24, color: prayerModel.prayerIconColor),
-           Text(
-            prayerModel.prayerName,
-            style:AppTextStyles.interBlack( 9,FontWeight.w500),
+          Icon(
+            prayerModel.prayerIcon,
+            size: 24,
+            color: prayerModel.prayerIconColor,
           ),
-           Text(
+          Text(
+            prayerModel.prayerName,
+            style: Theme.of(context).textTheme.displayLarge
+                ?.copyWith(fontSize: 10.sp)
+                .copyWith(
+                  color: isDark ? AppColors.whiteColor : AppColors.blackColor,
+                ),
+          ),
+          Text(
             prayerModel.prayerTime,
-            style: AppTextStyles.interBlack( 10,FontWeight.bold),
+            style: Theme.of(context).textTheme.displayLarge
+                ?.copyWith(fontSize: 11.sp)
+                .copyWith(
+                  color: isDark ? AppColors.whiteColor : AppColors.blackColor,
+                ),
           ),
         ],
       ),

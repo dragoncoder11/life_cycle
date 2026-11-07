@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/theme/status_bar_mode.dart';
 import 'package:life_cycle/core/widgets/custom_button.dart';
 import 'package:life_cycle/core/widgets/custom_text_form_field.dart';
@@ -17,6 +16,7 @@ class EditNoteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark=Theme.of(context).brightness==Brightness.dark;
     var cubit = BlocProvider.of<NotesCubit>(context);
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
@@ -47,7 +47,7 @@ class EditNoteScreen extends StatelessWidget {
                         IconButton(
                           icon: Icon(
                             Icons.arrow_back_ios,
-                            color: AppColors.darkGreenColor,
+                            color: isDark?AppColors.whiteColor: AppColors.darkGreenColor,
                           ),
                           onPressed: () {
                             Navigator.pop(context);
@@ -56,7 +56,7 @@ class EditNoteScreen extends StatelessWidget {
                         verticalSpace(10.h),
                         Text(
                           'Edit Note',
-                          style: AppTextStyles.interBlack(24, FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall,
                         ),
                         if (noteModel.image != null &&
                             noteModel.image!.isNotEmpty &&
@@ -75,12 +75,12 @@ class EditNoteScreen extends StatelessWidget {
       
                           verticalSpace(16.h),
                         ],
-                         
+                         verticalSpace(10),
                         Text(
                           'Edit Note',
-                          style: AppTextStyles.interBlack(16, FontWeight.w500),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 16.sp)
                         ),
-                        verticalSpace(4.h),
+                        verticalSpace(6.h),
                         CustomTextFormField(
                           controller: cubit.title,
                           maxLines: 1,
@@ -89,9 +89,9 @@ class EditNoteScreen extends StatelessWidget {
                         verticalSpace(8.h),
                         Text(
                           'Edit Description',
-                          style: AppTextStyles.interBlack(16, FontWeight.w500),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 16.sp)
                         ),
-                        verticalSpace(4.h),
+                        verticalSpace(6.h),
                         CustomTextFormField(
                           filled: true,
                           controller: cubit.describtion,

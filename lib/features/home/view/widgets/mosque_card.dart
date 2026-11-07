@@ -9,6 +9,7 @@ class MosqueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       height: 100.h,
       width: double.infinity,
@@ -24,7 +25,7 @@ class MosqueCard extends StatelessWidget {
               bottomLeft: Radius.circular(16.r),
             ),
             child: Image.asset(
-              'assets/images/light_prayer.png',
+             isDark?'assets/images/night_prayer.png': 'assets/images/light_prayer.png',
               height: 100.h,
               width: 125.w,
               fit: BoxFit.fill,
@@ -39,30 +40,30 @@ class MosqueCard extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.mosque,
-                    color: AppColors.kPrimaryDark,
+                    color:isDark ?AppColors.whiteColor: AppColors.kPrimaryDark,
                     size: 15.sp,
                   ),
                   horizontalSpace(8),
                   Text(
                     'Next Prayer',
-                    style: AppTextStyles.interDarkGreen(13, FontWeight.w600),
+                    style: AppTextStyles.interPrimaryDark(13, FontWeight.w600).copyWith(color: isDark?AppColors.whiteColor:AppColors.kPrimaryDark),
                   ),
                 ],
               ),
               verticalSpace(2),
-              Text('Asr', style: AppTextStyles.interBlack(24, FontWeight.bold)),
+              Text('Asr', style: Theme.of(context).textTheme.displaySmall),
               verticalSpace(2),
               Row(
                 children: [
                   Icon(
                     Icons.history_toggle_off,
-                    color: AppColors.kPrimaryDark,
+                    color:isDark ?AppColors.whiteColor: AppColors.kPrimaryDark,
                     size: 15.sp,
                   ),
                   horizontalSpace(8),
                   Text(
                     '03:15 PM',
-                    style: AppTextStyles.interBlack(14, FontWeight.w600),
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
               ),

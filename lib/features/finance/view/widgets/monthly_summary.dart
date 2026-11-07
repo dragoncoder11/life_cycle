@@ -13,6 +13,8 @@ class MonthlySummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return BlocBuilder<FinanceCubit, FinanceState>(
       builder: (context, state) {
         final cubit = context.read<FinanceCubit>();
@@ -24,11 +26,13 @@ class MonthlySummary extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(12.w),
           decoration: BoxDecoration(
-            color: AppColors.whiteColor,
+            color: isDark ? AppColors.notificationCard : AppColors.whiteColor,
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(.08),
+                color: isDark
+                    ? AppColors.whiteColor.withOpacity(.08)
+                    : AppColors.blackColor.withOpacity(.08),
                 blurRadius: 6,
                 offset: const Offset(0, 2),
               ),
@@ -39,10 +43,9 @@ class MonthlySummary extends StatelessWidget {
             children: [
               Text(
                 'Monthly Summary',
-                style: AppTextStyles.interBlack(
-                  16,
-                  FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.displaySmall?.copyWith(fontSize: 16.sp),
               ),
 
               verticalSpace(4.h),
@@ -52,21 +55,16 @@ class MonthlySummary extends StatelessWidget {
                 children: [
                   Text(
                     'Net Savings',
-                    style: AppTextStyles.interGrey(
-                      13,
-                      FontWeight.w500,
-                    ),
+                    style: AppTextStyles.interGrey(13, FontWeight.w500),
                   ),
                   Text(
                     '${cubit.netSavings.toStringAsFixed(0)} EGP',
-                    style: AppTextStyles.interBlack(
-                      15,
-                      FontWeight.bold,
-                    ).copyWith(
-                      color: cubit.netSavings >= 0
-                          ? AppColors.kPrimaryColor
-                          : AppColors.redColor,
-                    ),
+                    style: AppTextStyles.interBlack(15, FontWeight.bold)
+                        .copyWith(
+                          color: cubit.netSavings >= 0
+                              ? AppColors.kPrimaryColor
+                              : AppColors.redColor,
+                        ),
                   ),
                 ],
               ),
@@ -78,19 +76,13 @@ class MonthlySummary extends StatelessWidget {
                 children: [
                   Text(
                     'Spending Rate',
-                    style: AppTextStyles.interGrey(
-                      13,
-                      FontWeight.w500,
-                    ),
+                    style: AppTextStyles.interGrey(13, FontWeight.w500),
                   ),
                   Text(
-                    rate == null
-                        ? 'N/A'
-                        : '${rate.toStringAsFixed(1)}%',
-                    style: AppTextStyles.interBlack(
-                      15,
-                      FontWeight.bold,
-                    ),
+                    rate == null ? 'N/A' : '${rate.toStringAsFixed(1)}%',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.displayMedium?.copyWith(fontSize: 15.sp),
                   ),
                 ],
               ),
@@ -104,7 +96,9 @@ class MonthlySummary extends StatelessWidget {
                   minHeight: 8.h,
                   backgroundColor: AppColors.greyColor,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                   cubit.netSavings >= 0 ? AppColors.kPrimaryColor : AppColors.expense,
+                    cubit.netSavings >= 0
+                        ? AppColors.kPrimaryColor
+                        : AppColors.expense,
                   ),
                 ),
               ),

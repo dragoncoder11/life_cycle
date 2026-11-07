@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/helper/spacing.dart';
 import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
@@ -15,7 +16,7 @@ class TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var cubit = context.read<TasksCubit>();
     bool isSelected = cubit.isTaskSelected(taskModel);
-
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     //final startTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime);
 
     final endTime = DateFormat('hh:mm a', 'en').format(taskModel.endTime!);
@@ -48,13 +49,13 @@ class TaskItem extends StatelessWidget {
             decoration: BoxDecoration(
              color: isSelected
                         ? Colors.red.withOpacity(0.15)
-                        : AppColors.whiteColor,
+                        :isDark?AppColors.notificationCard: AppColors.whiteColor,
                     border:Border.all( color: isSelected ? Colors.red : Colors.transparent,
                       width: 1.5,),
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
+                  color:isDark?AppColors.whiteColor.withValues(alpha: 0.08): AppColors.blackColor.withValues(alpha: 0.08),
                   blurRadius: 2,
                   spreadRadius: 1,
                   offset: const Offset(0, 0),
@@ -88,10 +89,7 @@ class TaskItem extends StatelessWidget {
                             children: [
                               Text(
                                 taskModel.title!,
-                                style: AppTextStyles.interBlack(
-                                  18,
-                                  FontWeight.bold,
-                                ),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 18.sp),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -103,10 +101,7 @@ class TaskItem extends StatelessWidget {
                                   Expanded(
                                     child: Text(
                                       endTime,
-                                      style: AppTextStyles.interGrey(
-                                        11,
-                                        FontWeight.w400,
-                                      ),
+                                      style:Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 11.sp),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),

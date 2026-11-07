@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
-import 'package:life_cycle/core/theme/app_text_styles.dart';
 
 class CustomCategoryCard extends StatelessWidget {
   const CustomCategoryCard({
@@ -13,7 +12,7 @@ final Color color;
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50.h,
+      height: 40.h,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: color,
@@ -22,7 +21,7 @@ final Color color;
       child: Center(
         child: Text(
           title,
-          style: AppTextStyles.interWhite(13, FontWeight.bold),
+          style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 14.sp)
         ),
       ),
     );

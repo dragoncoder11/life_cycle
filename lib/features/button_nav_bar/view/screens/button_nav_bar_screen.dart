@@ -13,6 +13,7 @@ class ButtonNavBarScreen extends StatelessWidget {
     return BlocBuilder<ButtonNavBarCubit, ButtonNavBarState>(
       builder: (context, state) {
         final cubit = context.read<ButtonNavBarCubit>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
         return StatusBarMode(
           child: Scaffold(
@@ -30,13 +31,13 @@ class ButtonNavBarScreen extends StatelessWidget {
                   right: 20.w,
                   bottom: MediaQuery.of(context).padding.bottom + 4.h,
                   child: Container(
-                    height: 60.h,
+                    height: 55.h,
                     decoration: BoxDecoration(
-                      color: AppColors.whiteColor,
+                      color: isDark?AppColors.scaffoldBackground: AppColors.whiteColor,
                       borderRadius: BorderRadius.circular(35.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
+                          color: isDark? AppColors.whiteColor.withOpacity(0.08):AppColors.blackColor.withOpacity(0.08),
                           blurRadius: 15,
                           offset: const Offset(0, 4),
                         ),

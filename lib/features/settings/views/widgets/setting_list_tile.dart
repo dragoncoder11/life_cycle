@@ -21,51 +21,37 @@ class SettingListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 5.w,
-        vertical: 1.h,
-      ),
+      margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
       decoration: BoxDecoration(
-        color: AppColors.whiteColor,
+        color: isDark?AppColors.notificationCard: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.09),
+            color:isDark?AppColors.whiteColor.withOpacity(0.09) :AppColors.blackColor.withOpacity(0.09),
             blurRadius: 8,
-            spreadRadius: 1,
+            spreadRadius: 3,
             offset: const Offset(0, 0),
           ),
         ],
       ),
       child: ListTile(
         onTap: onTap,
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: 16.w,
-          vertical: 8.h,
-        ),
-        leading: Icon(
-          icon,
-          color: AppColors.kPrimaryDark,
-          size: 26.r,
-        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        leading: Icon(icon, color: AppColors.kPrimaryDark, size: 26.r),
         title: Text(
           title,
-          style: AppTextStyles.interBlack(
-            18,
-            FontWeight.w600,
-          ),
+                          style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 16.sp),
         ),
         subtitle: subTitle != null && subTitle!.isNotEmpty
             ? Text(
                 subTitle!,
-                style: AppTextStyles.interGrey(
-                  14,
-                  FontWeight.w500,
-                ),
+                style: AppTextStyles.interGrey(12, FontWeight.w500),
               )
             : null,
-        trailing: trailing ??
+        trailing:
+            trailing ??
             Icon(
               Icons.arrow_forward_ios_rounded,
               size: 18.r,
