@@ -24,7 +24,7 @@ class HomeCardGridView extends StatelessWidget {
           homeCardModel: homeCards[index],
           onTap: () {
             if (homeCards[index].title == 'Prayer') {
-              Navigator.pushNamed(context, Routes.settingScreen);
+              Navigator.pushNamed(context, Routes.prayersScreen);
             } else {
               context.read<ButtonNavBarCubit>().changeIndex(index + 1);
             }

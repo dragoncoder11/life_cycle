@@ -13,4 +13,5 @@ class Routes {
   static const String notificationsScreen ='notificationsScreen';
   static const String appstartScreen ='appStartScreen';
   static const String settingScreen='setting_screen';
+  static const String prayersScreen = 'prayers_screen';
 }

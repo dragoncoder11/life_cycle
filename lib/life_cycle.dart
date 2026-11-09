@@ -6,6 +6,7 @@ import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/features/theme/data/theme_enum.dart';
 import 'package:life_cycle/features/theme/logic/cubit/app_theme_cubit.dart';
+import 'package:life_cycle/features/prayer/logic/prayer_cubit/prayer_cubit.dart';
 
 class LifeCycle extends StatelessWidget {
   const LifeCycle({super.key});
@@ -16,9 +17,18 @@ class LifeCycle extends StatelessWidget {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: BlocProvider(
-        create: (context) =>
-            AppThemeCubit()..changeTheme(ThemeState.Initial),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                AppThemeCubit()..changeTheme(ThemeState.Initial),
+          ),
+
+          BlocProvider<PrayerCubit>(
+            lazy: false,
+            create: (context) => PrayerCubit()..getPrayerTimes(),
+          ),
+        ],
         child: BlocBuilder<AppThemeCubit, AppThemeState>(
           builder: (context, state) {
             final ThemeMode themeMode;
@@ -35,16 +45,12 @@ class LifeCycle extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               onGenerateRoute: AppRoutes().generateRoute,
               initialRoute: Routes.splashScreen,
-
               themeMode: themeMode,
-
               theme: ThemeData.light().copyWith(
                 scaffoldBackgroundColor: AppColors.whiteColor,
               ),
-
               darkTheme: ThemeData.dark().copyWith(
-                scaffoldBackgroundColor:
-                    AppColors.scaffoldBackground,
+                scaffoldBackgroundColor: AppColors.scaffoldBackground,
               ),
             );
           },

@@ -22,6 +22,8 @@ import 'package:life_cycle/features/notifications/view/screens/notifications_scr
 import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
 import 'package:life_cycle/features/onBoarding/view/widgets/app_start_screen.dart';
+import 'package:life_cycle/features/prayer/logic/prayer_cubit/prayer_cubit.dart';
+import 'package:life_cycle/features/prayer/views/screens/prayers_screen.dart';
 import 'package:life_cycle/features/settings/views/screens/setting_screen.dart';
 
 import 'package:life_cycle/features/tasks/logic/get_tasks/tasks_cubit.dart';
@@ -149,6 +151,10 @@ class AppRoutes {
             ],
             child: const AppStartScreen(),
           ),
+        );
+            case Routes.prayersScreen:
+        return CustomPageRoute(
+          builder: (_) => const PrayersScreen(),
         );
 
       default:

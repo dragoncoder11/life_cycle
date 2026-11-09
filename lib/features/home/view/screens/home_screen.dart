@@ -6,8 +6,8 @@ import 'package:life_cycle/core/theme/app_colors.dart';
 import 'package:life_cycle/core/theme/app_text_styles.dart';
 import 'package:life_cycle/core/widgets/custom_circle_avatar.dart';
 import 'package:life_cycle/features/home/view/widgets/home_card_grid_view.dart';
-import 'package:life_cycle/features/home/view/widgets/mosque_card.dart';
-import 'package:life_cycle/features/home/view/widgets/prayer_times_today_card.dart';
+import 'package:life_cycle/features/prayer/views/widgets/mosque_card.dart';
+import 'package:life_cycle/features/prayer/views/widgets/prayer_times_today_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
