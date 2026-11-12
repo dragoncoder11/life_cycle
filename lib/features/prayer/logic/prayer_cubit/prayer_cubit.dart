@@ -2,10 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:life_cycle/core/helper/app_constants.dart';
 import 'package:life_cycle/features/prayer/data/models/prayer_times_model.dart';
 import 'package:life_cycle/features/prayer/data/repos/prayer_repo_implementation.dart';
 import 'package:life_cycle/features/prayer/data/services/location_service.dart';
 import 'package:life_cycle/features/prayer/data/services/prayer_service.dart';
+import 'package:life_cycle/features/prayer/data/services/adhan_service.dart';
 
 part 'prayer_state.dart';
 
@@ -17,113 +21,212 @@ class PrayerCubit extends Cubit<PrayerState> {
   }
 
   final LocationService locationService = LocationService();
+  final AdhanService adhanService = AdhanService();
 
   late final PrayerRepoImplementation prayerRepoImplementation;
 
   Timer? _timer;
 
+  PrayerTimesModel? _currentPrayerTimes;
+  PrayerTimesModel? _tomorrowPrayerTimes;
+
+  double? _latitude;
+  double? _longitude;
+
+  // تحويل التاريخ إلى الصيغة المطلوبة من API.
+  String _formatApiDate(DateTime date) {
+    return '${date.day.toString().padLeft(2, '0')}-'
+        '${date.month.toString().padLeft(2, '0')}-'
+        '${date.year}';
+  }
+
+  // جلب مواقيت الصلاة لليوم.
   Future<void> getPrayerTimes() async {
     emit(PrayerLoading());
 
     try {
-      final now = DateTime.now();
       final position = await locationService.getCurrentLocation();
 
-      final date =
-          '${now.day.toString().padLeft(2, '0')}-'
-          '${now.month.toString().padLeft(2, '0')}-'
-          '${now.year}';
+      _latitude = position.latitude;
+      _longitude = position.longitude;
+
+      final now = DateTime.now();
 
       final result = await prayerRepoImplementation.getPrayerTimes(
-        date: date,
-        latitude: position.latitude,
-        longitude: position.longitude,
+        date: _formatApiDate(now),
+        latitude: _latitude!,
+        longitude: _longitude!,
       );
 
-      result.fold(
-        (failure) {
-          emit(PrayerFailure(errMessage: failure));
+      await result.fold<Future<void>>(
+        (failure) async {
+          if (!isClosed) {
+            emit(PrayerFailure(errMessage: failure));
+          }
         },
-        (prayerTimes) {
+        (prayerTimes) async {
+          _currentPrayerTimes = prayerTimes;
+
+          await refreshAdhanSchedule();
+
+          if (isClosed) return;
+
           _updateNextPrayer(prayerTimes);
           _startTimer(prayerTimes);
         },
       );
     } catch (e) {
-      emit(PrayerFailure(errMessage: e.toString()));
+      if (!isClosed) {
+        emit(PrayerFailure(errMessage: e.toString()));
+      }
     }
   }
 
-  void _startTimer(PrayerTimesModel prayerTimes) {
-    _timer?.cancel();
+  // إعدادات الأذان المحفوظة في Hive.
+  Map<String, bool> _getPrayerSettings() {
+    final settingsBox = Hive.box<bool>(kPrayerSettingsBox);
 
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (_) {
-        if (!isClosed) {
-          _updateNextPrayer(prayerTimes);
-        }
-      },
-    );
+    return {
+      'fajrEnabled': settingsBox.get(
+        'fajrEnabled',
+        defaultValue: true,
+      )!,
+      'dhuhrEnabled': settingsBox.get(
+        'dhuhrEnabled',
+        defaultValue: true,
+      )!,
+      'asrEnabled': settingsBox.get(
+        'asrEnabled',
+        defaultValue: true,
+      )!,
+      'maghribEnabled': settingsBox.get(
+        'maghribEnabled',
+        defaultValue: true,
+      )!,
+      'ishaEnabled': settingsBox.get(
+        'ishaEnabled',
+        defaultValue: true,
+      )!,
+    };
   }
 
+  // جلب مواقيت بكرة وإعادة جدولة الأذان.
+  Future<void> refreshAdhanSchedule() async {
+    if (_currentPrayerTimes == null ||
+        _latitude == null ||
+        _longitude == null ||
+        isClosed) {
+      return;
+    }
+
+    try {
+      final tomorrow = DateTime.now().add(
+        const Duration(days: 1),
+      );
+
+      final result = await prayerRepoImplementation.getPrayerTimes(
+        date: _formatApiDate(tomorrow),
+        latitude: _latitude!,
+        longitude: _longitude!,
+      );
+
+      await result.fold<Future<void>>(
+        (failure) async {
+          _tomorrowPrayerTimes = null;
+
+          await adhanService.scheduleTodayOnly(
+            todayPrayerTimes: _currentPrayerTimes!,
+            settings: _getPrayerSettings(),
+          );
+        },
+        (tomorrowPrayerTimes) async {
+          _tomorrowPrayerTimes = tomorrowPrayerTimes;await adhanService.scheduleAllPrayers(
+            todayPrayerTimes: _currentPrayerTimes!,
+            tomorrowPrayerTimes: _tomorrowPrayerTimes!,
+            settings: _getPrayerSettings(),
+          );
+        },
+      );
+    } catch (e) {
+      // في حالة فشل جلب مواقيت بكرة، نكتفي بجدولة اليوم.
+      try {
+        await adhanService.scheduleTodayOnly(
+          todayPrayerTimes: _currentPrayerTimes!,
+          settings: _getPrayerSettings(),
+        );
+      } catch (_) {}
+    }
+  }
+
+  // تحديد الصلاة القادمة.
   void _updateNextPrayer(PrayerTimesModel prayerTimes) {
     final now = DateTime.now();
 
-    final prayers = [
-      {'name': 'Fajr', 'time': prayerTimes.fajrTime},
-      {'name': 'Dhuhr', 'time': prayerTimes.dhuhrTime},
-      {'name': 'Asr', 'time': prayerTimes.asrTime},
-      {'name': 'Maghrib', 'time': prayerTimes.maghribTime},
-      {'name': 'Isha', 'time': prayerTimes.ishaTime},
-    ];
+    final prayers = {
+      'Fajr': prayerTimes.fajrTime,
+      'Dhuhr': prayerTimes.dhuhrTime,
+      'Asr': prayerTimes.asrTime,
+      'Maghrib': prayerTimes.maghribTime,
+      'Isha': prayerTimes.ishaTime,
+    };
 
-    DateTime? nextPrayerDate;
-    String? nextPrayerName;
-    String? nextPrayerTime;
+    String? nextPrayer;
+    DateTime? nextPrayerTime;
 
-    for (final prayer in prayers) {
-      final timeParts = prayer['time']!.split(':');
+    for (final entry in prayers.entries) {
+      final parts = entry.value.split(':');
 
       final prayerDate = DateTime(
         now.year,
         now.month,
         now.day,
-        int.parse(timeParts[0]),
-        int.parse(timeParts[1]),
+        int.parse(parts[0]),
+        int.parse(parts[1]),
       );
 
       if (prayerDate.isAfter(now)) {
-        nextPrayerDate = prayerDate;
-        nextPrayerName = prayer['name'];
-        nextPrayerTime = prayer['time'];
+        nextPrayer = entry.key;
+        nextPrayerTime = prayerDate;
         break;
       }
     }
 
-    // لو كل صلوات اليوم عدت، الصلاة القادمة هي فجر الغد.
-    if (nextPrayerDate == null) {
-      final fajrParts = prayerTimes.fajrTime.split(':');
+    if (nextPrayer == null) {
+      nextPrayer = 'Fajr';
 
-      nextPrayerDate = DateTime(
+      final parts = prayerTimes.fajrTime.split(':');
+
+      nextPrayerTime = DateTime(
         now.year,
         now.month,
         now.day + 1,
-        int.parse(fajrParts[0]),
-        int.parse(fajrParts[1]),
+        int.parse(parts[0]),
+        int.parse(parts[1]),
       );
-
-      nextPrayerName = 'Fajr';
-      nextPrayerTime = prayerTimes.fajrTime;
     }
 
-    emit(
-      PrayerSuccess(
-        prayerTimes: prayerTimes,
-        nextPrayerName: nextPrayerName!,
-        nextPrayerTime: nextPrayerTime!,
-        remainingDuration: nextPrayerDate.difference(now),
-      ),
+    if (!isClosed) {
+      emit(
+        PrayerLoaded(
+          prayerTimes: prayerTimes,
+          nextPrayer: nextPrayer,
+          nextPrayerTime: nextPrayerTime!,
+        ),
+      );
+    }
+  }
+
+  // تحديث الصلاة القادمة كل دقيقة.
+  void _startTimer(PrayerTimesModel prayerTimes) {
+    _timer?.cancel();
+
+    _timer = Timer.periodic(
+      const Duration(minutes: 1),
+      (_) {
+        if (!isClosed) {
+          _updateNextPrayer(prayerTimes);
+        }
+      },
     );
   }
 

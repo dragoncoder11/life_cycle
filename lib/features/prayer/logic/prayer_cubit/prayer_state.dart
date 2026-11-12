@@ -1,27 +1,31 @@
 part of 'prayer_cubit.dart';
 
-sealed class PrayerState {}
+abstract class PrayerState {}
 
-final class PrayerInitial extends PrayerState {}
+class PrayerInitial extends PrayerState {}
 
-final class PrayerLoading extends PrayerState {}
+class PrayerLoading extends PrayerState {}
 
-final class PrayerSuccess extends PrayerState {
-  final PrayerTimesModel prayerTimes;
-  final String nextPrayerName;
-  final String nextPrayerTime;
-  final Duration remainingDuration;
-
-  PrayerSuccess({
-    required this.prayerTimes,
-    required this.nextPrayerName,
-    required this.nextPrayerTime,
-    required this.remainingDuration,
-  });
-}
-
-final class PrayerFailure extends PrayerState {
+class PrayerFailure extends PrayerState {
   final String errMessage;
 
   PrayerFailure({required this.errMessage});
+}
+
+class PrayerLoaded extends PrayerState {
+  final PrayerTimesModel prayerTimes;
+  final String nextPrayer;
+  final DateTime nextPrayerTime;
+
+  Duration get remainingDuration {
+    final difference = nextPrayerTime.difference(DateTime.now());
+
+    return difference.isNegative ? Duration.zero : difference;
+  }
+
+  PrayerLoaded({
+    required this.prayerTimes,
+    required this.nextPrayer,
+    required this.nextPrayerTime,
+  });
 }

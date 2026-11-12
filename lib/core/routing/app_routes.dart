@@ -22,7 +22,7 @@ import 'package:life_cycle/features/notifications/view/screens/notifications_scr
 import 'package:life_cycle/features/onBoarding/logic/cubit/on_boarding_cubit.dart';
 import 'package:life_cycle/features/onBoarding/view/screens/onboarding_screen.dart';
 import 'package:life_cycle/features/onBoarding/view/widgets/app_start_screen.dart';
-import 'package:life_cycle/features/prayer/logic/prayer_cubit/prayer_cubit.dart';
+import 'package:life_cycle/features/prayer/logic/prayer_settings_cubit/prayer_settings_cubit.dart';
 import 'package:life_cycle/features/prayer/views/screens/prayers_screen.dart';
 import 'package:life_cycle/features/settings/views/screens/setting_screen.dart';
 
@@ -33,14 +33,10 @@ import 'package:life_cycle/features/tasks/view/screens/task_screen.dart';
 import 'package:life_cycle/splash_screen.dart';
 
 class CustomPageRoute extends MaterialPageRoute {
-  CustomPageRoute({
-    required super.builder,
-    super.settings,
-  });
+  CustomPageRoute({required super.builder, super.settings});
 
   @override
-  Duration get transitionDuration =>
-      const Duration(milliseconds: 750);
+  Duration get transitionDuration => const Duration(milliseconds: 750);
 }
 
 class AppRoutes {
@@ -58,12 +54,8 @@ class AppRoutes {
         return CustomPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider(
-                create: (_) => TransactionCategoriesCubit(),
-              ),
-              BlocProvider(
-                create: (_) => FinanceCubit(),
-              ),
+              BlocProvider(create: (_) => TransactionCategoriesCubit()),
+              BlocProvider(create: (_) => FinanceCubit()),
             ],
             child: const FinanceScreen(),
           ),
@@ -82,9 +74,7 @@ class AppRoutes {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider(create: (_) => AddNoteCubit()),
-              BlocProvider(
-                create: (_) => NotesCubit()..fetchNotes(),
-              ),
+              BlocProvider(create: (_) => NotesCubit()..fetchNotes()),
             ],
             child: const NoteScreen(),
           ),
@@ -107,13 +97,9 @@ class AppRoutes {
         );
 
       case Routes.splashScreen:
-        return CustomPageRoute(
-          builder: (_) => const SplashScreen(),
-        );
-        case Routes.settingScreen:
-        return CustomPageRoute(
-          builder: (_) => const SettingScreen(),
-        );
+        return CustomPageRoute(builder: (_) => const SplashScreen());
+      case Routes.settingScreen:
+        return CustomPageRoute(builder: (_) => const SettingScreen());
 
       case Routes.editNoteScreen:
         final args = routeSettings.arguments as Map<String, dynamic>;
@@ -127,7 +113,8 @@ class AppRoutes {
         );
 
       case Routes.editTaskScreen:
-        final args = routeSettings.arguments as Map<String, dynamic>;return CustomPageRoute(
+        final args = routeSettings.arguments as Map<String, dynamic>;
+        return CustomPageRoute(
           settings: routeSettings,
           builder: (_) => BlocProvider.value(
             value: args['cubit'] as TasksCubit,
@@ -136,23 +123,18 @@ class AppRoutes {
         );
 
       case Routes.notificationsScreen:
-        return CustomPageRoute(
-          builder: (_) => const NotificationsScreen(),
-          
-        );
-         case Routes.appstartScreen:
+        return CustomPageRoute(builder: (_) => const NotificationsScreen());
+      case Routes.appstartScreen:
         return CustomPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider(create: (_) => OnBoardingCubit()..checkOnBoarding(),),
-              BlocProvider(
-                create: (_) => ButtonNavBarCubit(),
-              ),
+              BlocProvider(create: (_) => OnBoardingCubit()..checkOnBoarding()),
+              BlocProvider(create: (_) => ButtonNavBarCubit()),
             ],
             child: const AppStartScreen(),
           ),
         );
-            case Routes.prayersScreen:
+      case Routes.prayersScreen:
         return CustomPageRoute(
           builder: (_) => const PrayersScreen(),
         );

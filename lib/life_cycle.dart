@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:life_cycle/core/routing/app_routes.dart';
 import 'package:life_cycle/core/routing/routes.dart';
 import 'package:life_cycle/core/theme/app_colors.dart';
+import 'package:life_cycle/features/prayer/logic/prayer_settings_cubit/prayer_settings_cubit.dart';
 import 'package:life_cycle/features/theme/data/theme_enum.dart';
 import 'package:life_cycle/features/theme/logic/cubit/app_theme_cubit.dart';
 import 'package:life_cycle/features/prayer/logic/prayer_cubit/prayer_cubit.dart';
@@ -23,7 +24,10 @@ class LifeCycle extends StatelessWidget {
             create: (context) =>
                 AppThemeCubit()..changeTheme(ThemeState.Initial),
           ),
-
+          BlocProvider<PrayerSettingsCubit>(
+            lazy: false,
+            create: (context) => PrayerSettingsCubit(),
+          ),
           BlocProvider<PrayerCubit>(
             lazy: false,
             create: (context) => PrayerCubit()..getPrayerTimes(),

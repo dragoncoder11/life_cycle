@@ -31,6 +31,7 @@ void main() async {
   Hive.registerAdapter(TransactionTypeAdapter());
   await Hive.openBox<TransactionModel>(kTransactionsBox);
   await Hive.openBox<dynamic>(kInitialBalanceBox);
+  await Hive.openBox<bool>(kPrayerSettingsBox);
   await NotificationStatus.initialize();
   await Alarm.init();
   await NotificationService.initialize();

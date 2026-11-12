@@ -5,13 +5,14 @@ class PrayerService {
   final Dio dio;
 
   PrayerService({required this.dio});
- Future<Map<String,dynamic>> getPrayerTimes({
+
+  Future<Map<String, dynamic>> getPrayerTimes({
     required String date,
     required double latitude,
     required double longitude,
   }) async {
     try {
-      var response = await dio.get(
+      final response = await dio.get(
         '$prayersUrl$date',
         queryParameters: {
           'latitude': latitude,
@@ -19,13 +20,16 @@ class PrayerService {
           'method': 5,
         },
       );
-      var responseBody = response.data;
+
+      final responseBody = response.data;
+
       if (responseBody['code'] != 200) {
         throw Exception('Failed to get prayer times');
       }
-      return responseBody['data'];
+
+      return Map<String, dynamic>.from(responseBody['data']);
     } on DioException catch (e) {
-      throw Exception(e.toString()??'something went wrong');
+      throw Exception(e.message ?? 'Something went wrong');
     }
   }
 }

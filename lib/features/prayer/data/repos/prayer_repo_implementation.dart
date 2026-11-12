@@ -6,8 +6,10 @@ import 'package:life_cycle/features/prayer/data/services/prayer_service.dart';
 class PrayerRepoImplementation implements PrayerRepo {
   final PrayerService prayerService;
 
-  PrayerRepoImplementation({required this.prayerService});
-  @override
+  PrayerRepoImplementation({
+    required this.prayerService,
+  });
+
   @override
   Future<Either<String, PrayerTimesModel>> getPrayerTimes({
     required String date,
